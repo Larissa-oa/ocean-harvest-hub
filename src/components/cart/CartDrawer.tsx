@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useCart } from "@/hooks/useCart";
 import { products } from "@/data/collections";
+import { useEffect } from "react";
 import salmonImage from "@/assets/salmon-collection.jpg";
 import shrimpImage from "@/assets/shrimp-collection.jpg";
 import oysterImage from "@/assets/oyster-collection.jpg";
@@ -34,18 +35,30 @@ const CartDrawer = () => {
   const cartProductIds = items.map(item => item.product.id);
   const upsellProducts = products.filter(p => !cartProductIds.includes(p.id)).slice(0, 3);
 
+  // Prevent body scroll when cart drawer is open
+  useEffect(() => {
+    if (isCartOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isCartOpen]);
+
   if (!isCartOpen) return null;
 
   return (
     <>
       {/* Overlay */}
       <div 
-        className="fixed inset-0 bg-foreground/40 z-50"
+        className="fixed inset-0 bg-foreground/40 z-[45]"
         onClick={() => setIsCartOpen(false)}
       />
       
       {/* Drawer */}
-      <div className="fixed right-0 top-0 h-full w-full max-w-md bg-card z-50 shadow-float animate-slide-in-right flex flex-col">
+      <div className="fixed right-0 top-0 md:top-[7rem] h-full md:h-[calc(100vh-7rem)] w-full max-w-md bg-card z-50 shadow-float animate-slide-in-right flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-border">
           <div className="flex items-center gap-2">
@@ -59,7 +72,7 @@ const CartDrawer = () => {
         </div>
 
         {/* Cart Items */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        <div className="flex-1 overflow-y-auto p-4 space-y-4 pb-24">
           {items.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-center">
               <ShoppingBag className="h-16 w-16 text-muted-foreground/30 mb-4" />

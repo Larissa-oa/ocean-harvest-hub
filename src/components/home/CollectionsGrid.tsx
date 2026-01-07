@@ -39,13 +39,11 @@ const collectionImages: Record<string, string> = {
 
 const CollectionsGrid = () => {
   return (
-    <section className="py-8 md:py-12">
+    <section className="py-8 md:py-16">
       <div className="container">
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground">Onze Collecties</h2>
-            <p className="text-muted-foreground mt-1">Ontdek ons assortiment verse vis en zeevruchten</p>
-          </div>
+        <div className="mb-6 text-center md:text-left">
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground">Onze Collecties</h2>
+          <p className="text-muted-foreground mt-1">Ontdek ons assortiment verse vis en zeevruchten</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -59,11 +57,11 @@ const CollectionsGrid = () => {
               style={{ animationDelay: `${index * 50}ms` }}
             >
               {/* Abstract blob with collection image */}
-              <div className="w-40 h-full flex-shrink-0 relative flex items-center justify-center overflow-visible">
+              <div className="w-24 md:w-40 h-full flex-shrink-0 relative flex items-center justify-center overflow-visible">
                 {/* Abstract fluid blob background - beige/cream color */}
                 <svg 
                   viewBox="0 0 200 150" 
-                  className={`absolute ${isSmaller ? 'w-[12.5rem] h-[9.5rem]' : 'w-52 h-40'} -left-6`}
+                  className={`absolute ${isSmaller ? 'w-[7rem] md:w-[12.5rem] h-[6rem] md:h-[9.5rem]' : 'w-32 md:w-52 h-28 md:h-40'} -left-4 md:-left-6`}
                   preserveAspectRatio="xMidYMid slice"
                 >
                   {/* Organic fluid blob shapes */}
@@ -83,23 +81,23 @@ const CollectionsGrid = () => {
                     className="fill-[hsl(30,30%,85%)]"
                   />
                 </svg>
-                {/* Collection image - no shadow, no border radius, slightly bigger */}
+                {/* Collection image - no shadow, no border radius, smaller on mobile */}
                 <img
                   src={collectionImages[collection.slug] || alleImage}
                   alt={collection.name}
-                  className={`relative z-10 ${isSmaller ? 'w-24 h-24' : 'w-32 h-32'} object-cover group-hover:scale-110 transition-transform duration-300`}
+                  className={`relative z-10 ${isSmaller ? 'w-16 h-16 md:w-24 md:h-24' : 'w-20 h-20 md:w-32 md:h-32'} object-cover group-hover:scale-110 transition-transform duration-300`}
                 />
               </div>
 
               {/* Content */}
-              <div className="flex-1 flex items-center justify-between px-4 py-3">
-                <div className="min-w-0">
-                  <h3 className="font-bold text-xl md:text-2xl text-foreground group-hover:text-primary transition-colors">
+              <div className="flex-1 flex items-center justify-between px-3 md:px-4 py-3 min-w-0">
+                <div className="min-w-0 flex-1 pr-2">
+                  <h3 className="font-bold text-base md:text-xl lg:text-2xl text-foreground group-hover:text-primary transition-colors break-words">
                     {collection.name}
                   </h3>
-                  <p className="text-sm text-muted-foreground mt-0.5">{collection.productCount} producten</p>
+                  <p className="text-xs md:text-sm text-muted-foreground mt-0.5">{collection.productCount} producten</p>
                 </div>
-                <div className="flex-shrink-0 ml-4">
+                <div className="flex-shrink-0 hidden md:block ml-4">
                   <div className="w-10 h-10 rounded-full bg-secondary group-hover:bg-primary flex items-center justify-center transition-colors">
                     <ArrowRight className="h-5 w-5 text-primary group-hover:text-primary-foreground transition-colors" />
                   </div>

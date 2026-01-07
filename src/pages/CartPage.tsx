@@ -88,13 +88,13 @@ const CartPage = () => {
                 {items.map((item) => (
                   <div 
                     key={`${item.product.id}-${item.selectedOption}`}
-                    className="flex gap-4 p-4 bg-card rounded-2xl border border-border"
+                    className="flex gap-3 md:gap-4 p-3 md:p-4 bg-card rounded-2xl border border-border"
                   >
-                    <Link to={`/products/${item.product.slug}`}>
+                    <Link to={`/products/${item.product.slug}`} className="flex-shrink-0">
                       <img
                         src={getProductImage(item.product.slug)}
                         alt={item.product.name}
-                        className="w-24 h-24 object-cover rounded-xl"
+                        className="w-20 h-20 md:w-24 md:h-24 object-cover rounded-xl"
                       />
                     </Link>
                     <div className="flex-1 min-w-0">
@@ -117,31 +117,31 @@ const CartPage = () => {
                         </span>
                       </label>
 
-                      <div className="flex items-center justify-between mt-4">
-                        <div className="flex items-center gap-2 bg-secondary rounded-xl p-1">
+                      <div className="flex items-center justify-between mt-4 gap-2">
+                        <div className="flex items-center gap-1 bg-secondary rounded-xl p-0.5">
                           <button
                             onClick={() => updateQuantity(item.product.id, item.selectedOption, item.quantity - 1)}
-                            className="w-8 h-8 flex items-center justify-center hover:bg-card rounded-lg transition-colors"
+                            className="w-7 h-7 md:w-8 md:h-8 flex items-center justify-center hover:bg-card rounded-lg transition-colors"
                           >
-                            <Minus className="h-4 w-4" />
+                            <Minus className="h-3.5 w-3.5 md:h-4 md:w-4" />
                           </button>
-                          <span className="w-10 text-center font-semibold">{item.quantity}</span>
+                          <span className="w-8 md:w-10 text-center text-sm md:text-base font-semibold">{item.quantity}</span>
                           <button
                             onClick={() => updateQuantity(item.product.id, item.selectedOption, item.quantity + 1)}
-                            className="w-8 h-8 flex items-center justify-center hover:bg-card rounded-lg transition-colors"
+                            className="w-7 h-7 md:w-8 md:h-8 flex items-center justify-center hover:bg-card rounded-lg transition-colors"
                           >
-                            <Plus className="h-4 w-4" />
+                            <Plus className="h-3.5 w-3.5 md:h-4 md:w-4" />
                           </button>
                         </div>
-                        <div className="flex items-center gap-4">
-                          <span className="text-lg font-bold text-foreground">
+                        <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
+                          <span className="text-base md:text-lg font-bold text-foreground whitespace-nowrap">
                             €{((item.product.price * item.quantity) + (item.vacuumSealing ? 1.5 * item.quantity : 0)).toFixed(2)}
                           </span>
                           <button
                             onClick={() => removeItem(item.product.id, item.selectedOption)}
-                            className="text-muted-foreground hover:text-destructive transition-colors p-2"
+                            className="text-muted-foreground hover:text-destructive transition-colors p-1.5 md:p-2 flex-shrink-0"
                           >
-                            <Trash2 className="h-5 w-5" />
+                            <Trash2 className="h-4 w-4 md:h-5 md:w-5" />
                           </button>
                         </div>
                       </div>

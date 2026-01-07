@@ -15,9 +15,9 @@ const CatchOfTheMonthSlider = () => {
   const catchProducts = products.slice(0, 5);
 
   return (
-    <section className="py-8 md:py-12 bg-secondary/30">
+    <section className="py-8 md:py-16 bg-secondary/30">
       <div className="container">
-        <div className="mb-6">
+        <div className="mb-6 text-center md:text-left">
           <h2 className="text-2xl md:text-3xl font-bold text-foreground">
             Vangst van de Maand
           </h2>

@@ -361,9 +361,9 @@ const ProductPage = () => {
               <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
                 <Fish className="h-6 w-6 text-primary" />
               </div>
-              <div>
+              <div className="min-w-0 flex-1">
                 <h2 className="text-xl md:text-2xl font-bold text-foreground">Seizoenskalender</h2>
-                <p className="text-sm text-muted-foreground">Wanneer is dit product beschikbaar?</p>
+                <p className="text-xs md:text-sm text-muted-foreground break-words">Wanneer is dit product beschikbaar?</p>
               </div>
             </div>
 
@@ -430,23 +430,25 @@ const ProductPage = () => {
               </div>
             </div>
 
-            <Carousel
-              opts={{
-                align: "start",
-                loop: false,
-              }}
-              className="w-full -mx-4 sm:mx-0"
-            >
-              <CarouselContent className="-ml-4 sm:ml-0 !pr-0">
-                {relatedProducts.map((p) => (
-                  <CarouselItem key={p.id} className="pl-4 basis-2/3 sm:basis-1/2 lg:basis-1/4">
-                    <ProductCard product={p} />
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious className="hidden md:flex -left-4 bg-card border-border hover:bg-secondary" />
-              <CarouselNext className="hidden md:flex -right-4 bg-card border-border hover:bg-secondary" />
-            </Carousel>
+            <div className="-mx-4 sm:mx-0">
+              <Carousel
+                opts={{
+                  align: "start",
+                  loop: false,
+                }}
+                className="w-full"
+              >
+                <CarouselContent className="!ml-0 sm:ml-0 !pr-0">
+                  {relatedProducts.map((p, index) => (
+                    <CarouselItem key={p.id} className={`${index === 0 ? 'pl-4' : 'pl-3'} sm:pl-4 basis-2/3 sm:basis-1/2 lg:basis-1/4 flex-shrink-0`}>
+                      <ProductCard product={p} />
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="hidden md:flex -left-4 bg-card border-border hover:bg-secondary" />
+                <CarouselNext className="hidden md:flex -right-4 bg-card border-border hover:bg-secondary" />
+              </Carousel>
+            </div>
           </div>
         </div>
       </main>

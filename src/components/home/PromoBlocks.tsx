@@ -1,15 +1,16 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Flame } from "lucide-react";
-import dealBanner1 from "@/assets/banner/dealbanner1.png";
-import dealBanner2 from "@/assets/banner/dealbanner2.png";
+import dealBanner1 from "@/assets/banner/dealbanner6.png";
+import dealBanner2 from "@/assets/banner/dealbanner5.png";
 import dealBanner3 from "@/assets/banner/dealbanner3.png";
+import dealBanner4 from "@/assets/banner/dealbanner4.png";
 
 const PromoBlocks = () => {
   return (
-    <section className="py-8 md:py-10">
+    <section className="py-8 md:py-16">
       <div className="container">
-        <div className="flex items-center gap-2 mb-5">
+        <div className="flex items-center justify-center md:justify-start gap-2 mb-5 pt-4 md:pt-6">
           <Flame className="h-6 w-6 text-accent" />
           <h2 className="text-2xl md:text-3xl font-bold text-foreground">
             Hete Deals
@@ -20,10 +21,10 @@ const PromoBlocks = () => {
           {/* Left - Tall container */}
           <Link
             to="/collections/schaal-en-schelpdieren"
-            className="relative overflow-hidden rounded-2xl md:rounded-r-none h-72 md:h-[340px] group"
+            className="relative overflow-hidden rounded-2xl md:rounded-r-none h-[216px] md:h-[340px] group"
           >
             <img
-              src={dealBanner1}
+              src={dealBanner4}
               alt="Kreeft & Schelpdieren"
               className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
@@ -50,14 +51,14 @@ const PromoBlocks = () => {
             </div>
           </Link>
 
-          {/* Right - Two stacked containers */}
-          <div className="flex flex-col gap-4 md:gap-2">
+          {/* Right - Two containers in row on desktop */}
+          <div className="flex flex-col md:flex-row gap-4 md:gap-2 w-full">
             <Link
               to="/collections/verse-vis"
-              className="relative overflow-hidden rounded-2xl md:rounded-l-none h-36 md:h-[166px] group"
+              className="relative overflow-hidden rounded-2xl md:rounded-none h-36 md:h-[340px] group flex-1"
             >
               <img
-                src={dealBanner2}
+                src={dealBanner1}
                 alt="Verse Vis"
                 className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
@@ -79,10 +80,10 @@ const PromoBlocks = () => {
 
             <Link
               to="/collections/sushi-en-sashimi"
-              className="relative overflow-hidden rounded-2xl md:rounded-l-none h-36 md:h-[166px] group"
+              className="relative overflow-hidden rounded-2xl md:rounded-l-none md:rounded-r-2xl h-36 md:h-[340px] group flex-1"
             >
               <img
-                src={dealBanner3}
+                src={dealBanner2}
                 alt="Sushi & Sashimi"
                 className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />

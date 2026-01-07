@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Search, ChevronDown, ChevronUp, Filter, X, Euro, Calendar, Grid3X3, Check, Ban, Fish } from "lucide-react";
 import Header from "@/components/layout/Header";
@@ -60,6 +60,18 @@ const CollectionPage = () => {
     );
   };
 
+  // Prevent body scroll when sidebar is open on mobile
+  useEffect(() => {
+    if (sidebarOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [sidebarOpen]);
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -117,17 +129,26 @@ const CollectionPage = () => {
           </Button>
 
           <div className="flex gap-8">
+            {/* Overlay for mobile */}
+            {sidebarOpen && (
+              <div
+                className="fixed inset-0 bg-foreground/40 z-40 md:hidden"
+                onClick={() => setSidebarOpen(false)}
+              />
+            )}
+            
             {/* Sidebar */}
             <aside
               className={`
-                fixed md:relative inset-0 z-50 md:z-auto
+                fixed md:relative inset-y-0 left-0 z-50 md:z-auto
                 w-full md:w-64 flex-shrink-0
                 bg-card md:bg-transparent
                 transform transition-transform duration-300 md:transform-none
+                flex flex-col
                 ${sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0" }
               `}
             >
-              <div className="h-full overflow-y-auto p-6 md:p-0">
+              <div className="flex-1 overflow-y-auto p-6 md:p-0 pb-24 md:pb-0">
                 {/* Mobile Close Button */}
                 <div className="flex items-center justify-between mb-6 md:hidden">
                   <h2 className="text-lg font-bold">Filters</h2>
