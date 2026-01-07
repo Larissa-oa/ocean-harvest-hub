@@ -24,16 +24,16 @@ const Header = () => {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-8">
           <Link to="/" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
-            Home
+            Webwinkel
           </Link>
           <Link to="/collections/alle-producten" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
-            Producten
+            Alle producten
+          </Link>
+          <Link to="/collections/vangst-van-de-maand" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
+            Verse vangst
           </Link>
           <Link to="/collections/verse-vis" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
-            Verse Vis
-          </Link>
-          <Link to="/collections/schaal-en-schelpdieren" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
-            Schelpdieren
+            Verse vis
           </Link>
         </nav>
 
@@ -74,16 +74,16 @@ const Header = () => {
         <div className="md:hidden bg-card border-t border-border animate-fade-in">
           <nav className="container py-4 flex flex-col gap-2">
             <Link to="/" className="py-2 px-4 rounded-lg hover:bg-secondary transition-colors">
-              Home
+              Webwinkel
             </Link>
             <Link to="/collections/alle-producten" className="py-2 px-4 rounded-lg hover:bg-secondary transition-colors">
-              Producten
+              Alle producten
+            </Link>
+            <Link to="/collections/vangst-van-de-maand" className="py-2 px-4 rounded-lg hover:bg-secondary transition-colors">
+              Verse vangst
             </Link>
             <Link to="/collections/verse-vis" className="py-2 px-4 rounded-lg hover:bg-secondary transition-colors">
-              Verse Vis
-            </Link>
-            <Link to="/collections/schaal-en-schelpdieren" className="py-2 px-4 rounded-lg hover:bg-secondary transition-colors">
-              Schelpdieren
+              Verse vis
             </Link>
           </nav>
         </div>

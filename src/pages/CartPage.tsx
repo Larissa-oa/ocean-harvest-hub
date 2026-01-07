@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
-import { Plus, Minus, Trash2, ShoppingBag, Package, ArrowRight, Truck } from "lucide-react";
+import { Plus, Minus, Trash2, ShoppingBag, Package, ArrowRight, Truck, ShoppingCart } from "lucide-react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { useCart } from "@/hooks/useCart";
 import { products } from "@/data/collections";
 import salmonImage from "@/assets/salmon-collection.jpg";
@@ -185,46 +186,57 @@ const CartPage = () => {
             </div>
           )}
 
-          {/* Upsell Section */}
+          {/* Upsell Section - Slider */}
           {items.length > 0 && upsellProducts.length > 0 && (
             <div className="mt-12">
-              <h2 className="text-2xl font-bold text-foreground mb-6">Klanten kochten ook</h2>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {upsellProducts.map((product) => (
-                  <div 
-                    key={product.id}
-                    className="bg-card rounded-xl border border-border overflow-hidden group"
-                  >
-                    <Link to={`/products/${product.slug}`}>
-                      <img
-                        src={getProductImage(product.slug)}
-                        alt={product.name}
-                        className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    </Link>
-                    <div className="p-3">
-                      <Link to={`/products/${product.slug}`}>
-                        <h3 className="font-semibold text-foreground text-sm line-clamp-1 hover:text-primary transition-colors">
-                          {product.name}
-                        </h3>
-                      </Link>
-                      <div className="flex items-center justify-between mt-2">
-                        <span className="font-bold text-primary">€{product.price.toFixed(2)}</span>
-                        <Button
-                          size="sm"
-                          variant="secondary"
-                          onClick={() => {
-                            const defaultOption = product.variants[0]?.options[0] || "";
-                            addItem(product, 1, defaultOption);
-                          }}
-                        >
-                          <Plus className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center">
+                  <ShoppingCart className="h-6 w-6 text-accent" />
+                </div>
+                <div>
+                  <h2 className="text-xl md:text-2xl font-bold text-foreground">Klanten kochten ook</h2>
+                  <p className="text-sm text-muted-foreground">Perfect om te combineren</p>
+                </div>
               </div>
+              <Carousel className="w-full">
+                <CarouselContent className="-ml-4">
+                  {upsellProducts.map((product) => (
+                    <CarouselItem key={product.id} className="pl-4 basis-1/2 md:basis-1/4">
+                      <div className="bg-card rounded-xl border border-border overflow-hidden group h-full">
+                        <Link to={`/products/${product.slug}`}>
+                          <img
+                            src={getProductImage(product.slug)}
+                            alt={product.name}
+                            className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300"
+                          />
+                        </Link>
+                        <div className="p-3">
+                          <Link to={`/products/${product.slug}`}>
+                            <h3 className="font-semibold text-foreground text-sm line-clamp-1 hover:text-primary transition-colors">
+                              {product.name}
+                            </h3>
+                          </Link>
+                          <div className="flex items-center justify-between mt-2">
+                            <span className="font-bold text-primary">€{product.price.toFixed(2)}</span>
+                            <Button
+                              size="sm"
+                              variant="secondary"
+                              onClick={() => {
+                                const defaultOption = product.variants[0]?.options[0] || "";
+                                addItem(product, 1, defaultOption);
+                              }}
+                            >
+                              <Plus className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="-left-4" />
+                <CarouselNext className="-right-4" />
+              </Carousel>
             </div>
           )}
         </div>
