@@ -45,26 +45,35 @@ const CollectionsGrid = () => {
               style={{ animationDelay: `${index * 50}ms` }}
             >
               {/* Abstract blob with collection image */}
-              <div className="w-40 h-full flex-shrink-0 relative flex items-center justify-center overflow-visible bg-secondary/30">
-                {/* Abstract blob background */}
+              <div className="w-40 h-full flex-shrink-0 relative flex items-center justify-center overflow-visible">
+                {/* Abstract fluid blob background - beige/cream color */}
                 <svg 
-                  viewBox="0 0 200 120" 
-                  className="absolute w-48 h-32 -left-4"
-                  preserveAspectRatio="none"
+                  viewBox="0 0 200 150" 
+                  className="absolute w-52 h-40 -left-6"
+                  preserveAspectRatio="xMidYMid slice"
                 >
-                  <defs>
-                    <clipPath id={`blob-${collection.id}`}>
-                      <path d="M40,20 Q80,5 140,25 Q180,40 170,70 Q160,100 100,105 Q40,110 25,75 Q10,45 40,20 Z" />
-                    </clipPath>
-                  </defs>
-                  <ellipse cx="100" cy="60" rx="85" ry="50" className="fill-coral/20" />
-                  <ellipse cx="95" cy="55" rx="70" ry="42" className="fill-coral/15" />
+                  {/* Organic fluid blob shapes */}
+                  <path 
+                    d="M30,75 Q10,40 50,25 Q90,5 130,30 Q170,55 160,85 Q150,115 110,125 Q70,135 40,110 Q10,90 30,75 Z" 
+                    className="fill-[hsl(35,40%,92%)]"
+                  />
+                  <path 
+                    d="M45,70 Q25,45 60,35 Q100,20 135,45 Q165,65 150,90 Q135,115 95,118 Q55,120 35,95 Q20,75 45,70 Z" 
+                    className="fill-[hsl(35,35%,88%)]"
+                  />
+                  <ellipse 
+                    cx="95" 
+                    cy="75" 
+                    rx="55" 
+                    ry="40" 
+                    className="fill-[hsl(30,30%,85%)]"
+                  />
                 </svg>
-                {/* Collection image */}
+                {/* Collection image - no container, just overlaid */}
                 <img
                   src={collectionImages[collection.slug] || salmonImage}
                   alt={collection.name}
-                  className="relative z-10 w-20 h-20 object-cover rounded-full border-2 border-white shadow-md"
+                  className="relative z-10 w-24 h-24 object-cover rounded-full shadow-lg group-hover:scale-110 transition-transform duration-300"
                 />
               </div>
 

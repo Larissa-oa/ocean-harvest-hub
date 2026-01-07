@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Fish } from "lucide-react";
 import lobsterImage from "@/assets/lobster-hero.png";
 import oysterImage from "@/assets/oyster-collection.jpg";
 
@@ -8,7 +8,7 @@ const PromoBlocks = () => {
   return (
     <section className="py-8 md:py-10">
       <div className="container">
-        <h2 className="text-2xl md:text-3xl font-bold text-primary mb-5">
+        <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-5">
           Hete Deals
         </h2>
         <div className="grid md:grid-cols-5 gap-4">
@@ -24,9 +24,10 @@ const PromoBlocks = () => {
             />
             <div className="absolute inset-0 bg-foreground/30" />
             
-            {/* Tag - matching section title color */}
-            <div className="absolute top-4 right-4 px-4 py-2 rounded-full bg-primary text-primary-foreground font-bold text-sm shadow-lg transform group-hover:scale-105 transition-transform">
-              -20% Korting
+            {/* Circular graphic tag */}
+            <div className="absolute top-4 right-4 w-16 h-16 rounded-full bg-accent flex flex-col items-center justify-center shadow-lg transform rotate-12 group-hover:rotate-0 transition-transform">
+              <span className="text-accent-foreground font-bold text-lg leading-none">-20%</span>
+              <span className="text-accent-foreground text-[10px] font-medium">Korting</span>
             </div>
             
             <div className="relative h-full flex flex-col justify-end p-5">
@@ -52,9 +53,10 @@ const PromoBlocks = () => {
             />
             <div className="absolute inset-0 bg-foreground/30" />
             
-            {/* Tag - matching section title color */}
-            <div className="absolute top-4 right-4 px-4 py-2 rounded-full bg-primary text-primary-foreground font-bold text-sm shadow-lg transform group-hover:scale-105 transition-transform">
-              In Seizoen
+            {/* Circular graphic tag */}
+            <div className="absolute top-4 right-4 w-16 h-16 rounded-full bg-success flex flex-col items-center justify-center shadow-lg transform -rotate-6 group-hover:rotate-0 transition-transform">
+              <Fish className="h-5 w-5 text-success-foreground" />
+              <span className="text-success-foreground text-[10px] font-bold mt-0.5">Seizoen</span>
             </div>
             
             <div className="relative h-full flex flex-col justify-end p-5">

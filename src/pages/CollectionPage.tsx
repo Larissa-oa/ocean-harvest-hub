@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Search, ChevronDown, ChevronUp, Filter, X, Euro, Calendar, Grid3X3, Check, Ban, Sparkles } from "lucide-react";
+import { Search, ChevronDown, ChevronUp, Filter, X, Euro, Calendar, Grid3X3, Check, Ban, Fish } from "lucide-react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import ProductCard from "@/components/products/ProductCard";
@@ -64,10 +64,10 @@ const CollectionPage = () => {
     <div className="min-h-screen flex flex-col">
       <Header />
       <main className="flex-1 bg-background">
-        {/* Breadcrumb - Separate from header */}
-        <div className="bg-secondary/30 border-b border-border">
-          <div className="container py-3">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+        {/* Breadcrumb & Header - Distinct section */}
+        <div className="bg-secondary/50 border-b border-border">
+          <div className="container py-4 md:py-6">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
               <Link to="/" className="hover:text-primary transition-colors">Home</Link>
               <span>/</span>
               <Link to="/collections/alle-producten" className="hover:text-primary transition-colors">Collecties</Link>
@@ -78,11 +78,16 @@ const CollectionPage = () => {
                 </>
               )}
             </div>
+            <h1 className="text-3xl md:text-4xl font-bold text-foreground">
+              {collection?.name || "Alle Producten"}
+            </h1>
+            {collection && (
+              <p className="text-muted-foreground mt-2">{collection.description}</p>
+            )}
           </div>
         </div>
 
-        {/* Collection Header */}
-        <div className="container py-8">
+        <div className="container py-6">
           <h1 className="text-3xl md:text-4xl font-bold text-foreground">
             {collection?.name || "Alle Producten"}
           </h1>
@@ -185,7 +190,7 @@ const CollectionPage = () => {
                     <div className="space-y-3">
                       {[
                         { value: "available", label: "Beschikbaar", icon: Check },
-                        { value: "in-season", label: "In Seizoen", icon: Sparkles },
+                        { value: "in-season", label: "In Seizoen", icon: Fish },
                         { value: "unavailable", label: "Niet Beschikbaar", icon: Ban },
                       ].map((option) => (
                         <label
@@ -205,21 +210,21 @@ const CollectionPage = () => {
                     </div>
                   </div>
 
-                  {/* Other Collections */}
+                  {/* Other Collections - Single column list */}
                   <div className="bg-card rounded-xl p-4 border border-border">
                     <h3 className="font-semibold text-foreground mb-4 flex items-center gap-2">
                       <Grid3X3 className="h-4 w-4 text-primary" />
                       Collecties
                     </h3>
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="flex flex-col gap-1">
                       {visibleCollections.map((col) => (
                         <Link
                           key={col.id}
                           to={`/collections/${col.slug}`}
-                          className={`block py-2 px-3 rounded-lg text-xs font-medium transition-colors text-center ${
+                          className={`block py-2.5 px-3 rounded-lg text-sm font-medium transition-colors ${
                             col.slug === slug
                               ? "bg-primary text-primary-foreground"
-                              : "bg-secondary text-foreground hover:bg-primary/10"
+                              : "text-foreground hover:bg-secondary"
                           }`}
                         >
                           {col.name}

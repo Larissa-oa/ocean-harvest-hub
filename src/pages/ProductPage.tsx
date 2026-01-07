@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Star, Plus, Minus, ShoppingCart, Truck, Clock, Shield, ChevronLeft, ChevronRight, Fish, Check, Ban, Sparkles, AlertTriangle, Apple } from "lucide-react";
+import { Star, Plus, Minus, ShoppingCart, Truck, Clock, Shield, ChevronLeft, ChevronRight, Fish, Check, Ban, Info } from "lucide-react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import ProductCard from "@/components/products/ProductCard";
@@ -59,7 +59,7 @@ const ProductPage = () => {
   const getSeasonIcon = (status: string) => {
     switch (status) {
       case "in-season":
-        return <Sparkles className="h-3.5 w-3.5" />;
+        return <Fish className="h-3.5 w-3.5" />;
       case "available":
         return <Check className="h-3.5 w-3.5" />;
       default:
@@ -70,11 +70,11 @@ const ProductPage = () => {
   const getSeasonStatusColor = (status: string) => {
     switch (status) {
       case "in-season":
-        return "bg-success text-success-foreground";
+        return "bg-success";
       case "available":
-        return "bg-secondary text-foreground";
+        return "bg-secondary";
       default:
-        return "bg-muted text-muted-foreground";
+        return "bg-muted";
     }
   };
 
@@ -109,7 +109,7 @@ const ProductPage = () => {
                 />
                 {product.seasonality === "in-season" && (
                   <span className="absolute top-4 left-4 px-3 py-1.5 bg-success text-success-foreground text-sm font-semibold rounded-full flex items-center gap-1">
-                    <Sparkles className="h-4 w-4" />
+                    <Fish className="h-4 w-4" />
                     In Seizoen
                   </span>
                 )}
@@ -164,8 +164,8 @@ const ProductPage = () => {
                 <p className="text-muted-foreground leading-relaxed">{product.description}</p>
               </div>
 
-              {/* Rating */}
-              <div className="flex items-center gap-2">
+              {/* Rating - Less spacing above */}
+              <div className="flex items-center gap-2 -mt-4">
                 <div className="flex items-center">
                   {[...Array(5)].map((_, i) => (
                     <Star
@@ -280,7 +280,7 @@ const ProductPage = () => {
                 <AccordionItem value="allergens" className="border-border">
                   <AccordionTrigger className="text-foreground hover:text-primary">
                     <span className="flex items-center gap-2">
-                      <AlertTriangle className="h-4 w-4" />
+                      <Info className="h-4 w-4" />
                       Allergenen
                     </span>
                   </AccordionTrigger>
@@ -300,7 +300,7 @@ const ProductPage = () => {
                 <AccordionItem value="nutrition" className="border-border">
                   <AccordionTrigger className="text-foreground hover:text-primary">
                     <span className="flex items-center gap-2">
-                      <Apple className="h-4 w-4" />
+                      <Info className="h-4 w-4" />
                       Voedingswaarden
                     </span>
                   </AccordionTrigger>
@@ -341,11 +341,17 @@ const ProductPage = () => {
                       : month.status === "available" 
                         ? "border-l-primary bg-secondary" 
                         : "border-l-muted bg-muted/50"
-                  } ${getSeasonStatusColor(month.status)}`}
+                  }`}
                   style={{ animationDelay: `${index * 50}ms` }}
                 >
-                  <p className="text-xs font-medium mb-1">{month.month}</p>
-                  <div className="flex justify-center">
+                  <p className="text-xs font-medium mb-1 text-foreground">{month.month}</p>
+                  <div className={`flex justify-center ${
+                    month.status === "in-season" 
+                      ? "text-success" 
+                      : month.status === "available" 
+                        ? "text-primary" 
+                        : "text-muted-foreground"
+                  }`}>
                     {getSeasonIcon(month.status)}
                   </div>
                 </div>
@@ -355,7 +361,7 @@ const ProductPage = () => {
             <div className="flex items-center justify-center gap-6 mt-6 text-sm">
               <div className="flex items-center gap-2">
                 <div className="w-4 h-4 rounded-full bg-success flex items-center justify-center">
-                  <Sparkles className="h-2.5 w-2.5 text-success-foreground" />
+                  <Fish className="h-2.5 w-2.5 text-success-foreground" />
                 </div>
                 <span className="text-muted-foreground">In Seizoen</span>
               </div>
