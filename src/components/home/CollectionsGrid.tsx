@@ -69,11 +69,11 @@ const CollectionsGrid = () => {
                     className="fill-[hsl(30,30%,85%)]"
                   />
                 </svg>
-                {/* Collection image - no container, just overlaid */}
+                {/* Collection image - original format, not rounded */}
                 <img
                   src={collectionImages[collection.slug] || salmonImage}
                   alt={collection.name}
-                  className="relative z-10 w-24 h-24 object-cover rounded-full shadow-lg group-hover:scale-110 transition-transform duration-300"
+                  className="relative z-10 w-24 h-24 object-cover rounded-lg shadow-lg group-hover:scale-110 transition-transform duration-300"
                 />
               </div>
 

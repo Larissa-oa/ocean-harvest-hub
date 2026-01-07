@@ -24,10 +24,10 @@ const PromoBlocks = () => {
             />
             <div className="absolute inset-0 bg-foreground/30" />
             
-            {/* Circular graphic tag */}
-            <div className="absolute top-4 right-4 w-16 h-16 rounded-full bg-accent flex flex-col items-center justify-center shadow-lg transform rotate-12 group-hover:rotate-0 transition-transform">
-              <span className="text-accent-foreground font-bold text-lg leading-none">-20%</span>
-              <span className="text-accent-foreground text-[10px] font-medium">Korting</span>
+            {/* Circular graphic tag - static black */}
+            <div className="absolute top-4 right-4 w-16 h-16 rounded-full bg-foreground flex flex-col items-center justify-center shadow-lg">
+              <span className="text-background font-bold text-lg leading-none">-20%</span>
+              <span className="text-background text-[10px] font-medium">Korting</span>
             </div>
             
             <div className="relative h-full flex flex-col justify-end p-5">
@@ -53,10 +53,10 @@ const PromoBlocks = () => {
             />
             <div className="absolute inset-0 bg-foreground/30" />
             
-            {/* Circular graphic tag */}
-            <div className="absolute top-4 right-4 w-16 h-16 rounded-full bg-success flex flex-col items-center justify-center shadow-lg transform -rotate-6 group-hover:rotate-0 transition-transform">
-              <Fish className="h-5 w-5 text-success-foreground" />
-              <span className="text-success-foreground text-[10px] font-bold mt-0.5">Seizoen</span>
+            {/* Circular graphic tag - static black */}
+            <div className="absolute top-4 right-4 w-16 h-16 rounded-full bg-foreground flex flex-col items-center justify-center shadow-lg">
+              <Fish className="h-5 w-5 text-background" />
+              <span className="text-background text-[10px] font-bold mt-0.5">Seizoen</span>
             </div>
             
             <div className="relative h-full flex flex-col justify-end p-5">

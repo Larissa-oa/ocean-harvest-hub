@@ -13,7 +13,7 @@ const HeroSection = () => {
           alt="Fresh seafood"
           className="w-full h-full object-cover object-center"
         />
-        <div className="absolute inset-0 bg-background/85" />
+        <div className="absolute inset-0 bg-background/40" />
       </div>
 
       {/* Content */}

@@ -1,4 +1,4 @@
-import { Instagram, Star } from "lucide-react";
+import { Instagram, Star, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import salmonImage from "@/assets/salmon-collection.jpg";
 import shrimpImage from "@/assets/shrimp-collection.jpg";
@@ -75,8 +75,8 @@ const SocialProofSection = () => {
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/40 transition-colors flex items-center justify-center">
-                  <div className="opacity-0 group-hover:opacity-100 transition-opacity text-primary-foreground flex items-center gap-1 font-medium">
-                    <span>❤️</span>
+                  <div className="opacity-0 group-hover:opacity-100 transition-opacity text-primary-foreground flex items-center gap-1.5 font-medium">
+                    <Heart className="h-5 w-5 fill-current" />
                     <span>{post.likes}</span>
                   </div>
                 </div>
