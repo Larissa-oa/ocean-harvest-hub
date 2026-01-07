@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CartProvider } from "@/hooks/useCart";
+import CartDrawer from "@/components/cart/CartDrawer";
 import Index from "./pages/Index";
 import CollectionPage from "./pages/CollectionPage";
 import ProductPage from "./pages/ProductPage";
@@ -18,6 +19,7 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
+        <CartDrawer />
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
