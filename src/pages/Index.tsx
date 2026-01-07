@@ -5,7 +5,8 @@ import TrustSection from "@/components/home/TrustSection";
 import PromoBlocks from "@/components/home/PromoBlocks";
 import CollectionsGrid from "@/components/home/CollectionsGrid";
 import CatchOfTheMonthSlider from "@/components/home/CatchOfTheMonthSlider";
-import SocialProofSection from "@/components/home/SocialProofSection";
+import ReviewsSection from "@/components/home/ReviewsSection";
+import InstagramSection from "@/components/home/InstagramSection";
 
 const Index = () => {
   return (
@@ -17,7 +18,8 @@ const Index = () => {
         <PromoBlocks />
         <CollectionsGrid />
         <CatchOfTheMonthSlider />
-        <SocialProofSection />
+        <ReviewsSection />
+        <InstagramSection />
       </main>
       <Footer />
     </div>
