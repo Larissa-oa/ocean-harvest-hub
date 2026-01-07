@@ -65,7 +65,7 @@ const CollectionPage = () => {
       <Header />
       <main className="flex-1 bg-background">
         {/* Breadcrumb */}
-        <div className="bg-secondary/50">
+        <div className="bg-secondary/50 border-b border-border">
           <div className="container py-3">
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Link to="/" className="hover:text-primary transition-colors">Home</Link>
@@ -81,8 +81,8 @@ const CollectionPage = () => {
           </div>
         </div>
         
-        {/* Header - Separated with line */}
-        <div className="border-b border-border bg-card">
+        {/* Header */}
+        <div className="border-b border-border bg-secondary/50">
           <div className="container pt-6 pb-5">
             <h1 className="text-3xl md:text-4xl font-bold text-foreground">
               {collection?.name || "Alle Producten"}
@@ -93,7 +93,7 @@ const CollectionPage = () => {
           </div>
         </div>
 
-        <div className="container pb-8">
+        <div className="container pb-8 pt-6">
           {/* Search Bar - Narrower */}
           <div className="relative mb-6 max-w-md">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
