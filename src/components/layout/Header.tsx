@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ShoppingCart, Search, Menu, User, Fish } from "lucide-react";
+import { ShoppingCart, Search, Menu, User, Fish, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useCart } from "@/hooks/useCart";
@@ -9,8 +9,28 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { cartCount, setIsCartOpen } = useCart();
 
+  // Check if shop is open (Mon-Sat 8:00-18:00)
+  const now = new Date();
+  const day = now.getDay();
+  const hour = now.getHours();
+  const isOpen = day >= 1 && day <= 6 && hour >= 8 && hour < 18;
+
   return (
-    <header className="sticky top-0 z-50 bg-card/95 backdrop-blur-md border-b border-border">
+    <header className="sticky top-0 z-50">
+      {/* Top bar */}
+      <div className="bg-foreground text-background py-1.5">
+        <div className="container flex items-center justify-center gap-6 text-xs">
+          <div className="flex items-center gap-2">
+            <span className={`w-2 h-2 rounded-full ${isOpen ? 'bg-green-400' : 'bg-red-400'}`} />
+            <Clock className="h-3 w-3 opacity-70" />
+            <span className="opacity-90">Ma-Za 8:00-18:00</span>
+          </div>
+          <span className="hidden sm:inline opacity-40">|</span>
+          <span className="hidden sm:inline opacity-90">Ruim assortiment • Meer dan 133 soorten verse vis dagelijks</span>
+        </div>
+      </div>
+      
+      <div className="bg-card/95 backdrop-blur-md border-b border-border">
       <div className="container flex items-center justify-between h-16 md:h-20">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 group">
@@ -96,6 +116,7 @@ const Header = () => {
           </nav>
         </div>
       )}
+      </div>
     </header>
   );
 };

@@ -1,33 +1,37 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Fish } from "lucide-react";
+import { ArrowRight, Flame } from "lucide-react";
 import dealBanner1 from "@/assets/banner/dealbanner1.png";
-import dealBanner4 from "@/assets/banner/dealbanner4.png";
+import dealBanner2 from "@/assets/banner/dealbanner2.png";
+import dealBanner3 from "@/assets/banner/dealbanner3.png";
 
 const PromoBlocks = () => {
   return (
     <section className="py-8 md:py-10">
       <div className="container">
-        <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-5">
-          Hete Deals
-        </h2>
-        <div className="grid md:grid-cols-5 gap-4">
-          {/* Promo Block 1 - Bigger (3 cols) */}
+        <div className="flex items-center gap-2 mb-5">
+          <Flame className="h-6 w-6 text-accent" />
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground">
+            Hete Deals
+          </h2>
+        </div>
+        
+        <div className="grid md:grid-cols-2 gap-4">
+          {/* Left - Tall container */}
           <Link
             to="/collections/schaal-en-schelpdieren"
-            className="md:col-span-3 relative overflow-hidden rounded-2xl h-56 md:h-64 group"
+            className="relative overflow-hidden rounded-2xl h-72 md:h-[340px] group"
           >
             <img
-              src={dealBanner4}
+              src={dealBanner1}
               alt="Kreeft & Schelpdieren"
               className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
-            <div className="absolute inset-0 bg-foreground/30" />
+            <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-foreground/20 to-transparent" />
             
-            {/* Circular graphic tag - static black */}
-            <div className="absolute top-4 right-4 w-16 h-16 rounded-full bg-foreground flex flex-col items-center justify-center shadow-lg">
-              <span className="text-background font-bold text-lg leading-none">-20%</span>
-              <span className="text-background text-[10px] font-medium">Korting</span>
+            {/* Discount tag */}
+            <div className="absolute top-4 right-4 px-3 py-1.5 rounded-full bg-accent text-accent-foreground font-bold text-sm shadow-lg">
+              -20% Korting
             </div>
             
             <div className="relative h-full flex flex-col justify-end p-5">
@@ -46,39 +50,68 @@ const PromoBlocks = () => {
             </div>
           </Link>
 
-          {/* Promo Block 2 - Thinner (2 cols) */}
-          <Link
-            to="/collections/verse-vis"
-            className="md:col-span-2 relative overflow-hidden rounded-2xl h-56 md:h-64 group"
-          >
-            <img
-              src={dealBanner1}
-              alt="Verse Vis"
-              className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-            />
-            <div className="absolute inset-0 bg-foreground/30" />
-            
-            {/* Circular graphic tag - static black */}
-            <div className="absolute top-4 right-4 w-16 h-16 rounded-full bg-foreground flex flex-col items-center justify-center shadow-lg">
-              <Fish className="h-5 w-5 text-background" />
-              <span className="text-background text-[10px] font-bold mt-0.5">Seizoen</span>
-            </div>
-            
-            <div className="relative h-full flex flex-col justify-end p-5">
-              <div className="max-w-xs">
-                <h3 className="text-xl md:text-2xl font-bold text-white mb-2">
-                  Verse Vis
+          {/* Right - Two stacked containers */}
+          <div className="flex flex-col gap-4">
+            <Link
+              to="/collections/verse-vis"
+              className="relative overflow-hidden rounded-2xl h-36 md:h-[162px] group"
+            >
+              <img
+                src={dealBanner2}
+                alt="Verse Vis"
+                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-foreground/60 via-foreground/30 to-transparent" />
+              
+              {/* Tag */}
+              <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-primary text-primary-foreground font-semibold text-xs shadow-lg">
+                Nieuw Binnen
+              </div>
+              
+              <div className="relative h-full flex flex-col justify-end p-4">
+                <h3 className="text-lg md:text-xl font-bold text-white mb-1">
+                  Verse Vis van de Dag
                 </h3>
-                <p className="text-sm text-white/90 mb-3">
-                  Dagelijks verse vis van de markt, direct bij u thuis bezorgd
+                <p className="text-xs text-white/90 mb-2 max-w-xs">
+                  Dagelijks verse vis, direct van de markt
                 </p>
-                <Button variant="secondary" size="sm" className="self-start group-hover:bg-white transition-colors">
+                <Button variant="secondary" size="sm" className="self-start text-xs h-8 group-hover:bg-white transition-colors">
                   Shop Nu
-                  <ArrowRight className="h-4 w-4 ml-1" />
+                  <ArrowRight className="h-3 w-3 ml-1" />
                 </Button>
               </div>
-            </div>
-          </Link>
+            </Link>
+
+            <Link
+              to="/collections/sushi-en-sashimi"
+              className="relative overflow-hidden rounded-2xl h-36 md:h-[162px] group"
+            >
+              <img
+                src={dealBanner3}
+                alt="Sushi & Sashimi"
+                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-foreground/60 via-foreground/30 to-transparent" />
+              
+              {/* Tag */}
+              <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-accent text-accent-foreground font-semibold text-xs shadow-lg">
+                Populair
+              </div>
+              
+              <div className="relative h-full flex flex-col justify-end p-4">
+                <h3 className="text-lg md:text-xl font-bold text-white mb-1">
+                  Sushi & Sashimi Kwaliteit
+                </h3>
+                <p className="text-xs text-white/90 mb-2 max-w-xs">
+                  Premium vis voor de beste sushi thuis
+                </p>
+                <Button variant="secondary" size="sm" className="self-start text-xs h-8 group-hover:bg-white transition-colors">
+                  Ontdek Meer
+                  <ArrowRight className="h-3 w-3 ml-1" />
+                </Button>
+              </div>
+            </Link>
+          </div>
         </div>
       </div>
     </section>
