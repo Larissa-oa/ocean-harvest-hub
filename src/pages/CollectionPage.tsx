@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Search, ChevronDown, ChevronUp, Filter, X } from "lucide-react";
+import { Search, ChevronDown, ChevronUp, Filter, X, Euro, Calendar, Grid3X3, Check, Ban, Sparkles } from "lucide-react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import ProductCard from "@/components/products/ProductCard";
@@ -16,9 +16,33 @@ const CollectionPage = () => {
   
   const [searchQuery, setSearchQuery] = useState("");
   const [priceRange, setPriceRange] = useState([0, 100]);
+  const [minPriceInput, setMinPriceInput] = useState("0");
+  const [maxPriceInput, setMaxPriceInput] = useState("100");
   const [seasonalityFilters, setSeasonalityFilters] = useState<string[]>([]);
   const [showAllCollections, setShowAllCollections] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const handleMinPriceChange = (value: string) => {
+    setMinPriceInput(value);
+    const num = parseFloat(value);
+    if (!isNaN(num) && num >= 0 && num <= priceRange[1]) {
+      setPriceRange([num, priceRange[1]]);
+    }
+  };
+
+  const handleMaxPriceChange = (value: string) => {
+    setMaxPriceInput(value);
+    const num = parseFloat(value);
+    if (!isNaN(num) && num >= priceRange[0] && num <= 100) {
+      setPriceRange([priceRange[0], num]);
+    }
+  };
+
+  const handleSliderChange = (value: number[]) => {
+    setPriceRange(value);
+    setMinPriceInput(value[0].toString());
+    setMaxPriceInput(value[1].toString());
+  };
 
   const filteredProducts = products.filter((product) => {
     const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
@@ -28,7 +52,7 @@ const CollectionPage = () => {
     return matchesSearch && matchesPrice && matchesSeasonality;
   });
 
-  const visibleCollections = showAllCollections ? collections : collections.slice(0, 4);
+  const visibleCollections = showAllCollections ? collections : collections.slice(0, 6);
 
   const toggleSeasonality = (value: string) => {
     setSeasonalityFilters((prev) =>
@@ -40,39 +64,43 @@ const CollectionPage = () => {
     <div className="min-h-screen flex flex-col">
       <Header />
       <main className="flex-1 bg-background">
-        {/* Collection Header */}
-        <div className="bg-gradient-ice border-b border-border">
-          <div className="container py-8 md:py-12">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
+        {/* Breadcrumb - Separate from header */}
+        <div className="bg-secondary/30 border-b border-border">
+          <div className="container py-3">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Link to="/" className="hover:text-primary transition-colors">Home</Link>
               <span>/</span>
-              <Link to="/collections" className="hover:text-primary transition-colors">Collecties</Link>
+              <Link to="/collections/alle-producten" className="hover:text-primary transition-colors">Collecties</Link>
               {collection && (
                 <>
                   <span>/</span>
-                  <span className="text-foreground">{collection.name}</span>
+                  <span className="text-foreground font-medium">{collection.name}</span>
                 </>
               )}
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-foreground">
-              {collection?.name || "Alle Producten"}
-            </h1>
-            {collection && (
-              <p className="text-muted-foreground mt-2">{collection.description}</p>
-            )}
           </div>
         </div>
 
+        {/* Collection Header */}
         <div className="container py-8">
-          {/* Search Bar */}
-          <div className="relative mb-6">
+          <h1 className="text-3xl md:text-4xl font-bold text-foreground">
+            {collection?.name || "Alle Producten"}
+          </h1>
+          {collection && (
+            <p className="text-muted-foreground mt-2">{collection.description}</p>
+          )}
+        </div>
+
+        <div className="container pb-8">
+          {/* Search Bar - Narrower */}
+          <div className="relative mb-6 max-w-md">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
             <Input
               type="search"
               placeholder="Zoek producten..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-12 h-12 text-base rounded-xl border-border bg-card"
+              className="pl-12 h-11 text-base rounded-xl border-border bg-card"
             />
           </div>
 
@@ -91,7 +119,7 @@ const CollectionPage = () => {
             <aside
               className={`
                 fixed md:relative inset-0 z-50 md:z-auto
-                w-full md:w-72 flex-shrink-0
+                w-full md:w-64 flex-shrink-0
                 bg-card md:bg-transparent
                 transform transition-transform duration-300 md:transform-none
                 ${sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0" }
@@ -106,38 +134,59 @@ const CollectionPage = () => {
                   </Button>
                 </div>
 
-                <div className="space-y-6">
+                <div className="space-y-5">
                   {/* Price Filter */}
-                  <div className="bg-card rounded-2xl p-5 border border-border shadow-soft">
+                  <div className="bg-card rounded-xl p-4 border border-border">
                     <h3 className="font-semibold text-foreground mb-4 flex items-center gap-2">
-                      <span className="text-lg">💰</span>
+                      <Euro className="h-4 w-4 text-primary" />
                       Prijs
                     </h3>
                     <Slider
                       value={priceRange}
-                      onValueChange={setPriceRange}
+                      onValueChange={handleSliderChange}
                       min={0}
                       max={100}
-                      step={5}
-                      className="mb-3"
+                      step={1}
+                      className="mb-4"
                     />
-                    <div className="flex items-center justify-between text-sm text-muted-foreground">
-                      <span>€{priceRange[0]}</span>
-                      <span>€{priceRange[1]}</span>
+                    <div className="flex items-center gap-2">
+                      <div className="flex-1">
+                        <label className="text-xs text-muted-foreground mb-1 block">Min</label>
+                        <Input
+                          type="number"
+                          value={minPriceInput}
+                          onChange={(e) => handleMinPriceChange(e.target.value)}
+                          className="h-9 text-sm"
+                          min={0}
+                          max={priceRange[1]}
+                        />
+                      </div>
+                      <span className="text-muted-foreground mt-5">-</span>
+                      <div className="flex-1">
+                        <label className="text-xs text-muted-foreground mb-1 block">Max</label>
+                        <Input
+                          type="number"
+                          value={maxPriceInput}
+                          onChange={(e) => handleMaxPriceChange(e.target.value)}
+                          className="h-9 text-sm"
+                          min={priceRange[0]}
+                          max={100}
+                        />
+                      </div>
                     </div>
                   </div>
 
                   {/* Seasonality Filter */}
-                  <div className="bg-card rounded-2xl p-5 border border-border shadow-soft">
+                  <div className="bg-card rounded-xl p-4 border border-border">
                     <h3 className="font-semibold text-foreground mb-4 flex items-center gap-2">
-                      <span className="text-lg">🗓️</span>
+                      <Calendar className="h-4 w-4 text-primary" />
                       Beschikbaarheid
                     </h3>
                     <div className="space-y-3">
                       {[
-                        { value: "available", label: "Beschikbaar", emoji: "✅" },
-                        { value: "in-season", label: "In Seizoen", emoji: "🌟" },
-                        { value: "unavailable", label: "Niet Beschikbaar", emoji: "❌" },
+                        { value: "available", label: "Beschikbaar", icon: Check },
+                        { value: "in-season", label: "In Seizoen", icon: Sparkles },
+                        { value: "unavailable", label: "Niet Beschikbaar", icon: Ban },
                       ].map((option) => (
                         <label
                           key={option.value}
@@ -146,10 +195,10 @@ const CollectionPage = () => {
                           <Checkbox
                             checked={seasonalityFilters.includes(option.value)}
                             onCheckedChange={() => toggleSeasonality(option.value)}
-                            className="rounded-md"
                           />
-                          <span className="text-sm text-foreground group-hover:text-primary transition-colors">
-                            {option.emoji} {option.label}
+                          <span className="text-sm text-foreground group-hover:text-primary transition-colors flex items-center gap-2">
+                            <option.icon className="h-3.5 w-3.5 text-muted-foreground" />
+                            {option.label}
                           </span>
                         </label>
                       ))}
@@ -157,30 +206,30 @@ const CollectionPage = () => {
                   </div>
 
                   {/* Other Collections */}
-                  <div className="bg-card rounded-2xl p-5 border border-border shadow-soft">
+                  <div className="bg-card rounded-xl p-4 border border-border">
                     <h3 className="font-semibold text-foreground mb-4 flex items-center gap-2">
-                      <span className="text-lg">🐟</span>
+                      <Grid3X3 className="h-4 w-4 text-primary" />
                       Collecties
                     </h3>
-                    <div className="space-y-2">
+                    <div className="grid grid-cols-2 gap-2">
                       {visibleCollections.map((col) => (
                         <Link
                           key={col.id}
                           to={`/collections/${col.slug}`}
-                          className={`block py-2 px-3 rounded-lg text-sm transition-colors ${
+                          className={`block py-2 px-3 rounded-lg text-xs font-medium transition-colors text-center ${
                             col.slug === slug
-                              ? "bg-primary text-primary-foreground font-medium"
-                              : "text-foreground hover:bg-secondary"
+                              ? "bg-primary text-primary-foreground"
+                              : "bg-secondary text-foreground hover:bg-primary/10"
                           }`}
                         >
                           {col.name}
                         </Link>
                       ))}
                     </div>
-                    {collections.length > 4 && (
+                    {collections.length > 6 && (
                       <button
                         onClick={() => setShowAllCollections(!showAllCollections)}
-                        className="flex items-center gap-1 mt-3 text-sm text-primary hover:underline"
+                        className="flex items-center justify-center gap-1 mt-3 text-sm text-primary hover:underline w-full"
                       >
                         {showAllCollections ? (
                           <>
@@ -220,7 +269,7 @@ const CollectionPage = () => {
 
               {filteredProducts.length === 0 && (
                 <div className="text-center py-16">
-                  <p className="text-6xl mb-4">🐠</p>
+                  <Search className="h-16 w-16 text-muted-foreground/30 mx-auto mb-4" />
                   <h3 className="text-xl font-semibold text-foreground mb-2">
                     Geen producten gevonden
                   </h3>

@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Star, Plus, Minus, ShoppingCart, Truck, Clock, Shield, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
+import { Star, Plus, Minus, ShoppingCart, Truck, Clock, Shield, ChevronLeft, ChevronRight, Fish, Check, Ban, Sparkles, AlertTriangle, Apple } from "lucide-react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import ProductCard from "@/components/products/ProductCard";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { products, getProductBySlug } from "@/data/collections";
+import { useCart } from "@/hooks/useCart";
 import salmonImage from "@/assets/salmon-collection.jpg";
 import shrimpImage from "@/assets/shrimp-collection.jpg";
 import oysterImage from "@/assets/oyster-collection.jpg";
@@ -22,9 +24,10 @@ const productImages: Record<string, string[]> = {
 const ProductPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const product = getProductBySlug(slug || "");
+  const { addItem } = useCart();
   
   const [quantity, setQuantity] = useState(1);
-  const [selectedVariants, setSelectedVariants] = useState<Record<string, string>>({});
+  const [selectedOption, setSelectedOption] = useState("");
   const [selectedImage, setSelectedImage] = useState(0);
 
   if (!product) {
@@ -33,10 +36,10 @@ const ProductPage = () => {
         <Header />
         <main className="flex-1 flex items-center justify-center">
           <div className="text-center">
-            <p className="text-6xl mb-4">🐟</p>
+            <Fish className="h-16 w-16 text-muted-foreground/30 mx-auto mb-4" />
             <h1 className="text-2xl font-bold text-foreground mb-2">Product niet gevonden</h1>
             <Button asChild>
-              <Link to="/collections">Terug naar collecties</Link>
+              <Link to="/collections/alle-producten">Terug naar producten</Link>
             </Button>
           </div>
         </main>
@@ -45,29 +48,38 @@ const ProductPage = () => {
     );
   }
 
+  // Set default option if not selected
+  if (!selectedOption && product.variants.length > 0 && product.variants[0].options.length > 0) {
+    setSelectedOption(product.variants[0].options[0]);
+  }
+
   const images = productImages[product.slug] || [salmonImage];
   const relatedProducts = products.filter((p) => p.id !== product.id).slice(0, 4);
+
+  const getSeasonIcon = (status: string) => {
+    switch (status) {
+      case "in-season":
+        return <Sparkles className="h-3.5 w-3.5" />;
+      case "available":
+        return <Check className="h-3.5 w-3.5" />;
+      default:
+        return <Ban className="h-3.5 w-3.5" />;
+    }
+  };
 
   const getSeasonStatusColor = (status: string) => {
     switch (status) {
       case "in-season":
         return "bg-success text-success-foreground";
       case "available":
-        return "bg-secondary text-primary";
+        return "bg-secondary text-foreground";
       default:
         return "bg-muted text-muted-foreground";
     }
   };
 
-  const getSeasonStatusLabel = (status: string) => {
-    switch (status) {
-      case "in-season":
-        return "🌟";
-      case "available":
-        return "✓";
-      default:
-        return "—";
-    }
+  const handleAddToCart = () => {
+    addItem(product, quantity, selectedOption);
   };
 
   return (
@@ -79,7 +91,7 @@ const ProductPage = () => {
           <div className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
             <Link to="/" className="hover:text-primary transition-colors">Home</Link>
             <span>/</span>
-            <Link to="/collections" className="hover:text-primary transition-colors">Collecties</Link>
+            <Link to="/collections/alle-producten" className="hover:text-primary transition-colors">Producten</Link>
             <span>/</span>
             <span className="text-foreground">{product.name}</span>
           </div>
@@ -96,8 +108,9 @@ const ProductPage = () => {
                   className="w-full h-full object-cover"
                 />
                 {product.seasonality === "in-season" && (
-                  <span className="absolute top-4 left-4 px-3 py-1.5 bg-success text-success-foreground text-sm font-semibold rounded-full">
-                    🌟 In Seizoen
+                  <span className="absolute top-4 left-4 px-3 py-1.5 bg-success text-success-foreground text-sm font-semibold rounded-full flex items-center gap-1">
+                    <Sparkles className="h-4 w-4" />
+                    In Seizoen
                   </span>
                 )}
                 {/* Navigation Arrows */}
@@ -143,12 +156,12 @@ const ProductPage = () => {
             </div>
 
             {/* Product Info */}
-            <div className="space-y-6">
+            <div className="space-y-8">
               <div>
-                <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
+                <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-3">
                   {product.name}
                 </h1>
-                <p className="text-muted-foreground">{product.description}</p>
+                <p className="text-muted-foreground leading-relaxed">{product.description}</p>
               </div>
 
               {/* Rating */}
@@ -176,19 +189,17 @@ const ProductPage = () => {
                 <span className="font-medium text-foreground">{product.weight}</span>
               </div>
 
-              {/* Variants */}
-              {product.variants.map((variant) => (
-                <div key={variant.name} className="space-y-2">
-                  <label className="text-sm font-medium text-foreground">{variant.name}</label>
+              {/* Single Variant Selector */}
+              {product.variants.length > 0 && (
+                <div className="space-y-3">
+                  <label className="text-sm font-medium text-foreground">{product.variants[0].name}</label>
                   <div className="flex flex-wrap gap-2">
-                    {variant.options.map((option) => (
+                    {product.variants[0].options.map((option) => (
                       <button
                         key={option}
-                        onClick={() =>
-                          setSelectedVariants((prev) => ({ ...prev, [variant.name]: option }))
-                        }
-                        className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
-                          selectedVariants[variant.name] === option
+                        onClick={() => setSelectedOption(option)}
+                        className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                          selectedOption === option
                             ? "bg-primary text-primary-foreground"
                             : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
                         }`}
@@ -198,45 +209,43 @@ const ProductPage = () => {
                     ))}
                   </div>
                 </div>
-              ))}
+              )}
 
-              {/* Quantity & Price */}
-              <div className="flex items-center gap-6">
+              {/* Quantity & Price - More spacing */}
+              <div className="flex items-center gap-8 pt-2">
                 <div className="flex items-center gap-3">
                   <Button
                     variant="outline"
                     size="icon"
                     onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                    className="rounded-full"
+                    className="rounded-full h-10 w-10"
                   >
                     <Minus className="h-4 w-4" />
                   </Button>
-                  <span className="text-xl font-semibold w-8 text-center">{quantity}</span>
+                  <span className="text-xl font-semibold w-10 text-center">{quantity}</span>
                   <Button
                     variant="outline"
                     size="icon"
                     onClick={() => setQuantity((q) => q + 1)}
-                    className="rounded-full"
+                    className="rounded-full h-10 w-10"
                   >
                     <Plus className="h-4 w-4" />
                   </Button>
                 </div>
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-3xl font-bold text-foreground">
-                      €{(product.price * quantity).toFixed(2)}
+                <div className="flex items-center gap-3">
+                  <span className="text-3xl font-bold text-foreground">
+                    €{(product.price * quantity).toFixed(2)}
+                  </span>
+                  {product.originalPrice && (
+                    <span className="text-lg text-muted-foreground line-through">
+                      €{(product.originalPrice * quantity).toFixed(2)}
                     </span>
-                    {product.originalPrice && (
-                      <span className="text-lg text-muted-foreground line-through">
-                        €{(product.originalPrice * quantity).toFixed(2)}
-                      </span>
-                    )}
-                  </div>
+                  )}
                 </div>
               </div>
 
               {/* Add to Cart */}
-              <Button variant="coral" size="xl" className="w-full">
+              <Button size="lg" className="w-full h-14 text-base" onClick={handleAddToCart}>
                 <ShoppingCart className="h-5 w-5 mr-2" />
                 In Winkelwagen
               </Button>
@@ -270,7 +279,10 @@ const ProductPage = () => {
               <Accordion type="single" collapsible className="w-full">
                 <AccordionItem value="allergens" className="border-border">
                   <AccordionTrigger className="text-foreground hover:text-primary">
-                    Allergenen
+                    <span className="flex items-center gap-2">
+                      <AlertTriangle className="h-4 w-4" />
+                      Allergenen
+                    </span>
                   </AccordionTrigger>
                   <AccordionContent>
                     <div className="flex flex-wrap gap-2">
@@ -287,7 +299,10 @@ const ProductPage = () => {
                 </AccordionItem>
                 <AccordionItem value="nutrition" className="border-border">
                   <AccordionTrigger className="text-foreground hover:text-primary">
-                    Voedingswaarden
+                    <span className="flex items-center gap-2">
+                      <Apple className="h-4 w-4" />
+                      Voedingswaarden
+                    </span>
                   </AccordionTrigger>
                   <AccordionContent>
                     <div className="space-y-2">
@@ -305,10 +320,10 @@ const ProductPage = () => {
           </div>
 
           {/* Fish Calendar */}
-          <div className="bg-card rounded-3xl p-6 md:p-8 border border-border shadow-card mb-12">
+          <div className="bg-card rounded-3xl p-6 md:p-8 border-l-[6px] border-l-primary border border-border mb-12">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-full bg-gradient-ocean flex items-center justify-center">
-                <span className="text-2xl">📅</span>
+              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                <Fish className="h-6 w-6 text-primary" />
               </div>
               <div>
                 <h2 className="text-xl md:text-2xl font-bold text-foreground">Seizoenskalender</h2>
@@ -320,38 +335,50 @@ const ProductPage = () => {
               {product.seasonCalendar.map((month, index) => (
                 <div
                   key={month.month}
-                  className={`relative rounded-xl p-3 text-center transition-all duration-300 hover:scale-105 ${getSeasonStatusColor(
-                    month.status
-                  )}`}
+                  className={`relative rounded-xl p-3 text-center transition-all duration-300 hover:scale-105 border-l-4 ${
+                    month.status === "in-season" 
+                      ? "border-l-success bg-success/10" 
+                      : month.status === "available" 
+                        ? "border-l-primary bg-secondary" 
+                        : "border-l-muted bg-muted/50"
+                  } ${getSeasonStatusColor(month.status)}`}
                   style={{ animationDelay: `${index * 50}ms` }}
                 >
                   <p className="text-xs font-medium mb-1">{month.month}</p>
-                  <p className="text-lg">{getSeasonStatusLabel(month.status)}</p>
+                  <div className="flex justify-center">
+                    {getSeasonIcon(month.status)}
+                  </div>
                 </div>
               ))}
             </div>
 
             <div className="flex items-center justify-center gap-6 mt-6 text-sm">
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded-full bg-success"></div>
+                <div className="w-4 h-4 rounded-full bg-success flex items-center justify-center">
+                  <Sparkles className="h-2.5 w-2.5 text-success-foreground" />
+                </div>
                 <span className="text-muted-foreground">In Seizoen</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded-full bg-secondary"></div>
+                <div className="w-4 h-4 rounded-full bg-secondary flex items-center justify-center">
+                  <Check className="h-2.5 w-2.5 text-foreground" />
+                </div>
                 <span className="text-muted-foreground">Beschikbaar</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded-full bg-muted"></div>
+                <div className="w-4 h-4 rounded-full bg-muted flex items-center justify-center">
+                  <Ban className="h-2.5 w-2.5 text-muted-foreground" />
+                </div>
                 <span className="text-muted-foreground">Niet Beschikbaar</span>
               </div>
             </div>
           </div>
 
-          {/* Upsell Section */}
+          {/* Upsell Section with Slider */}
           <div className="mb-12">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center">
-                <span className="text-2xl">💡</span>
+                <ShoppingCart className="h-6 w-6 text-accent" />
               </div>
               <div>
                 <h2 className="text-xl md:text-2xl font-bold text-foreground">
@@ -361,17 +388,23 @@ const ProductPage = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {relatedProducts.map((p, index) => (
-                <div
-                  key={p.id}
-                  className="animate-fade-in"
-                  style={{ animationDelay: `${index * 100}ms` }}
-                >
-                  <ProductCard product={p} />
-                </div>
-              ))}
-            </div>
+            <Carousel
+              opts={{
+                align: "start",
+                loop: false,
+              }}
+              className="w-full"
+            >
+              <CarouselContent className="-ml-4">
+                {relatedProducts.map((p) => (
+                  <CarouselItem key={p.id} className="pl-4 basis-full sm:basis-1/2 lg:basis-1/4">
+                    <ProductCard product={p} />
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious className="hidden md:flex -left-4 bg-card border-border hover:bg-secondary" />
+              <CarouselNext className="hidden md:flex -right-4 bg-card border-border hover:bg-secondary" />
+            </Carousel>
           </div>
         </div>
       </main>

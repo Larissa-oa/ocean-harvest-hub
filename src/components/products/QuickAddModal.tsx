@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Minus, Plus, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Product } from "@/data/collections";
+import { useCart } from "@/hooks/useCart";
 import {
   Dialog,
   DialogContent,
@@ -31,26 +32,23 @@ const getProductImage = (slug: string) => {
 };
 
 const QuickAddModal = ({ product, isOpen, onClose }: QuickAddModalProps) => {
+  const { addItem } = useCart();
   const [quantity, setQuantity] = useState(1);
-  const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>(() => {
-    const initial: Record<string, string> = {};
-    product.variants?.forEach((variant) => {
-      if (variant.options.length > 0) {
-        initial[variant.name] = variant.options[0];
-      }
-    });
-    return initial;
+  const [selectedOption, setSelectedOption] = useState(() => {
+    if (product.variants.length > 0 && product.variants[0].options.length > 0) {
+      return product.variants[0].options[0];
+    }
+    return "";
   });
 
   const handleQuantityChange = (delta: number) => {
     setQuantity((prev) => Math.max(1, prev + delta));
   };
 
-  const handleOptionSelect = (variantName: string, option: string) => {
-    setSelectedOptions((prev) => ({
-      ...prev,
-      [variantName]: option,
-    }));
+  const handleAddToCart = () => {
+    addItem(product, quantity, selectedOption);
+    onClose();
+    setQuantity(1);
   };
 
   return (
@@ -75,29 +73,25 @@ const QuickAddModal = ({ product, isOpen, onClose }: QuickAddModalProps) => {
             {product.shortDescription}
           </p>
 
-          {/* Variants */}
-          {product.variants && product.variants.length > 0 && (
-            <div className="space-y-3">
-              {product.variants.map((variant) => (
-                <div key={variant.name} className="space-y-2">
-                  <label className="text-sm font-medium text-foreground">{variant.name}</label>
-                  <div className="flex flex-wrap gap-2">
-                    {variant.options.map((option) => (
-                      <button
-                        key={option}
-                        onClick={() => handleOptionSelect(variant.name, option)}
-                        className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                          selectedOptions[variant.name] === option
-                            ? "bg-primary text-primary-foreground"
-                            : "bg-secondary text-foreground hover:bg-secondary/80"
-                        }`}
-                      >
-                        {option}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              ))}
+          {/* Single Variant Selector */}
+          {product.variants.length > 0 && (
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-foreground">{product.variants[0].name}</label>
+              <div className="flex flex-wrap gap-2">
+                {product.variants[0].options.map((option) => (
+                  <button
+                    key={option}
+                    onClick={() => setSelectedOption(option)}
+                    className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                      selectedOption === option
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-secondary text-foreground hover:bg-secondary/80"
+                    }`}
+                  >
+                    {option}
+                  </button>
+                ))}
+              </div>
             </div>
           )}
 
@@ -129,7 +123,7 @@ const QuickAddModal = ({ product, isOpen, onClose }: QuickAddModalProps) => {
                 €{(product.price * quantity).toFixed(2)}
               </p>
             </div>
-            <Button variant="default" size="lg" onClick={onClose}>
+            <Button size="lg" onClick={handleAddToCart}>
               <ShoppingCart className="h-4 w-4 mr-2" />
               Toevoegen
             </Button>

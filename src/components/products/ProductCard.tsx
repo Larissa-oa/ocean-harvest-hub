@@ -28,13 +28,13 @@ const getSeasonalityBadge = (seasonality: Product["seasonality"]) => {
   switch (seasonality) {
     case "in-season":
       return (
-        <span className="absolute top-3 left-3 px-2 py-1 bg-success text-success-foreground text-xs font-semibold rounded-full">
+        <span className="absolute top-3 left-3 px-2.5 py-1 bg-success text-success-foreground text-xs font-medium rounded-full">
           In Seizoen
         </span>
       );
     case "unavailable":
       return (
-        <span className="absolute top-3 left-3 px-2 py-1 bg-muted text-muted-foreground text-xs font-semibold rounded-full">
+        <span className="absolute top-3 left-3 px-2.5 py-1 bg-muted text-muted-foreground text-xs font-medium rounded-full">
           Niet Beschikbaar
         </span>
       );
@@ -53,7 +53,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
   return (
     <>
-      <div className="group bg-card rounded-2xl overflow-hidden border border-border hover:border-primary/30 hover:shadow-card transition-all duration-300 card-lift">
+      <div className="group bg-card rounded-xl overflow-hidden border border-border hover:border-primary/30 hover:shadow-card transition-all duration-300">
         {/* Image Container */}
         <Link to={`/products/${product.slug}`} className="block relative aspect-[4/3] overflow-hidden bg-secondary">
           <img
@@ -63,22 +63,22 @@ const ProductCard = ({ product }: ProductCardProps) => {
           />
           {getSeasonalityBadge(product.seasonality)}
           {hasDiscount && (
-            <span className="absolute top-3 right-3 px-2 py-1 bg-accent text-accent-foreground text-xs font-semibold rounded-full">
+            <span className="absolute top-3 right-3 px-2.5 py-1 bg-accent text-accent-foreground text-xs font-medium rounded-full">
               -{discountPercent}%
             </span>
           )}
         </Link>
 
         {/* Content */}
-        <div className="p-4 space-y-1.5">
+        <div className="p-4">
           <Link to={`/products/${product.slug}`}>
-            <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-1">
+            <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-1 mb-1">
               {product.name}
             </h3>
           </Link>
 
           {/* Rating */}
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1 mb-3">
             <div className="flex items-center">
               {[...Array(5)].map((_, i) => (
                 <Star
@@ -97,8 +97,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
           </div>
 
           {/* Price Row with Add Button */}
-          <div className="flex items-center justify-between pt-1">
-            <div className="flex items-center gap-1.5">
+          <div className="flex items-center justify-between">
+            <div className="flex items-baseline gap-1.5">
               <span className="text-xs text-muted-foreground">vanaf</span>
               <span className="text-lg font-bold text-foreground">
                 €{product.price.toFixed(2)}
@@ -112,7 +112,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
             <Button
               variant="default"
               size="icon"
-              className="h-8 w-8 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+              className="h-9 w-9 rounded-full"
               onClick={(e) => {
                 e.preventDefault();
                 setIsModalOpen(true);
