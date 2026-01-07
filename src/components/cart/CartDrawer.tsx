@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
-import { X, Plus, Minus, Trash2, ShoppingBag, Package } from "lucide-react";
+import { X, Plus, Minus, Trash2, ShoppingBag, Package, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { useCart } from "@/hooks/useCart";
 import { products } from "@/data/collections";
 import salmonImage from "@/assets/salmon-collection.jpg";
@@ -132,38 +133,44 @@ const CartDrawer = () => {
                 </div>
               ))}
 
-              {/* Upsell Section */}
+              {/* Upsell Section - Slider */}
               {upsellProducts.length > 0 && (
                 <div className="pt-4 border-t border-border">
-                  <h3 className="text-sm font-semibold text-foreground mb-3">Misschien ook interessant</h3>
-                  <div className="space-y-2">
-                    {upsellProducts.map((product) => (
-                      <div 
-                        key={product.id}
-                        className="flex items-center gap-3 p-2 bg-card rounded-lg border border-border"
-                      >
-                        <img
-                          src={getProductImage(product.slug)}
-                          alt={product.name}
-                          className="w-12 h-12 object-cover rounded-md"
-                        />
-                        <div className="flex-1 min-w-0">
-                          <h4 className="text-sm font-medium text-foreground line-clamp-1">{product.name}</h4>
-                          <p className="text-sm text-primary font-bold">€{product.price.toFixed(2)}</p>
-                        </div>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => {
-                            const defaultOption = product.variants[0]?.options[0] || "";
-                            addItem(product, 1, defaultOption);
-                          }}
-                        >
-                          <Plus className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    ))}
+                  <div className="flex items-center gap-2 mb-3">
+                    <ShoppingCart className="h-4 w-4 text-primary" />
+                    <h3 className="text-sm font-semibold text-foreground">Klanten kochten ook</h3>
                   </div>
+                  <Carousel className="w-full">
+                    <CarouselContent className="-ml-2">
+                      {upsellProducts.map((product) => (
+                        <CarouselItem key={product.id} className="pl-2 basis-2/3">
+                          <div className="flex items-center gap-3 p-2 bg-card rounded-lg border border-border">
+                            <img
+                              src={getProductImage(product.slug)}
+                              alt={product.name}
+                              className="w-12 h-12 object-cover rounded-md"
+                            />
+                            <div className="flex-1 min-w-0">
+                              <h4 className="text-sm font-medium text-foreground line-clamp-1">{product.name}</h4>
+                              <p className="text-sm text-primary font-bold">€{product.price.toFixed(2)}</p>
+                            </div>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => {
+                                const defaultOption = product.variants[0]?.options[0] || "";
+                                addItem(product, 1, defaultOption);
+                              }}
+                            >
+                              <Plus className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </CarouselItem>
+                      ))}
+                    </CarouselContent>
+                    <CarouselPrevious className="left-0 h-7 w-7" />
+                    <CarouselNext className="right-0 h-7 w-7" />
+                  </Carousel>
                 </div>
               )}
             </>
