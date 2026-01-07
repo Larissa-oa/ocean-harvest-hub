@@ -23,6 +23,7 @@ export const collections: Collection[] = [
   { id: "13", name: "Seizoensproducten", slug: "seasonal", description: "Nu in het seizoen", image: "/seasonal", productCount: 15 },
   { id: "14", name: "Vispakketten", slug: "packages", description: "Samengestelde pakketten", image: "/packages", productCount: 8 },
   { id: "15", name: "Aanbiedingen", slug: "deals", description: "Speciale kortingen", image: "/deals", productCount: 10 },
+  { id: "16", name: "Vangst van de Maand", slug: "catch-of-the-month", description: "De versste vis van dit seizoen", image: "/catch", productCount: 8 },
 ];
 
 export interface Product {
