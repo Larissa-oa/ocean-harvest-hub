@@ -5,7 +5,7 @@ import heroImage from "@/assets/lobster-hero.png";
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-[380px] md:min-h-[420px] flex items-center overflow-hidden">
+    <section className="relative min-h-[320px] md:min-h-[360px] flex items-center overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0">
         <img
@@ -13,7 +13,7 @@ const HeroSection = () => {
           alt="Fresh seafood"
           className="w-full h-full object-cover object-center"
         />
-        <div className="absolute inset-0 bg-background/80" />
+        <div className="absolute inset-0 bg-background/85" />
       </div>
 
       {/* Content */}
@@ -29,14 +29,14 @@ const HeroSection = () => {
             rechtstreeks van Nederlandse vissers naar uw deur.
           </p>
           
-          <div className="flex flex-wrap gap-3">
-            <Button variant="default" size="lg" asChild>
+          <div className="flex flex-wrap gap-2">
+            <Button variant="default" size="default" asChild>
               <Link to="/collections">
                 Bekijk Producten
                 <ArrowRight className="h-4 w-4 ml-1" />
               </Link>
             </Button>
-            <Button variant="outline" size="lg" asChild>
+            <Button variant="outline" size="default" asChild>
               <Link to="/collections/catch-of-the-month" className="flex items-center gap-2">
                 <Fish className="h-4 w-4" />
                 Vangst van de Maand

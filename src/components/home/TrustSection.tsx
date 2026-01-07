@@ -20,22 +20,26 @@ const trustPoints = [
 
 const TrustSection = () => {
   return (
-    <section className="py-6 bg-secondary/50 border-y border-border">
+    <section className="py-5 bg-secondary/50 border-y border-border">
       <div className="container">
-        <div className="flex flex-wrap items-center justify-center gap-8 md:gap-16">
+        <div className="flex items-center justify-center">
           {trustPoints.map((point, index) => (
-            <div
-              key={point.title}
-              className="flex items-center gap-3 animate-fade-in"
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
-              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                <point.icon className="h-5 w-5 text-primary" />
+            <div key={point.title} className="flex items-center">
+              <div
+                className="flex items-center gap-3 px-6 md:px-10 animate-fade-in"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <point.icon className="h-4 w-4 text-primary" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-sm text-foreground">{point.title}</h3>
+                  <p className="text-xs text-muted-foreground">{point.description}</p>
+                </div>
               </div>
-              <div>
-                <h3 className="font-semibold text-sm text-foreground">{point.title}</h3>
-                <p className="text-xs text-muted-foreground">{point.description}</p>
-              </div>
+              {index < trustPoints.length - 1 && (
+                <div className="h-10 w-px bg-border" />
+              )}
             </div>
           ))}
         </div>

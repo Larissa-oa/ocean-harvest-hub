@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
 import ProductCard from "@/components/products/ProductCard";
 import { products } from "@/data/collections";
 import {
@@ -18,27 +17,19 @@ const CatchOfTheMonthSlider = () => {
   return (
     <section className="py-8 md:py-12 bg-secondary/30">
       <div className="container">
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground">
-              Vangst van de Maand
-            </h2>
-            <p className="text-muted-foreground mt-1">
-              De versste vis van dit seizoen
-            </p>
-          </div>
-          <Button variant="outline" asChild className="hidden md:flex">
-            <Link to="/collections/catch-of-the-month">
-              Bekijk Alles
-              <ArrowRight className="h-4 w-4 ml-1" />
-            </Link>
-          </Button>
+        <div className="mb-6">
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground">
+            Vangst van de Maand
+          </h2>
+          <p className="text-muted-foreground mt-1">
+            De versste vis van dit seizoen
+          </p>
         </div>
 
         <Carousel
           opts={{
             align: "start",
-            loop: true,
+            loop: false,
           }}
           className="w-full"
         >
@@ -48,19 +39,28 @@ const CatchOfTheMonthSlider = () => {
                 <ProductCard product={product} />
               </CarouselItem>
             ))}
+            
+            {/* See All Card */}
+            <CarouselItem className="pl-4 basis-full sm:basis-1/2 lg:basis-1/4">
+              <Link
+                to="/collections/catch-of-the-month"
+                className="flex flex-col items-center justify-center h-full min-h-[280px] bg-card rounded-2xl border border-border border-dashed hover:border-primary hover:bg-secondary/50 transition-all duration-300 group"
+              >
+                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                  <ArrowRight className="h-8 w-8 text-primary" />
+                </div>
+                <span className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">
+                  Bekijk Alles
+                </span>
+                <span className="text-sm text-muted-foreground mt-1">
+                  Ontdek meer producten
+                </span>
+              </Link>
+            </CarouselItem>
           </CarouselContent>
           <CarouselPrevious className="hidden md:flex -left-4 bg-card border-border hover:bg-secondary" />
           <CarouselNext className="hidden md:flex -right-4 bg-card border-border hover:bg-secondary" />
         </Carousel>
-
-        <div className="mt-6 text-center md:hidden">
-          <Button variant="outline" asChild>
-            <Link to="/collections/catch-of-the-month">
-              Bekijk Alles
-              <ArrowRight className="h-4 w-4 ml-1" />
-            </Link>
-          </Button>
-        </div>
       </div>
     </section>
   );
