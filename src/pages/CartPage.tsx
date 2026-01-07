@@ -1,0 +1,237 @@
+import { Link } from "react-router-dom";
+import { Plus, Minus, Trash2, ShoppingBag, Package, ArrowRight, Truck } from "lucide-react";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useCart } from "@/hooks/useCart";
+import { products } from "@/data/collections";
+import salmonImage from "@/assets/salmon-collection.jpg";
+import shrimpImage from "@/assets/shrimp-collection.jpg";
+import oysterImage from "@/assets/oyster-collection.jpg";
+import mackerelImage from "@/assets/mackerel-collection.jpg";
+
+const productImages: Record<string, string> = {
+  "verse-zalm-filet": salmonImage,
+  "hollandse-garnalen": shrimpImage,
+  "zeeuwse-platte-oesters": oysterImage,
+  "zeeuwse-kreeft": mackerelImage,
+};
+
+const getProductImage = (slug: string) => productImages[slug] || salmonImage;
+
+const CartPage = () => {
+  const { 
+    items, 
+    updateQuantity, 
+    removeItem, 
+    toggleVacuumSealing,
+    cartTotal,
+    addItem
+  } = useCart();
+
+  const cartProductIds = items.map(item => item.product.id);
+  const upsellProducts = products.filter(p => !cartProductIds.includes(p.id)).slice(0, 4);
+
+  const shippingCost = cartTotal >= 50 ? 0 : 6.95;
+  const freeShippingRemaining = Math.max(0, 50 - cartTotal);
+
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Header />
+      <main className="flex-1 bg-background py-8">
+        <div className="container">
+          {/* Breadcrumb */}
+          <div className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
+            <Link to="/" className="hover:text-primary transition-colors">Home</Link>
+            <span>/</span>
+            <span className="text-foreground">Winkelwagen</span>
+          </div>
+
+          <h1 className="text-3xl font-bold text-foreground mb-8">Winkelwagen</h1>
+
+          {items.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-16 text-center">
+              <ShoppingBag className="h-24 w-24 text-muted-foreground/30 mb-6" />
+              <h2 className="text-2xl font-bold text-foreground mb-2">Je winkelwagen is leeg</h2>
+              <p className="text-muted-foreground mb-6">Ontdek onze verse producten en voeg ze toe aan je winkelwagen</p>
+              <Button size="lg" asChild>
+                <Link to="/collections/alle-producten">
+                  Bekijk Producten
+                  <ArrowRight className="h-5 w-5 ml-2" />
+                </Link>
+              </Button>
+            </div>
+          ) : (
+            <div className="grid lg:grid-cols-3 gap-8">
+              {/* Cart Items */}
+              <div className="lg:col-span-2 space-y-4">
+                {/* Free shipping progress */}
+                {freeShippingRemaining > 0 && (
+                  <div className="bg-secondary/50 rounded-xl p-4 flex items-center gap-3">
+                    <Truck className="h-5 w-5 text-primary flex-shrink-0" />
+                    <div className="flex-1">
+                      <p className="text-sm text-foreground">
+                        Nog <span className="font-bold">€{freeShippingRemaining.toFixed(2)}</span> voor gratis verzending!
+                      </p>
+                      <div className="w-full bg-border rounded-full h-2 mt-2">
+                        <div 
+                          className="bg-primary h-2 rounded-full transition-all"
+                          style={{ width: `${Math.min(100, (cartTotal / 50) * 100)}%` }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {items.map((item) => (
+                  <div 
+                    key={`${item.product.id}-${item.selectedOption}`}
+                    className="flex gap-4 p-4 bg-card rounded-2xl border border-border"
+                  >
+                    <Link to={`/products/${item.product.slug}`}>
+                      <img
+                        src={getProductImage(item.product.slug)}
+                        alt={item.product.name}
+                        className="w-24 h-24 object-cover rounded-xl"
+                      />
+                    </Link>
+                    <div className="flex-1 min-w-0">
+                      <Link to={`/products/${item.product.slug}`}>
+                        <h3 className="font-semibold text-foreground hover:text-primary transition-colors">
+                          {item.product.name}
+                        </h3>
+                      </Link>
+                      <p className="text-sm text-muted-foreground mt-0.5">{item.selectedOption}</p>
+                      
+                      {/* Vacuum sealing option */}
+                      <label className="flex items-center gap-2 mt-3 cursor-pointer">
+                        <Checkbox
+                          checked={item.vacuumSealing}
+                          onCheckedChange={() => toggleVacuumSealing(item.product.id, item.selectedOption)}
+                        />
+                        <span className="text-sm text-muted-foreground flex items-center gap-1">
+                          <Package className="h-4 w-4" />
+                          Vacuüm verpakken (+€1,50 per stuk)
+                        </span>
+                      </label>
+
+                      <div className="flex items-center justify-between mt-4">
+                        <div className="flex items-center gap-2 bg-secondary rounded-xl p-1">
+                          <button
+                            onClick={() => updateQuantity(item.product.id, item.selectedOption, item.quantity - 1)}
+                            className="w-8 h-8 flex items-center justify-center hover:bg-card rounded-lg transition-colors"
+                          >
+                            <Minus className="h-4 w-4" />
+                          </button>
+                          <span className="w-10 text-center font-semibold">{item.quantity}</span>
+                          <button
+                            onClick={() => updateQuantity(item.product.id, item.selectedOption, item.quantity + 1)}
+                            className="w-8 h-8 flex items-center justify-center hover:bg-card rounded-lg transition-colors"
+                          >
+                            <Plus className="h-4 w-4" />
+                          </button>
+                        </div>
+                        <div className="flex items-center gap-4">
+                          <span className="text-lg font-bold text-foreground">
+                            €{((item.product.price * item.quantity) + (item.vacuumSealing ? 1.5 * item.quantity : 0)).toFixed(2)}
+                          </span>
+                          <button
+                            onClick={() => removeItem(item.product.id, item.selectedOption)}
+                            className="text-muted-foreground hover:text-destructive transition-colors p-2"
+                          >
+                            <Trash2 className="h-5 w-5" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Order Summary */}
+              <div className="lg:col-span-1">
+                <div className="bg-card rounded-2xl border border-border p-6 sticky top-24">
+                  <h2 className="text-lg font-bold text-foreground mb-4">Overzicht</h2>
+                  
+                  <div className="space-y-3 pb-4 border-b border-border">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">Subtotaal</span>
+                      <span className="font-medium">€{cartTotal.toFixed(2)}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">Verzendkosten</span>
+                      <span className={`font-medium ${shippingCost === 0 ? "text-success" : ""}`}>
+                        {shippingCost === 0 ? "Gratis" : `€${shippingCost.toFixed(2)}`}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-between py-4">
+                    <span className="text-lg font-bold">Totaal</span>
+                    <span className="text-xl font-bold text-primary">€{(cartTotal + shippingCost).toFixed(2)}</span>
+                  </div>
+
+                  <Button className="w-full" size="lg">
+                    Afrekenen
+                    <ArrowRight className="h-5 w-5 ml-2" />
+                  </Button>
+
+                  <p className="text-xs text-center text-muted-foreground mt-4">
+                    Veilig betalen met iDEAL, creditcard of PayPal
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Upsell Section */}
+          {items.length > 0 && upsellProducts.length > 0 && (
+            <div className="mt-12">
+              <h2 className="text-2xl font-bold text-foreground mb-6">Klanten kochten ook</h2>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {upsellProducts.map((product) => (
+                  <div 
+                    key={product.id}
+                    className="bg-card rounded-xl border border-border overflow-hidden group"
+                  >
+                    <Link to={`/products/${product.slug}`}>
+                      <img
+                        src={getProductImage(product.slug)}
+                        alt={product.name}
+                        className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </Link>
+                    <div className="p-3">
+                      <Link to={`/products/${product.slug}`}>
+                        <h3 className="font-semibold text-foreground text-sm line-clamp-1 hover:text-primary transition-colors">
+                          {product.name}
+                        </h3>
+                      </Link>
+                      <div className="flex items-center justify-between mt-2">
+                        <span className="font-bold text-primary">€{product.price.toFixed(2)}</span>
+                        <Button
+                          size="sm"
+                          variant="secondary"
+                          onClick={() => {
+                            const defaultOption = product.variants[0]?.options[0] || "";
+                            addItem(product, 1, defaultOption);
+                          }}
+                        >
+                          <Plus className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </main>
+      <Footer />
+    </div>
+  );
+};
+
+export default CartPage;

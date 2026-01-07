@@ -8,22 +8,22 @@ export interface Collection {
 }
 
 export const collections: Collection[] = [
-  { id: "1", name: "Zalm & Forel", slug: "salmon", description: "Verse en gerookte zalm variaties", image: "/salmon", productCount: 24 },
-  { id: "2", name: "Garnalen", slug: "shrimp", description: "Van Hollandse tot tijgergarnalen", image: "/shrimp", productCount: 18 },
-  { id: "3", name: "Oesters", slug: "oysters", description: "Premium Zeeuwse oesters", image: "/oysters", productCount: 8 },
-  { id: "4", name: "Kreeft & Krab", slug: "lobster", description: "Verse kreeft en krab", image: "/lobster", productCount: 12 },
-  { id: "5", name: "Mosselen", slug: "mussels", description: "Zeeuwse mosselen in seizoen", image: "/mussels", productCount: 6 },
-  { id: "6", name: "Tonijn", slug: "tuna", description: "Sashimi grade tonijn", image: "/tuna", productCount: 10 },
-  { id: "7", name: "Kabeljauw", slug: "cod", description: "Wild gevangen kabeljauw", image: "/cod", productCount: 14 },
-  { id: "8", name: "Makreel", slug: "mackerel", description: "Verse en gerookte makreel", image: "/mackerel", productCount: 8 },
-  { id: "9", name: "Schelpdieren", slug: "shellfish", description: "Coquilles, venus en meer", image: "/shellfish", productCount: 16 },
-  { id: "10", name: "Gerookte Vis", slug: "smoked", description: "Ambachtelijk gerookt", image: "/smoked", productCount: 20 },
-  { id: "11", name: "Haring", slug: "herring", description: "Hollandse Nieuwe en meer", image: "/herring", productCount: 12 },
-  { id: "12", name: "Zeebaars", slug: "seabass", description: "Mediterrane zeebaars", image: "/seabass", productCount: 6 },
-  { id: "13", name: "Seizoensproducten", slug: "seasonal", description: "Nu in het seizoen", image: "/seasonal", productCount: 15 },
-  { id: "14", name: "Vispakketten", slug: "packages", description: "Samengestelde pakketten", image: "/packages", productCount: 8 },
-  { id: "15", name: "Aanbiedingen", slug: "deals", description: "Speciale kortingen", image: "/deals", productCount: 10 },
-  { id: "16", name: "Vangst van de Maand", slug: "catch-of-the-month", description: "De versste vis van dit seizoen", image: "/catch", productCount: 8 },
+  { id: "1", name: "Alle Producten", slug: "alle-producten", description: "Ons complete assortiment verse vis en zeevruchten", image: "/all", productCount: 150 },
+  { id: "2", name: "Verse Vis", slug: "verse-vis", description: "Dagelijks verse vis van de markt", image: "/fish", productCount: 45 },
+  { id: "3", name: "Schaal- en Schelpdieren", slug: "schaal-en-schelpdieren", description: "Premium kreeft, krab en oesters", image: "/shellfish", productCount: 28 },
+  { id: "4", name: "Klaar-en-Klaar", slug: "klaar-en-klaar", description: "Kant-en-klare visgerechten", image: "/ready", productCount: 18 },
+  { id: "5", name: "Sushi en Sashimi", slug: "sushi-en-sashimi", description: "Sashimi-grade vis voor uw sushi", image: "/sushi", productCount: 15 },
+  { id: "6", name: "Olie en Azijn", slug: "olie-en-azijn", description: "Premium oliën en azijnen", image: "/oil", productCount: 12 },
+  { id: "7", name: "Specials", slug: "specials", description: "Bijzondere en seizoensgebonden producten", image: "/specials", productCount: 20 },
+  { id: "8", name: "Delicatessen", slug: "delicatessen", description: "Culinaire delicatessen", image: "/deli", productCount: 22 },
+  { id: "9", name: "Sauzen", slug: "sauzen", description: "Huisgemaakte sauzen", image: "/sauces", productCount: 16 },
+  { id: "10", name: "Schotels", slug: "schotels", description: "Complete visschotels voor feesten", image: "/platters", productCount: 10 },
+  { id: "11", name: "Diepvries", slug: "diepvries", description: "Diepvriesproducten van hoge kwaliteit", image: "/frozen", productCount: 25 },
+  { id: "12", name: "Conserven", slug: "conserven", description: "Ingeblikte vis en zeevruchten", image: "/canned", productCount: 18 },
+  { id: "13", name: "Kruiden en Specerijen", slug: "kruiden-en-specerijen", description: "Kruiden speciaal voor vis", image: "/spices", productCount: 14 },
+  { id: "14", name: "Merchandise", slug: "merchandise", description: "Schmidt Zeevis merchandise", image: "/merch", productCount: 8 },
+  { id: "15", name: "Diversen", slug: "diversen", description: "Overige producten", image: "/misc", productCount: 12 },
+  { id: "16", name: "Vangst van de Maand", slug: "vangst-van-de-maand", description: "De versste vis van dit seizoen", image: "/catch", productCount: 8 },
 ];
 
 export interface Product {
@@ -62,10 +62,9 @@ export const products: Product[] = [
     reviewCount: 124,
     weight: "ca. 500g per stuk",
     variants: [
-      { name: "Grootte", options: ["400-500g", "500-600g", "600-700g"] },
-      { name: "Bereiding", options: ["Levend", "Gekookt"] },
+      { name: "Kies uw optie", options: ["400-500g Levend", "500-600g Levend", "600-700g Levend", "400-500g Gekookt", "500-600g Gekookt", "600-700g Gekookt"] },
     ],
-    collectionId: "4",
+    collectionId: "3",
     seasonality: "in-season",
     allergens: ["Schaaldieren"],
     nutritionalInfo: [
@@ -102,9 +101,9 @@ export const products: Product[] = [
     reviewCount: 89,
     weight: "100g",
     variants: [
-      { name: "Gewicht", options: ["100g", "200g", "500g"] },
+      { name: "Kies uw optie", options: ["100g", "200g", "500g"] },
     ],
-    collectionId: "2",
+    collectionId: "3",
     seasonality: "available",
     allergens: ["Schaaldieren"],
     nutritionalInfo: [
@@ -140,10 +139,9 @@ export const products: Product[] = [
     reviewCount: 156,
     weight: "ca. 200g per portie",
     variants: [
-      { name: "Gewicht", options: ["200g", "400g", "1kg"] },
-      { name: "Snit", options: ["Filet", "Steak", "Heel"] },
+      { name: "Kies uw optie", options: ["200g Filet", "400g Filet", "1kg Filet", "200g Steak", "400g Steak", "Heel"] },
     ],
-    collectionId: "1",
+    collectionId: "2",
     seasonality: "available",
     allergens: ["Vis"],
     nutritionalInfo: [
@@ -181,8 +179,7 @@ export const products: Product[] = [
     reviewCount: 67,
     weight: "12 stuks",
     variants: [
-      { name: "Aantal", options: ["6 stuks", "12 stuks", "24 stuks"] },
-      { name: "Grootte", options: ["Medium", "Large"] },
+      { name: "Kies uw optie", options: ["6 stuks Medium", "12 stuks Medium", "24 stuks Medium", "6 stuks Large", "12 stuks Large", "24 stuks Large"] },
     ],
     collectionId: "3",
     seasonality: "in-season",
