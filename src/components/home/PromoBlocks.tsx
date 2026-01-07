@@ -63,11 +63,6 @@ const PromoBlocks = () => {
               />
               <div className="absolute inset-0 bg-gradient-to-r from-foreground/60 via-foreground/30 to-transparent" />
               
-              {/* Tag */}
-              <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-primary text-primary-foreground font-semibold text-xs shadow-lg">
-                Nieuw Binnen
-              </div>
-              
               <div className="relative h-full flex flex-col justify-end p-4">
                 <h3 className="text-lg md:text-xl font-bold text-white mb-1">
                   Verse Vis van de Dag
@@ -92,11 +87,6 @@ const PromoBlocks = () => {
                 className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-foreground/60 via-foreground/30 to-transparent" />
-              
-              {/* Tag */}
-              <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-accent text-accent-foreground font-semibold text-xs shadow-lg">
-                Populair
-              </div>
               
               <div className="relative h-full flex flex-col justify-end p-4">
                 <h3 className="text-lg md:text-xl font-bold text-white mb-1">
