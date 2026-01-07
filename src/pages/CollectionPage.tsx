@@ -64,10 +64,10 @@ const CollectionPage = () => {
     <div className="min-h-screen flex flex-col">
       <Header />
       <main className="flex-1 bg-background">
-        {/* Breadcrumb & Header - Distinct section */}
-        <div className="bg-secondary/50 border-b border-border">
-          <div className="container py-4 md:py-6">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
+        {/* Breadcrumb */}
+        <div className="bg-secondary/50">
+          <div className="container py-3">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Link to="/" className="hover:text-primary transition-colors">Home</Link>
               <span>/</span>
               <Link to="/collections/alle-producten" className="hover:text-primary transition-colors">Collecties</Link>
@@ -78,6 +78,12 @@ const CollectionPage = () => {
                 </>
               )}
             </div>
+          </div>
+        </div>
+        
+        {/* Header - Separated with line */}
+        <div className="border-b border-border bg-card">
+          <div className="container pt-6 pb-5">
             <h1 className="text-3xl md:text-4xl font-bold text-foreground">
               {collection?.name || "Alle Producten"}
             </h1>
@@ -85,15 +91,6 @@ const CollectionPage = () => {
               <p className="text-muted-foreground mt-2">{collection.description}</p>
             )}
           </div>
-        </div>
-
-        <div className="container py-6">
-          <h1 className="text-3xl md:text-4xl font-bold text-foreground">
-            {collection?.name || "Alle Producten"}
-          </h1>
-          {collection && (
-            <p className="text-muted-foreground mt-2">{collection.description}</p>
-          )}
         </div>
 
         <div className="container pb-8">

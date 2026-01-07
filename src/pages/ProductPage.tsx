@@ -97,9 +97,9 @@ const ProductPage = () => {
           </div>
 
           {/* Product Section */}
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 mb-12">
-            {/* Images */}
-            <div className="space-y-4">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 mb-12 items-start">
+            {/* Images - Sticky on desktop */}
+            <div className="space-y-4 lg:sticky lg:top-8">
               {/* Main Image */}
               <div className="relative aspect-square rounded-2xl overflow-hidden bg-secondary">
                 <img
@@ -249,6 +249,33 @@ const ProductPage = () => {
                 <ShoppingCart className="h-5 w-5 mr-2" />
                 In Winkelwagen
               </Button>
+
+              {/* Simple Add-on Upsell */}
+              <div className="bg-secondary/50 rounded-xl p-4 border border-border">
+                <p className="text-sm font-medium text-muted-foreground mb-3">Vaak samen gekocht:</p>
+                <div className="flex items-center gap-3">
+                  <img
+                    src={shrimpImage}
+                    alt="Hollandse Garnalen"
+                    className="w-14 h-14 rounded-lg object-cover flex-shrink-0"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-foreground truncate">Hollandse Garnalen</p>
+                    <p className="text-sm text-primary font-semibold">€18.95</p>
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="h-9 w-9 flex-shrink-0"
+                    onClick={() => {
+                      const garnalen = products.find(p => p.slug === "hollandse-garnalen");
+                      if (garnalen) addItem(garnalen, 1, garnalen.variants[0]?.options[0] || "");
+                    }}
+                  >
+                    <Plus className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
 
               {/* Delivery Info Bubbles */}
               <div className="grid grid-cols-3 gap-3">
