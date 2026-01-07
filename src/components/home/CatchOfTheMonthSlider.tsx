@@ -11,8 +11,8 @@ import {
 } from "@/components/ui/carousel";
 
 const CatchOfTheMonthSlider = () => {
-  // Use first 4 products as "catch of the month" for demo
-  const catchProducts = products.slice(0, 4);
+  // Use first 5 products as "catch of the month"
+  const catchProducts = products.slice(0, 5);
 
   return (
     <section className="py-8 md:py-12 bg-secondary/30">
@@ -26,22 +26,23 @@ const CatchOfTheMonthSlider = () => {
           </p>
         </div>
 
-        <Carousel
-          opts={{
-            align: "start",
-            loop: false,
-          }}
-          className="w-full"
-        >
-          <CarouselContent className="-ml-4">
-            {catchProducts.map((product) => (
-              <CarouselItem key={product.id} className="pl-4 basis-full sm:basis-1/2 lg:basis-1/4">
-                <ProductCard product={product} />
-              </CarouselItem>
-            ))}
-            
-            {/* See All Card */}
-            <CarouselItem className="pl-4 basis-full sm:basis-1/2 lg:basis-1/4">
+        <div className="!pr-0 -mr-4 sm:mr-0">
+          <Carousel
+            opts={{
+              align: "start",
+              loop: false,
+            }}
+            className="w-full !pr-0"
+          >
+            <CarouselContent className="!ml-0 sm:!ml-0 sm:ml-0 !pr-0">
+              {catchProducts.map((product, index) => (
+                <CarouselItem key={product.id} className={`${index === 0 ? 'pl-4' : 'pl-2'} sm:pl-4 basis-2/3 sm:basis-1/2 lg:basis-1/4 flex-shrink-0`}>
+                  <ProductCard product={product} />
+                </CarouselItem>
+              ))}
+              
+              {/* See All Card */}
+              <CarouselItem className="pl-3 sm:pl-4 basis-2/3 sm:basis-1/2 lg:basis-1/4 flex-shrink-0">
               <Link
                 to="/collections/catch-of-the-month"
                 className="flex flex-col items-center justify-center h-full min-h-[280px] bg-card rounded-2xl border border-border border-dashed hover:border-primary hover:bg-secondary/50 transition-all duration-300 group"
@@ -57,10 +58,11 @@ const CatchOfTheMonthSlider = () => {
                 </span>
               </Link>
             </CarouselItem>
-          </CarouselContent>
-          <CarouselPrevious className="hidden md:flex -left-4 bg-card border-border hover:bg-secondary" />
-          <CarouselNext className="hidden md:flex -right-4 bg-card border-border hover:bg-secondary" />
-        </Carousel>
+            </CarouselContent>
+            <CarouselPrevious className="hidden md:flex -left-4 bg-card border-border hover:bg-secondary" />
+            <CarouselNext className="hidden md:flex -right-4 bg-card border-border hover:bg-secondary" />
+          </Carousel>
+        </div>
       </div>
     </section>
   );

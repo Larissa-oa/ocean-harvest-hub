@@ -3,6 +3,7 @@ import { ShoppingCart, Search, Menu, User, Fish } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useCart } from "@/hooks/useCart";
+import logoImage from "@/assets/logosz.png";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -13,16 +14,23 @@ const Header = () => {
       <div className="container flex items-center justify-between h-16 md:h-20">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 group">
-          <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center shadow-soft group-hover:shadow-float transition-all duration-300">
-            <Fish className="h-5 w-5 text-primary-foreground" />
+          <img 
+            src={logoImage} 
+            alt="Schmidt Zeevis Logo" 
+            className="h-8 w-8 object-contain"
+          />
+          <div className="flex flex-col">
+            <span className="text-base sm:text-lg font-bold text-foreground">
+              SchmidtZeevis
+            </span>
+            <span className="text-[10px] font-thin text-foreground uppercase">
+              Rotterdam
+            </span>
           </div>
-          <span className="hidden sm:block text-xl font-bold text-foreground">
-            Schmidt<span className="text-primary">Zeevis</span>
-          </span>
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-12">
           <Link to="/" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
             Webwinkel
           </Link>

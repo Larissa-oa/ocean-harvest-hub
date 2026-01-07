@@ -13,8 +13,17 @@ import salmonImage from "@/assets/salmon-collection.jpg";
 import shrimpImage from "@/assets/shrimp-collection.jpg";
 import oysterImage from "@/assets/oyster-collection.jpg";
 import mackerelImage from "@/assets/mackerel-collection.jpg";
+import octopusTentaclesImage from "@/assets/octopus-tentacles.png";
+import dutchShrimpImage from "@/assets/dutch-shrimp.avif";
+import oceanParadiseImage from "@/assets/ocean-paradise.png";
+import zeebassImage from "@/assets/zeebass.avif";
+import octopusImage from "@/assets/octopus.avif";
 
 const productImages: Record<string, string[]> = {
+  "octopus-tentakels": [octopusTentaclesImage, oceanParadiseImage, octopusImage],
+  "hollandse-garnalen-fresh": [dutchShrimpImage, shrimpImage, salmonImage],
+  "ocean-paradise": [oceanParadiseImage, salmonImage, shrimpImage],
+  "zeebaars-fresh": [zeebassImage, salmonImage, mackerelImage],
   "verse-zalm-filet": [salmonImage, shrimpImage, oysterImage],
   "hollandse-garnalen": [shrimpImage, salmonImage, oysterImage],
   "zeeuwse-platte-oesters": [oysterImage, salmonImage, shrimpImage],
@@ -426,11 +435,11 @@ const ProductPage = () => {
                 align: "start",
                 loop: false,
               }}
-              className="w-full"
+              className="w-full -mx-4 sm:mx-0"
             >
-              <CarouselContent className="-ml-4">
+              <CarouselContent className="-ml-4 sm:ml-0 !pr-0">
                 {relatedProducts.map((p) => (
-                  <CarouselItem key={p.id} className="pl-4 basis-full sm:basis-1/2 lg:basis-1/4">
+                  <CarouselItem key={p.id} className="pl-4 basis-2/3 sm:basis-1/2 lg:basis-1/4">
                     <ProductCard product={p} />
                   </CarouselItem>
                 ))}

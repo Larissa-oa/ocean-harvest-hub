@@ -1,28 +1,40 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { collections } from "@/data/collections";
-import salmonImage from "@/assets/salmon-collection.jpg";
-import shrimpImage from "@/assets/shrimp-collection.jpg";
-import oysterImage from "@/assets/oyster-collection.jpg";
-import mackerelImage from "@/assets/mackerel-collection.jpg";
+import alleImage from "@/assets/collection/alle.png";
+import versevisImage from "@/assets/collection/versevis.png";
+import schalpImage from "@/assets/collection/schalp1.png";
+import kantAnKlaarImage from "@/assets/collection/kant-an-klaar.png";
+import sushiensashimiImage from "@/assets/collection/sushiensashimi.png";
+import olieenazijnImage from "@/assets/collection/olieenazijn.png";
+import specialsImage from "@/assets/collection/specials.png";
+import deliImage from "@/assets/collection/deli.png";
+import sauzenImage from "@/assets/collection/sauzen.png";
+import schotelImage from "@/assets/collection/schotel.png";
+import diepvriesImage from "@/assets/collection/diepvrie1-Photoroom.png";
+import conservenImage from "@/assets/collection/conserven.png";
+import kruidenImage from "@/assets/collection/kruiden.png";
+import merchandiseImage from "@/assets/collection/merchandise.png";
+import diversenImage from "@/assets/collection/diversen.png";
+import versevangstImage from "@/assets/collection/versevangst.png";
 
 const collectionImages: Record<string, string> = {
-  "alle-producten": salmonImage,
-  "verse-vis": salmonImage,
-  "schaal-en-schelpdieren": shrimpImage,
-  "klaar-en-klaar": oysterImage,
-  "sushi-en-sashimi": mackerelImage,
-  "olie-en-azijn": salmonImage,
-  "specials": shrimpImage,
-  "delicatessen": oysterImage,
-  "sauzen": mackerelImage,
-  "schotels": salmonImage,
-  "diepvries": shrimpImage,
-  "conserven": oysterImage,
-  "kruiden-en-specerijen": mackerelImage,
-  "merchandise": salmonImage,
-  "diversen": shrimpImage,
-  "vangst-van-de-maand": oysterImage,
+  "alle-producten": alleImage,
+  "verse-vis": versevisImage,
+  "schaal-en-schelpdieren": schalpImage,
+  "klaar-en-klaar": kantAnKlaarImage,
+  "sushi-en-sashimi": sushiensashimiImage,
+  "olie-en-azijn": olieenazijnImage,
+  "specials": specialsImage,
+  "delicatessen": deliImage,
+  "sauzen": sauzenImage,
+  "schotels": schotelImage,
+  "diepvries": diepvriesImage,
+  "conserven": conservenImage,
+  "kruiden-en-specerijen": kruidenImage,
+  "merchandise": merchandiseImage,
+  "diversen": diversenImage,
+  "vangst-van-de-maand": versevangstImage,
 };
 
 const CollectionsGrid = () => {
@@ -37,7 +49,9 @@ const CollectionsGrid = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {collections.map((collection, index) => (
+          {collections.map((collection, index) => {
+            const isSmaller = ["delicatessen", "diepvries", "conserven"].includes(collection.slug);
+            return (
             <Link
               key={collection.id}
               to={`/collections/${collection.slug}`}
@@ -49,7 +63,7 @@ const CollectionsGrid = () => {
                 {/* Abstract fluid blob background - beige/cream color */}
                 <svg 
                   viewBox="0 0 200 150" 
-                  className="absolute w-52 h-40 -left-6"
+                  className={`absolute ${isSmaller ? 'w-[12.5rem] h-[9.5rem]' : 'w-52 h-40'} -left-6`}
                   preserveAspectRatio="xMidYMid slice"
                 >
                   {/* Organic fluid blob shapes */}
@@ -69,11 +83,11 @@ const CollectionsGrid = () => {
                     className="fill-[hsl(30,30%,85%)]"
                   />
                 </svg>
-                {/* Collection image - original format, not rounded */}
+                {/* Collection image - no shadow, no border radius, slightly bigger */}
                 <img
-                  src={collectionImages[collection.slug] || salmonImage}
+                  src={collectionImages[collection.slug] || alleImage}
                   alt={collection.name}
-                  className="relative z-10 w-24 h-24 object-cover rounded-lg shadow-lg group-hover:scale-110 transition-transform duration-300"
+                  className={`relative z-10 ${isSmaller ? 'w-24 h-24' : 'w-32 h-32'} object-cover group-hover:scale-110 transition-transform duration-300`}
                 />
               </div>
 
@@ -92,7 +106,8 @@ const CollectionsGrid = () => {
                 </div>
               </div>
             </Link>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

@@ -13,6 +13,10 @@ import salmonImage from "@/assets/salmon-collection.jpg";
 import shrimpImage from "@/assets/shrimp-collection.jpg";
 import oysterImage from "@/assets/oyster-collection.jpg";
 import mackerelImage from "@/assets/mackerel-collection.jpg";
+import octopusTentaclesImage from "@/assets/octopus-tentacles.png";
+import dutchShrimpImage from "@/assets/dutch-shrimp.avif";
+import oceanParadiseImage from "@/assets/ocean-paradise.png";
+import zeebassImage from "@/assets/zeebass.avif";
 
 interface QuickAddModalProps {
   product: Product;
@@ -21,6 +25,10 @@ interface QuickAddModalProps {
 }
 
 const productImages: Record<string, string> = {
+  "octopus-tentakels": octopusTentaclesImage,
+  "hollandse-garnalen-fresh": dutchShrimpImage,
+  "ocean-paradise": oceanParadiseImage,
+  "zeebaars-fresh": zeebassImage,
   "verse-zalm-filet": salmonImage,
   "hollandse-garnalen": shrimpImage,
   "zeeuwse-platte-oesters": oysterImage,

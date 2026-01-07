@@ -22,23 +22,23 @@ const TrustSection = () => {
   return (
     <section className="py-5 bg-secondary/50 border-y border-border">
       <div className="container">
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-start sm:justify-center overflow-x-auto">
           {trustPoints.map((point, index) => (
-            <div key={point.title} className="flex items-center">
+            <div key={point.title} className="flex items-center flex-shrink-0">
               <div
-                className="flex items-center gap-3 px-6 md:px-10 animate-fade-in"
+                className="flex items-center gap-2 sm:gap-3 px-2 sm:px-4 md:px-8 lg:px-12 animate-fade-in"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                   <point.icon className="h-4 w-4 text-primary" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-sm text-foreground">{point.title}</h3>
-                  <p className="text-xs text-muted-foreground">{point.description}</p>
+                  <h3 className="font-semibold text-sm text-foreground whitespace-nowrap">{point.title}</h3>
+                  <p className="text-xs text-muted-foreground whitespace-nowrap">{point.description}</p>
                 </div>
               </div>
               {index < trustPoints.length - 1 && (
-                <div className="h-10 w-px bg-border" />
+                <div className="h-10 w-px bg-border hidden sm:block mx-2" />
               )}
             </div>
           ))}
