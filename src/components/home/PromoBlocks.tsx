@@ -20,7 +20,7 @@ const PromoBlocks = () => {
           {/* Left - Tall container */}
           <Link
             to="/collections/schaal-en-schelpdieren"
-            className="relative overflow-hidden rounded-2xl h-72 md:h-[340px] group"
+            className="relative overflow-hidden rounded-l-2xl h-72 md:h-[340px] group"
           >
             <img
               src={dealBanner1}
@@ -54,7 +54,7 @@ const PromoBlocks = () => {
           <div className="flex flex-col gap-4">
             <Link
               to="/collections/verse-vis"
-              className="relative overflow-hidden rounded-2xl h-36 md:h-[162px] group"
+              className="relative overflow-hidden rounded-r-2xl h-36 md:h-[162px] group"
             >
               <img
                 src={dealBanner2}
@@ -84,7 +84,7 @@ const PromoBlocks = () => {
 
             <Link
               to="/collections/sushi-en-sashimi"
-              className="relative overflow-hidden rounded-2xl h-36 md:h-[162px] group"
+              className="relative overflow-hidden rounded-r-2xl h-36 md:h-[162px] group"
             >
               <img
                 src={dealBanner3}
