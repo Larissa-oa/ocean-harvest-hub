@@ -54,7 +54,7 @@ const PromoBlocks = () => {
           <div className="flex flex-col gap-4 md:gap-2">
             <Link
               to="/collections/verse-vis"
-              className="relative overflow-hidden rounded-2xl md:rounded-l-none h-36 md:h-[162px] group"
+              className="relative overflow-hidden rounded-2xl md:rounded-l-none h-36 md:h-[166px] group"
             >
               <img
                 src={dealBanner2}
@@ -84,7 +84,7 @@ const PromoBlocks = () => {
 
             <Link
               to="/collections/sushi-en-sashimi"
-              className="relative overflow-hidden rounded-2xl md:rounded-l-none h-36 md:h-[162px] group"
+              className="relative overflow-hidden rounded-2xl md:rounded-l-none h-36 md:h-[166px] group"
             >
               <img
                 src={dealBanner3}
