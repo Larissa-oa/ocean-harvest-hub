@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Fish } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import heroImage from "@/assets/lobster-hero.png";
+import schmidtFishIcon from "@/assets/schmidt-fish.png";
 
 const HeroSection = () => {
   return (
@@ -38,8 +39,17 @@ const HeroSection = () => {
             </Button>
             <Button variant="outline" size="sm" className="w-auto text-xs sm:text-sm h-8 px-2 sm:h-10 sm:px-4 max-w-fit" asChild>
               <Link to="/collections/catch-of-the-month" className="flex items-center gap-1 sm:gap-2">
-                <Fish className="h-3 w-3 sm:h-4 sm:w-4" />
                 Vangst van de Maand
+                <img 
+                  src={schmidtFishIcon} 
+                  alt="Schmidt fish" 
+                  className="h-5 w-4 sm:h-5 sm:w-5 object-contain"
+                  style={{ 
+                    filter: 'brightness(0) saturate(100%) invert(27%) sepia(100%) saturate(2000%) hue-rotate(195deg) brightness(0.45) contrast(1.3)',
+                    transform: 'scaleX(-1)',
+                    opacity: 0.8
+                  }}
+                />
               </Link>
             </Button>
           </div>

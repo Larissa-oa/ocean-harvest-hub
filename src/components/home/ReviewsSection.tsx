@@ -51,9 +51,9 @@ const ReviewsSection = () => {
       </div>
       
       <div className="container relative z-10 px-4">
-        {/* Creative Header */}
+        {/* Header */}
         <div className="text-center md:text-left mb-12 max-w-md mx-auto md:mx-0 md:ml-2">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mb-3 md:mb-4 drop-shadow-lg">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mb-3 md:mb-4 -mt-10 md:mt-0 drop-shadow-lg">
             Wat onze klanten zeggen over <span className="text-primary">Schmidt Zeevis</span>
           </h2>
           <p className="hidden md:block text-muted-foreground max-w-sm mx-auto md:mx-0">
@@ -62,7 +62,7 @@ const ReviewsSection = () => {
         </div>
 
         {/* Review Cards - Slider on mobile, grid on desktop */}
-        <div className="md:hidden group -mx-4">
+        <div className="md:hidden group -mx-4 mt-24">
           <Carousel
             opts={{
               align: "start",

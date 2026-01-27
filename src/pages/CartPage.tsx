@@ -17,6 +17,7 @@ import octopusTentaclesImage from "@/assets/octopus-tentacles.png";
 import dutchShrimpImage from "@/assets/dutch-shrimp.avif";
 import oceanParadiseImage from "@/assets/ocean-paradise.png";
 import zeebassImage from "@/assets/zeebass.avif";
+import reviewIcon from "@/assets/review-icon.png";
 
 const productImages: Record<string, string> = {
   "octopus-tentakels": octopusTentaclesImage,
@@ -64,7 +65,10 @@ const CartPage = () => {
             <span className="text-foreground">Winkelwagen</span>
           </div>
 
-          <h1 className="text-3xl font-bold text-foreground mb-8">Winkelwagen</h1>
+          <h1 className="text-3xl font-bold text-foreground mb-8 flex items-center gap-3">
+            Winkelwagen
+            <img src={reviewIcon} alt="Review icon" className="h-16 w-16 object-contain -ml-4" />
+          </h1>
 
           {items.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-16 text-center">
