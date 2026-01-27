@@ -1,16 +1,25 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { X, Plus, Minus, Trash2, ShoppingBag, Package, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useCart } from "@/hooks/useCart";
-import { products } from "@/data/collections";
-import { useEffect } from "react";
+import { products, Product } from "@/data/collections";
+import QuickAddModal from "@/components/products/QuickAddModal";
 import salmonImage from "@/assets/salmon-collection.jpg";
 import shrimpImage from "@/assets/shrimp-collection.jpg";
 import oysterImage from "@/assets/oyster-collection.jpg";
 import mackerelImage from "@/assets/mackerel-collection.jpg";
+import octopusTentaclesImage from "@/assets/octopus-tentacles.png";
+import dutchShrimpImage from "@/assets/dutch-shrimp.avif";
+import oceanParadiseImage from "@/assets/ocean-paradise.png";
+import zeebassImage from "@/assets/zeebass.avif";
 
 const productImages: Record<string, string> = {
+  "octopus-tentakels": octopusTentaclesImage,
+  "hollandse-garnalen-fresh": dutchShrimpImage,
+  "ocean-paradise": oceanParadiseImage,
+  "zeebaars-fresh": zeebassImage,
   "verse-zalm-filet": salmonImage,
   "hollandse-garnalen": shrimpImage,
   "zeeuwse-platte-oesters": oysterImage,
@@ -31,9 +40,13 @@ const CartDrawer = () => {
     addItem
   } = useCart();
 
-  // Get upsell products (products not in cart)
+  const [selectedUpsellProduct, setSelectedUpsellProduct] = useState<Product | null>(null);
+
+  // Get upsell products (products not in cart) - shuffled for variety
   const cartProductIds = items.map(item => item.product.id);
-  const upsellProducts = products.filter(p => !cartProductIds.includes(p.id)).slice(0, 3);
+  const availableProducts = products.filter(p => !cartProductIds.includes(p.id));
+  const shuffled = [...availableProducts].sort(() => Math.random() - 0.5);
+  const upsellProducts = shuffled.slice(0, 3);
 
   // Prevent body scroll when cart drawer is open
   useEffect(() => {
@@ -170,10 +183,7 @@ const CartDrawer = () => {
                         <Button
                           size="sm"
                           variant="outline"
-                          onClick={() => {
-                            const defaultOption = product.variants[0]?.options[0] || "";
-                            addItem(product, 1, defaultOption);
-                          }}
+                          onClick={() => setSelectedUpsellProduct(product)}
                         >
                           <Plus className="h-4 w-4" />
                         </Button>
@@ -213,6 +223,15 @@ const CartDrawer = () => {
           </div>
         )}
       </div>
+      
+      {/* Quick Add Modal for Upsell Products */}
+      {selectedUpsellProduct && (
+        <QuickAddModal
+          product={selectedUpsellProduct}
+          isOpen={!!selectedUpsellProduct}
+          onClose={() => setSelectedUpsellProduct(null)}
+        />
+      )}
     </>
   );
 };

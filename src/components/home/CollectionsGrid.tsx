@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { collections } from "@/data/collections";
+import { Button } from "@/components/ui/button";
 import alleImage from "@/assets/collection/alle.png";
 import versevisImage from "@/assets/collection/versevis.png";
 import schalpImage from "@/assets/collection/schalp1.png";
@@ -41,69 +42,74 @@ const CollectionsGrid = () => {
   return (
     <section className="py-8 md:py-16">
       <div className="container">
-        <div className="mb-6 text-center md:text-left">
-          <h2 className="text-2xl md:text-3xl font-bold text-foreground">Onze Collecties</h2>
-          <p className="text-muted-foreground mt-1">Ontdek ons assortiment verse vis en zeevruchten</p>
+        {/* Section Header */}
+        <div className="text-center mb-10 md:mb-14">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mb-2 md:mb-3">
+            Onze Categorieën
+          </h2>
+          <p className="text-muted-foreground max-w-xl mx-auto">
+            Ontdek ons uitgebreide assortiment verse vis en zeevruchten
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Collections Grid - 4 columns, bigger cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
           {collections.map((collection, index) => {
-            const isSmaller = ["delicatessen", "diepvries", "conserven"].includes(collection.slug);
             return (
-            <Link
-              key={collection.id}
-              to={`/collections/${collection.slug}`}
-              className="group flex items-center bg-card rounded-xl overflow-hidden border-l-[6px] border-l-primary border border-border hover:shadow-lg transition-all duration-300 animate-fade-in h-32"
-              style={{ animationDelay: `${index * 50}ms` }}
-            >
-              {/* Abstract blob with collection image */}
-              <div className="w-24 md:w-40 h-full flex-shrink-0 relative flex items-center justify-center overflow-visible">
-                {/* Abstract fluid blob background - beige/cream color */}
-                <svg 
-                  viewBox="0 0 200 150" 
-                  className={`absolute ${isSmaller ? 'w-[7rem] md:w-[12.5rem] h-[6rem] md:h-[9.5rem]' : 'w-32 md:w-52 h-28 md:h-40'} -left-4 md:-left-6`}
-                  preserveAspectRatio="xMidYMid slice"
-                >
-                  {/* Organic fluid blob shapes */}
-                  <path 
-                    d="M30,75 Q10,40 50,25 Q90,5 130,30 Q170,55 160,85 Q150,115 110,125 Q70,135 40,110 Q10,90 30,75 Z" 
-                    className="fill-[hsl(35,40%,92%)]"
-                  />
-                  <path 
-                    d="M45,70 Q25,45 60,35 Q100,20 135,45 Q165,65 150,90 Q135,115 95,118 Q55,120 35,95 Q20,75 45,70 Z" 
-                    className="fill-[hsl(35,35%,88%)]"
-                  />
-                  <ellipse 
-                    cx="95" 
-                    cy="75" 
-                    rx="55" 
-                    ry="40" 
-                    className="fill-[hsl(30,30%,85%)]"
-                  />
-                </svg>
-                {/* Collection image - no shadow, no border radius, smaller on mobile */}
-                <img
-                  src={collectionImages[collection.slug] || alleImage}
-                  alt={collection.name}
-                  className={`relative z-10 ${isSmaller ? 'w-16 h-16 md:w-24 md:h-24' : 'w-20 h-20 md:w-32 md:h-32'} object-cover group-hover:scale-110 transition-transform duration-300`}
-                />
-              </div>
+              <Link
+                key={collection.id}
+                to={`/collections/${collection.slug}`}
+                className="group relative animate-fade-in"
+                style={{ animationDelay: `${index * 50}ms` }}
+              >
+                <div className="relative rounded-2xl overflow-hidden transition-all duration-300 bg-card border border-border/30 hover:border-primary/40 shadow-sm hover:shadow-md">
+                  {/* Card content */}
+                  <div className="p-4 md:p-6">
+                    {/* Product image with circular accent - fixed height for all */}
+                    <div className="relative h-44 md:h-[240px] flex items-center justify-center mb-2 md:mb-3">
+                      {/* Circular accent behind product - same size for all */}
+                      <div 
+                        className="absolute rounded-full bg-primary/20 transition-all duration-300 w-[100px] h-[100px] md:w-[200px] md:h-[200px] group-hover:w-[110px] group-hover:h-[110px] md:group-hover:w-[210px] md:group-hover:h-[210px]"
+                      />
+                      
+                      {/* Product image */}
+                      <img
+                        src={collectionImages[collection.slug] || alleImage}
+                        alt={collection.name}
+                        className={`relative z-10 w-auto object-contain drop-shadow-lg group-hover:scale-110 transition-transform duration-300 ${
+                          collection.slug === "verse-vis" || collection.slug === "alle-producten" || collection.slug === "diepvries" || collection.slug === "conserven"
+                            ? "h-28 md:h-[140px]"
+                            : "h-48 md:h-[240px]"
+                        }`}
+                      />
+                    </div>
 
-              {/* Content */}
-              <div className="flex-1 flex items-center justify-between px-3 md:px-4 py-3 min-w-0">
-                <div className="min-w-0 flex-1 pr-2">
-                  <h3 className="font-bold text-base md:text-xl lg:text-2xl text-foreground group-hover:text-primary transition-colors break-words">
-                    {collection.name}
-                  </h3>
-                  <p className="text-xs md:text-sm text-muted-foreground mt-0.5">{collection.productCount} producten</p>
-                </div>
-                <div className="flex-shrink-0 hidden md:block ml-4">
-                  <div className="w-10 h-10 rounded-full bg-secondary group-hover:bg-primary flex items-center justify-center transition-colors">
-                    <ArrowRight className="h-5 w-5 text-primary group-hover:text-primary-foreground transition-colors" />
+                    {/* Collection info */}
+                    <div className="text-center">
+                      <h3 className="text-base md:text-lg lg:text-xl mb-2 md:mb-3 text-foreground group-hover:text-primary transition-colors font-bold">
+                        {collection.name}
+                      </h3>
+                      
+                      {/* CTA Button */}
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="gap-2 group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary transition-all text-xs md:text-sm border-primary/50 text-primary"
+                      >
+                        Bekijk collectie
+                        <ArrowRight className="h-3 w-3 md:h-3.5 md:w-3.5" />
+                      </Button>
+                    </div>
+
+                    {/* Hover - Product count */}
+                    <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <span className="px-2.5 py-1 rounded-full bg-primary/20 text-primary text-xs font-medium">
+                        {collection.productCount} producten
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Link>
+              </Link>
             );
           })}
         </div>

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Flame } from "lucide-react";
 import dealBanner1 from "@/assets/banner/dealbanner6.png";
-import dealBanner2 from "@/assets/banner/dealbanner5.png";
+import dealBanner2 from "@/assets/banner/dealbanner8.png";
 import dealBanner3 from "@/assets/banner/dealbanner3.png";
 import dealBanner4 from "@/assets/banner/dealbanner4.png";
 
@@ -11,9 +11,8 @@ const PromoBlocks = () => {
     <section className="py-8 md:py-16">
       <div className="container">
         <div className="flex items-center justify-center md:justify-start gap-2 mb-5 pt-4 md:pt-6">
-          <Flame className="h-6 w-6 text-accent" />
           <h2 className="text-2xl md:text-3xl font-bold text-foreground">
-            Hete Deals
+          Unieke Visbeleving
           </h2>
         </div>
         
@@ -30,18 +29,13 @@ const PromoBlocks = () => {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-foreground/20 to-transparent" />
             
-            {/* Discount tag */}
-            <div className="absolute top-4 right-4 px-3 py-1.5 rounded-full bg-accent text-accent-foreground font-bold text-sm shadow-lg">
-              -20% Korting
-            </div>
-            
             <div className="relative h-full flex flex-col justify-end p-5">
               <div className="max-w-md">
                 <h3 className="text-xl md:text-2xl font-bold text-white mb-2">
                   Kreeft & Schelpdieren
                 </h3>
-                <p className="text-sm text-white/90 mb-3">
-                  Ontdek onze premium selectie van verse kreeft, krab en schelpdieren
+                <p className="text-sm text-white/90 mb-3 w-3/4">
+                Ontdek onze exclusieve selectie van dagverse kreeft, krab en schelpdieren.
                 </p>
                 <Button variant="secondary" size="sm" className="self-start group-hover:bg-white transition-colors">
                   Bekijk Collectie
@@ -66,13 +60,13 @@ const PromoBlocks = () => {
               
               <div className="relative h-full flex flex-col justify-end p-4">
                 <h3 className="text-lg md:text-xl font-bold text-white mb-1">
-                  Verse Vis van de Dag
+                  Verse Vis
                 </h3>
-                <p className="text-xs text-white/90 mb-2 max-w-xs">
-                  Dagelijks verse vis, direct van de markt
+                <p className="text-sm text-white/90 mb-2 max-w-xs">
+                Een zorgvuldig geselecteerde keuze van dagverse vis.
                 </p>
                 <Button variant="secondary" size="sm" className="self-start text-xs h-8 group-hover:bg-white transition-colors">
-                  Shop Nu
+                  Ontdek Meer
                   <ArrowRight className="h-3 w-3 ml-1" />
                 </Button>
               </div>
@@ -93,8 +87,8 @@ const PromoBlocks = () => {
                 <h3 className="text-lg md:text-xl font-bold text-white mb-1">
                   Sushi & Sashimi Kwaliteit
                 </h3>
-                <p className="text-xs text-white/90 mb-2 max-w-xs">
-                  Premium vis voor de beste sushi thuis
+                <p className="text-sm text-white/90 mb-2 max-w-xs">
+                  Premium kwaliteit vis, perfect voor sushi en sashimi thuis.
                 </p>
                 <Button variant="secondary" size="sm" className="self-start text-xs h-8 group-hover:bg-white transition-colors">
                   Ontdek Meer

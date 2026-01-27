@@ -6,7 +6,6 @@ import PromoBlocks from "@/components/home/PromoBlocks";
 import CollectionsGrid from "@/components/home/CollectionsGrid";
 import CatchOfTheMonthSlider from "@/components/home/CatchOfTheMonthSlider";
 import ReviewsSection from "@/components/home/ReviewsSection";
-import InstagramSection from "@/components/home/InstagramSection";
 
 const Index = () => {
   return (
@@ -19,7 +18,6 @@ const Index = () => {
         <CollectionsGrid />
         <CatchOfTheMonthSlider />
         <ReviewsSection />
-        <InstagramSection />
       </main>
       <Footer />
     </div>

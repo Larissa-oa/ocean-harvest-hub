@@ -1,20 +1,30 @@
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
-import { Search, ChevronDown, ChevronUp, Filter, X, Euro, Calendar, Grid3X3, Check, Ban, Fish } from "lucide-react";
+import { useParams, Link, useSearchParams } from "react-router-dom";
+import { Search, ChevronDown, ChevronUp, Filter, X, Euro, Calendar, Grid3X3, Check, Ban } from "lucide-react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import ProductCard from "@/components/products/ProductCard";
+import WaveDivider from "@/components/ui/WaveDivider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
 import { collections, products, getCollectionBySlug } from "@/data/collections";
+import schmidtFishImage from "@/assets/schmidt-fish.png";
 
 const CollectionPage = () => {
   const { slug } = useParams<{ slug: string }>();
+  const [searchParams] = useSearchParams();
   const collection = getCollectionBySlug(slug || "");
   
-  const [searchQuery, setSearchQuery] = useState("");
+  // Get search query from URL params
+  const urlSearchQuery = searchParams.get("search") || "";
+  const [searchQuery, setSearchQuery] = useState(urlSearchQuery);
+  
+  // Update search query when URL param changes
+  useEffect(() => {
+    setSearchQuery(urlSearchQuery);
+  }, [urlSearchQuery]);
   const [priceRange, setPriceRange] = useState([0, 100]);
   const [minPriceInput, setMinPriceInput] = useState("0");
   const [maxPriceInput, setMaxPriceInput] = useState("100");
@@ -94,15 +104,16 @@ const CollectionPage = () => {
         </div>
         
         {/* Header */}
-        <div className="border-b border-border bg-secondary/50">
-          <div className="container pt-6 pb-5">
-            <h1 className="text-3xl md:text-4xl font-bold text-foreground">
+        <div style={{ backgroundColor: 'hsl(195, 70%, 28%, 0.3)' }}>
+          <div className="container pt-4 pb-6">
+            <h1 className="text-3xl md:text-5xl font-bold pt-4" style={{ color: 'hsl(200, 50%, 10%)' }}>
               {collection?.name || "Alle Producten"}
             </h1>
             {collection && (
-              <p className="text-muted-foreground mt-2">{collection.description}</p>
+              <p className="mt-2 mb-3" style={{ color: 'hsl(200, 50%, 10%, 0.7)' }}>{collection.description}</p>
             )}
           </div>
+          <WaveDivider />
         </div>
 
         <div className="container pb-8 pt-6">
@@ -207,20 +218,24 @@ const CollectionPage = () => {
                     </h3>
                     <div className="space-y-3">
                       {[
-                        { value: "available", label: "Beschikbaar", icon: Check },
-                        { value: "in-season", label: "In Seizoen", icon: Fish },
-                        { value: "unavailable", label: "Niet Beschikbaar", icon: Ban },
+                        { value: "in-season", label: "In Seizoen", icon: null, isFish: true, colorClass: "text-success", bgClass: "bg-success/10", borderClass: "border-l-success" },
+                        { value: "available", label: "Beschikbaar", icon: Check, isFish: false, colorClass: "text-primary", bgClass: "bg-secondary", borderClass: "border-l-primary" },
+                        { value: "unavailable", label: "Seizoensgebonden", icon: Ban, isFish: false, colorClass: "text-muted-foreground", bgClass: "bg-muted/50", borderClass: "border-l-muted" },
                       ].map((option) => (
                         <label
                           key={option.value}
-                          className="flex items-center gap-3 cursor-pointer group"
+                          className={`flex items-center gap-3 cursor-pointer group rounded-lg p-2 border-l-4 ${option.borderClass} ${option.bgClass} transition-all`}
                         >
                           <Checkbox
                             checked={seasonalityFilters.includes(option.value)}
                             onCheckedChange={() => toggleSeasonality(option.value)}
                           />
-                          <span className="text-sm text-foreground group-hover:text-primary transition-colors flex items-center gap-2">
-                            <option.icon className="h-3.5 w-3.5 text-muted-foreground" />
+                          <span className={`text-sm font-medium flex items-center gap-2 ${option.colorClass}`}>
+                            {option.isFish ? (
+                              <img src={schmidtFishImage} alt="In seizoen" className="h-3.5 w-3.5" style={{ filter: 'brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(106deg) brightness(0.7) contrast(1.2)' }} />
+                            ) : (
+                              <option.icon className={`h-3.5 w-3.5 ${option.colorClass}`} />
+                            )}
                             {option.label}
                           </span>
                         </label>

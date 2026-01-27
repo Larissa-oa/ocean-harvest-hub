@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Plus, Minus, Trash2, ShoppingBag, Package, ArrowRight, Truck, ShoppingCart } from "lucide-react";
 import Header from "@/components/layout/Header";
@@ -6,13 +7,22 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { useCart } from "@/hooks/useCart";
-import { products } from "@/data/collections";
+import { products, Product } from "@/data/collections";
+import QuickAddModal from "@/components/products/QuickAddModal";
 import salmonImage from "@/assets/salmon-collection.jpg";
 import shrimpImage from "@/assets/shrimp-collection.jpg";
 import oysterImage from "@/assets/oyster-collection.jpg";
 import mackerelImage from "@/assets/mackerel-collection.jpg";
+import octopusTentaclesImage from "@/assets/octopus-tentacles.png";
+import dutchShrimpImage from "@/assets/dutch-shrimp.avif";
+import oceanParadiseImage from "@/assets/ocean-paradise.png";
+import zeebassImage from "@/assets/zeebass.avif";
 
 const productImages: Record<string, string> = {
+  "octopus-tentakels": octopusTentaclesImage,
+  "hollandse-garnalen-fresh": dutchShrimpImage,
+  "ocean-paradise": oceanParadiseImage,
+  "zeebaars-fresh": zeebassImage,
   "verse-zalm-filet": salmonImage,
   "hollandse-garnalen": shrimpImage,
   "zeeuwse-platte-oesters": oysterImage,
@@ -31,11 +41,16 @@ const CartPage = () => {
     addItem
   } = useCart();
 
-  const cartProductIds = items.map(item => item.product.id);
-  const upsellProducts = products.filter(p => !cartProductIds.includes(p.id)).slice(0, 4);
+  const [selectedUpsellProduct, setSelectedUpsellProduct] = useState<Product | null>(null);
 
-  const shippingCost = cartTotal >= 50 ? 0 : 6.95;
-  const freeShippingRemaining = Math.max(0, 50 - cartTotal);
+  const cartProductIds = items.map(item => item.product.id);
+  // Shuffle and get varied upsell products
+  const availableProducts = products.filter(p => !cartProductIds.includes(p.id));
+  const shuffled = [...availableProducts].sort(() => Math.random() - 0.5);
+  const upsellProducts = shuffled.slice(0, 4);
+
+  const shippingCost = cartTotal >= 200 ? 0 : 6.95;
+  const freeShippingRemaining = Math.max(0, 200 - cartTotal);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -78,7 +93,7 @@ const CartPage = () => {
                       <div className="w-full bg-border rounded-full h-2 mt-2">
                         <div 
                           className="bg-primary h-2 rounded-full transition-all"
-                          style={{ width: `${Math.min(100, (cartTotal / 50) * 100)}%` }}
+                          style={{ width: `${Math.min(100, (cartTotal / 200) * 100)}%` }}
                         />
                       </div>
                     </div>
@@ -221,10 +236,7 @@ const CartPage = () => {
                             <Button
                               size="sm"
                               variant="secondary"
-                              onClick={() => {
-                                const defaultOption = product.variants[0]?.options[0] || "";
-                                addItem(product, 1, defaultOption);
-                              }}
+                              onClick={() => setSelectedUpsellProduct(product)}
                             >
                               <Plus className="h-4 w-4" />
                             </Button>
@@ -242,6 +254,15 @@ const CartPage = () => {
         </div>
       </main>
       <Footer />
+      
+      {/* Quick Add Modal for Upsell Products */}
+      {selectedUpsellProduct && (
+        <QuickAddModal
+          product={selectedUpsellProduct}
+          isOpen={!!selectedUpsellProduct}
+          onClose={() => setSelectedUpsellProduct(null)}
+        />
+      )}
     </div>
   );
 };

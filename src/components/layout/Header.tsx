@@ -1,19 +1,33 @@
-import { Link } from "react-router-dom";
-import { ShoppingCart, Search, Menu, User, Fish, Clock } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { ShoppingCart, Search, Menu, User, Fish, Clock, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { useCart } from "@/hooks/useCart";
-import logoImage from "@/assets/logosz.png";
+import logoImage from "@/assets/black-logo.png";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const { cartCount, setIsCartOpen } = useCart();
+  const navigate = useNavigate();
 
   // Check if shop is open (Mon-Sat 8:00-18:00)
   const now = new Date();
   const day = now.getDay();
   const hour = now.getHours();
   const isOpen = day >= 1 && day <= 6 && hour >= 8 && hour < 18;
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/collections/alle-producten?search=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchQuery("");
+      setIsSearchOpen(false);
+      setIsMenuOpen(false);
+    }
+  };
 
   return (
     <header className="sticky top-0 z-50">
@@ -37,16 +51,8 @@ const Header = () => {
           <img 
             src={logoImage} 
             alt="Schmidt Zeevis Logo" 
-            className="h-8 w-8 object-contain"
+            className="h-12 md:h-16 object-contain"
           />
-          <div className="flex flex-col">
-            <span className="text-base sm:text-lg font-bold text-foreground">
-              SchmidtZeevis
-            </span>
-            <span className="text-[10px] font-thin text-foreground uppercase">
-              Rotterdam
-            </span>
-          </div>
         </Link>
 
         {/* Desktop Navigation */}
@@ -67,9 +73,19 @@ const Header = () => {
 
         {/* Actions */}
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" className="hidden sm:flex">
-            <Search className="h-5 w-5" />
-          </Button>
+          {/* Desktop Search */}
+          <form onSubmit={handleSearch} className="hidden sm:flex items-center gap-2">
+            <div className="relative">
+              <Input
+                type="text"
+                placeholder="Zoek producten..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-64 pl-10 pr-4"
+              />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            </div>
+          </form>
           <Button variant="ghost" size="icon" className="hidden sm:flex">
             <User className="h-5 w-5" />
           </Button>
@@ -86,6 +102,15 @@ const Header = () => {
               </span>
             )}
           </Button>
+          {/* Mobile Search Toggle */}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="sm:hidden"
+            onClick={() => setIsSearchOpen(!isSearchOpen)}
+          >
+            {isSearchOpen ? <X className="h-5 w-5" /> : <Search className="h-5 w-5" />}
+          </Button>
           <Button
             variant="ghost"
             size="icon"
@@ -97,25 +122,72 @@ const Header = () => {
         </div>
       </div>
 
+      {/* Mobile Search Bar */}
+      <div 
+        className={`md:hidden bg-card border-t border-border overflow-hidden transition-all duration-300 ease-in-out ${
+          isSearchOpen ? 'max-h-32 opacity-100' : 'max-h-0 opacity-0 border-t-0'
+        }`}
+      >
+        <div className="container py-4">
+          <form onSubmit={handleSearch}>
+            <div className="relative">
+              <Input
+                type="text"
+                placeholder="Zoek producten..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-10 pr-4"
+                autoFocus={isSearchOpen}
+              />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            </div>
+          </form>
+        </div>
+      </div>
+
       {/* Mobile Menu */}
-      {isMenuOpen && (
-        <div className="md:hidden bg-card border-t border-border animate-fade-in">
-          <nav className="container py-4 flex flex-col gap-2">
-            <Link to="/" className="py-2 px-4 rounded-lg hover:bg-secondary transition-colors">
+      <div 
+        className={`md:hidden bg-card border-t border-border overflow-hidden transition-all duration-300 ease-in-out ${
+          isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 border-t-0'
+        }`}
+      >
+        <div className="container py-6">
+          <nav className="flex flex-col gap-1">
+            <Link 
+              to="/" 
+              className="py-3 px-4 rounded-xl hover:bg-secondary/50 transition-all duration-200 font-medium text-foreground hover:text-primary flex items-center gap-3 group"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity"></span>
               Webwinkel
             </Link>
-            <Link to="/collections/alle-producten" className="py-2 px-4 rounded-lg hover:bg-secondary transition-colors">
+            <Link 
+              to="/collections/alle-producten" 
+              className="py-3 px-4 rounded-xl hover:bg-secondary/50 transition-all duration-200 font-medium text-foreground hover:text-primary flex items-center gap-3 group"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity"></span>
               Alle producten
             </Link>
-            <Link to="/collections/vangst-van-de-maand" className="py-2 px-4 rounded-lg hover:bg-secondary transition-colors">
+            <Link 
+              to="/collections/vangst-van-de-maand" 
+              className="py-3 px-4 rounded-xl hover:bg-secondary/50 transition-all duration-200 font-medium text-foreground hover:text-primary flex items-center gap-3 group"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity"></span>
               Verse vangst
             </Link>
-            <Link to="/collections/verse-vis" className="py-2 px-4 rounded-lg hover:bg-secondary transition-colors">
+            <Link 
+              to="/collections/verse-vis" 
+              className="py-3 px-4 rounded-xl hover:bg-secondary/50 transition-all duration-200 font-medium text-foreground hover:text-primary flex items-center gap-3 group"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity"></span>
               Verse vis
             </Link>
           </nav>
         </div>
-      )}
+      </div>
       </div>
     </header>
   );

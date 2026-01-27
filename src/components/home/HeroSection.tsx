@@ -11,7 +11,8 @@ const HeroSection = () => {
         <img
           src={heroImage}
           alt="Fresh seafood"
-          className="w-full h-full object-cover object-center"
+          className="w-full h-full object-cover"
+          style={{ objectPosition: 'left center' }}
         />
         <div className="absolute inset-0 bg-background/25" />
       </div>
@@ -24,7 +25,7 @@ const HeroSection = () => {
             <span className="text-primary">zeevruchten</span>
           </h1>
           
-          <p className="text-sm sm:text-base text-muted-foreground sm:max-w-md">
+          <p className="text-sm sm:text-base text-muted-foreground sm:max-w-sm">
             Verse vis en zeevruchten direct van Nederlandse vissers.
           </p>
           

@@ -15,7 +15,7 @@ const CatchOfTheMonthSlider = () => {
   const catchProducts = products.slice(0, 5);
 
   return (
-    <section className="py-8 md:py-16 bg-secondary/30">
+    <section className="pt-8 md:pt-16 pb-12 md:pb-40 bg-secondary/30">
       <div className="container">
         <div className="mb-6 text-center md:text-left">
           <h2 className="text-2xl md:text-3xl font-bold text-foreground">
@@ -36,13 +36,13 @@ const CatchOfTheMonthSlider = () => {
           >
             <CarouselContent className="!ml-0 sm:!ml-0 sm:ml-0 !pr-0">
               {catchProducts.map((product, index) => (
-                <CarouselItem key={product.id} className={`${index === 0 ? 'pl-4' : 'pl-2'} sm:pl-4 basis-2/3 sm:basis-1/2 lg:basis-1/4 flex-shrink-0`}>
+                <CarouselItem key={product.id} className={`${index === 0 ? 'pl-4' : 'pl-2'} sm:pl-4 basis-2/3 sm:basis-1/2 lg:basis-[22.22%] flex-shrink-0`}>
                   <ProductCard product={product} />
                 </CarouselItem>
               ))}
               
               {/* See All Card */}
-              <CarouselItem className="pl-3 sm:pl-4 basis-2/3 sm:basis-1/2 lg:basis-1/4 flex-shrink-0">
+              <CarouselItem className="pl-3 sm:pl-4 basis-2/3 sm:basis-1/2 lg:basis-[22.22%] flex-shrink-0">
               <Link
                 to="/collections/catch-of-the-month"
                 className="flex flex-col items-center justify-center h-full min-h-[280px] bg-card rounded-2xl border border-border border-dashed hover:border-primary hover:bg-secondary/50 transition-all duration-300 group"

@@ -26,6 +26,13 @@ export const collections: Collection[] = [
   { id: "16", name: "Vangst van de Maand", slug: "vangst-van-de-maand", description: "De versste vis van dit seizoen", image: "/catch", productCount: 8 },
 ];
 
+export interface Recipe {
+  title: string;
+  ingredients: string[];
+  instructions: string[];
+  usedProducts?: string[]; // Array of product slugs
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -45,6 +52,7 @@ export interface Product {
   allergens: string[];
   nutritionalInfo: { name: string; value: string }[];
   seasonCalendar: { month: string; status: "available" | "in-season" | "unavailable" }[];
+  recipes?: Recipe[];
 }
 
 const defaultSeasonCalendar = [
@@ -87,6 +95,56 @@ export const products: Product[] = [
       { name: "Omega-3", value: "0.4g per 100g" },
     ],
     seasonCalendar: defaultSeasonCalendar,
+    recipes: [
+      {
+        title: "Mediterrane Octopus Salade",
+        ingredients: [
+          "500g octopus tentakels",
+          "200g verse zalm filet",
+          "200g Hollandse garnalen",
+          "1 rode paprika",
+          "1 gele paprika",
+          "1 rode ui",
+          "50g zwarte olijven",
+          "2 eetlepels olijfolie",
+          "1 citroen",
+          "Verse basilicum",
+          "Zout en peper"
+        ],
+        instructions: [
+          "Kook de octopus tentakels 30 minuten in gezouten water tot ze zacht zijn.",
+          "Laat de octopus afkoelen en snijd in plakjes.",
+          "Grill de zalm filet en snijd in blokjes.",
+          "Snijd de paprika's en rode ui in dunne reepjes.",
+          "Meng alle ingrediënten in een grote schaal.",
+          "Maak een dressing van olijfolie, citroensap, zout en peper.",
+          "Serveer met verse basilicum."
+        ],
+        usedProducts: ["verse-zalm-filet", "hollandse-garnalen-fresh"]
+      },
+      {
+        title: "Gegrilde Octopus met Aioli",
+        ingredients: [
+          "500g octopus tentakels",
+          "200g Hollandse garnalen",
+          "1 zeebaars (450g)",
+          "3 teentjes knoflook",
+          "200ml mayonaise",
+          "1 citroen",
+          "Verse peterselie",
+          "Olijfolie",
+          "Zout en peper"
+        ],
+        instructions: [
+          "Kook de octopus tentakels 25 minuten tot ze zacht zijn.",
+          "Maak de aioli door knoflook te persen en te mengen met mayonaise en citroensap.",
+          "Grill de octopus tentakels 3-4 minuten per kant op hoge temperatuur.",
+          "Serveer met de aioli en bestrooi met verse peterselie.",
+          "Druppel wat olijfolie erover."
+        ],
+        usedProducts: ["hollandse-garnalen-fresh", "zeebaars-fresh"]
+      },
+    ],
   },
   {
     id: "30",
@@ -111,6 +169,56 @@ export const products: Product[] = [
       { name: "Omega-3", value: "0.3g per 100g" },
     ],
     seasonCalendar: defaultSeasonCalendar,
+    recipes: [
+      {
+        title: "Garnaal Pasta",
+        ingredients: [
+          "200g Hollandse garnalen",
+          "200g verse zalm filet",
+          "300g spaghetti",
+          "3 teentjes knoflook",
+          "1 rode peper",
+          "Verse peterselie",
+          "Olijfolie",
+          "Witte wijn",
+          "Zout en peper"
+        ],
+        instructions: [
+          "Kook de spaghetti volgens de aanwijzingen op de verpakking.",
+          "Fruit knoflook en rode peper aan in olijfolie.",
+          "Voeg de garnalen toe en bak 2 minuten.",
+          "Schenk een scheutje witte wijn erbij.",
+          "Meng de pasta met de garnaal saus.",
+          "Bestrooi met verse peterselie.",
+          "Serveer direct."
+        ],
+        usedProducts: ["verse-zalm-filet"]
+      },
+      {
+        title: "Garnaal Salade met Avocado",
+        ingredients: [
+          "200g Hollandse garnalen",
+          "1 zeebaars (450g)",
+          "1 rijpe avocado",
+          "1 komkommer",
+          "1 tomaat",
+          "Rode ui",
+          "Verse dille",
+          "Olijfolie",
+          "Citroensap",
+          "Zout en peper"
+        ],
+        instructions: [
+          "Snijd de avocado, komkommer en tomaat in blokjes.",
+          "Snijd de rode ui in dunne ringen.",
+          "Meng alle groenten met de garnalen.",
+          "Maak een dressing van olijfolie, citroensap, zout en peper.",
+          "Voeg verse dille toe.",
+          "Serveer als lichte lunch of voorgerecht."
+        ],
+        usedProducts: ["zeebaars-fresh"]
+      }
+    ],
   },
   {
     id: "31",
@@ -160,6 +268,99 @@ export const products: Product[] = [
       { name: "Omega-3", value: "0.6g per 100g" },
     ],
     seasonCalendar: defaultSeasonCalendar,
+    recipes: [
+      {
+        title: "Zeebaars in Zoutkorst",
+        ingredients: [
+          "1 zeebaars (450g)",
+          "200g Hollandse garnalen",
+          "1kg grof zeezout",
+          "3 eiwitten",
+          "Verse tijm",
+          "Citroen",
+          "Olijfolie"
+        ],
+        instructions: [
+          "Verwarm de oven voor op 200°C.",
+          "Meng het zout met de eiwitten tot een stevige massa.",
+          "Leg de zeebaars op een bakplaat.",
+          "Bedek de vis volledig met de zoutmassa.",
+          "Bak 25-30 minuten in de oven.",
+          "Breek de zoutkorst open en verwijder de huid.",
+          "Serveer met citroen en olijfolie."
+        ],
+        usedProducts: ["hollandse-garnalen-fresh"]
+      },
+      {
+        title: "Gegrilde Zeebaars met Citroen",
+        ingredients: [
+          "1 zeebaars (450g)",
+          "500g octopus tentakels",
+          "2 citroenen",
+          "Verse rozemarijn",
+          "Olijfolie",
+          "Knoflook",
+          "Zout en peper"
+        ],
+        instructions: [
+          "Maak inkepingen in de zeebaars.",
+          "Wrijf de vis in met olijfolie, knoflook, rozemarijn, zout en peper.",
+          "Grill de zeebaars 6-8 minuten per kant.",
+          "Knijp citroensap over de vis.",
+          "Serveer met partjes citroen.",
+          "Garneer met verse rozemarijn."
+        ],
+        usedProducts: ["octopus-tentakels"]
+      },
+      {
+        title: "Zeebaars met Groenten uit de Oven",
+        ingredients: [
+          "1 zeebaars (450g)",
+          "200g Hollandse garnalen",
+          "500g octopus tentakels",
+          "2 courgettes",
+          "2 paprika's",
+          "1 ui",
+          "Knoflook",
+          "Olijfolie",
+          "Verse tijm",
+          "Zout en peper"
+        ],
+        instructions: [
+          "Verwarm de oven voor op 180°C.",
+          "Snijd alle groenten in stukken.",
+          "Leg de groenten in een ovenschaal.",
+          "Leg de zeebaars bovenop de groenten.",
+          "Besprenkel met olijfolie en kruid met tijm, zout en peper.",
+          "Bak 25-30 minuten in de oven.",
+          "Serveer direct uit de oven."
+        ],
+        usedProducts: ["hollandse-garnalen-fresh", "octopus-tentakels"]
+      },
+      {
+        title: "Zeebaars met Verse Zalm en Groenten",
+        ingredients: [
+          "1 zeebaars (450g)",
+          "200g verse zalm filet",
+          "Cherrytomaatjes",
+          "Sperziebonen",
+          "Knoflook",
+          "Olijfolie",
+          "Witte wijn",
+          "Zout en peper"
+        ],
+        instructions: [
+          "Snijd de zalm in blokjes.",
+          "Bak de zeebaars aan in een pan met olijfolie.",
+          "Voeg cherrytomaatjes en sperziebonen toe.",
+          "Voeg de zalmblokjes toe en schenk witte wijn erbij.",
+          "Laat 10 minuten zachtjes stoven.",
+          "Kruid met knoflook, zout en peper.",
+          "Serveer direct."
+        ],
+        usedProducts: ["verse-zalm-filet"]
+      }
+    ],
   },
 
   // Verse Vis (collectionId: "2")

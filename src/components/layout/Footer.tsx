@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Instagram, Facebook, Mail, Phone, MapPin } from "lucide-react";
+import whiteLogo from "@/assets/white-logo.png";
 
 const Footer = () => {
   return (
@@ -9,10 +10,11 @@ const Footer = () => {
           {/* Brand */}
           <div className="space-y-4">
             <Link to="/" className="flex items-center gap-2">
-              <div className="w-10 h-10 rounded-full bg-card flex items-center justify-center">
-                <span className="text-xl">🐟</span>
-              </div>
-              <span className="text-xl font-bold">SchmidtZeevis</span>
+              <img 
+                src={whiteLogo} 
+                alt="Schmidt Zeevis Logo" 
+                className="h-20 md:h-32 object-contain"
+              />
             </Link>
             <p className="text-primary-foreground/80 text-sm">
               Verse vis en zeevruchten, rechtstreeks van de haven naar uw deur. Al meer dan 30 jaar uw betrouwbare vishandel.
