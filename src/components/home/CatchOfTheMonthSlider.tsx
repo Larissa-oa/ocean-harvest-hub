@@ -36,18 +36,18 @@ const CatchOfTheMonthSlider = () => {
           >
             <CarouselContent className="!ml-0 sm:!ml-0 sm:ml-0 !pr-0">
               {catchProducts.map((product, index) => (
-                <CarouselItem key={product.id} className={`${index === 0 ? 'pl-4' : 'pl-2'} sm:pl-4 basis-2/3 sm:basis-1/2 lg:basis-[22.22%] flex-shrink-0`}>
+                <CarouselItem key={product.id} className={`${index === 0 ? 'pl-4' : 'pl-2'} sm:pl-4 basis-2/3 sm:basis-1/2 lg:basis-[28.57%] flex-shrink-0`}>
                   <ProductCard product={product} />
                 </CarouselItem>
               ))}
               
               {/* See All Card */}
-              <CarouselItem className="pl-3 sm:pl-4 basis-2/3 sm:basis-1/2 lg:basis-[22.22%] flex-shrink-0">
+              <CarouselItem className="pl-3 sm:pl-4 basis-2/3 sm:basis-1/2 lg:basis-[28.57%] flex-shrink-0">
               <Link
                 to="/collections/catch-of-the-month"
                 className="flex flex-col items-center justify-center h-full min-h-[280px] bg-card rounded-2xl border border-border border-dashed hover:border-primary hover:bg-secondary/50 transition-all duration-300 group"
               >
-                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                <div className="w-16 h-16 rounded-full bg-collection-circle/20 flex items-center justify-center mb-4 group-hover:bg-collection-circle/40 transition-colors">
                   <ArrowRight className="h-8 w-8 text-primary" />
                 </div>
                 <span className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">

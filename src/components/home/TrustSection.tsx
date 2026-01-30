@@ -29,7 +29,7 @@ const TrustSection = () => {
                 className="flex items-center gap-2 sm:gap-3 px-2 sm:px-4 md:px-8 lg:px-12 animate-fade-in"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <div className="w-9 h-9 rounded-full bg-collection-circle/20 flex items-center justify-center flex-shrink-0">
                   <point.icon className="h-4 w-4 text-primary" />
                 </div>
                 <div>

@@ -220,7 +220,7 @@ const CartPage = () => {
               <Carousel className="w-full -mx-4 sm:mx-0">
                 <CarouselContent className="-ml-4 sm:ml-0 !pr-0">
                   {upsellProducts.map((product) => (
-                    <CarouselItem key={product.id} className="pl-4 basis-2/3 md:basis-1/4">
+                    <CarouselItem key={product.id} className="pl-4 basis-2/3 md:basis-[28.57%] flex-shrink-0">
                       <div className="bg-card rounded-xl border border-border overflow-hidden group h-full">
                         <Link to={`/products/${product.slug}`}>
                           <img

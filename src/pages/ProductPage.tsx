@@ -122,8 +122,13 @@ const ProductPage = () => {
                   className="w-full h-full object-cover"
                 />
                 {product.seasonality === "in-season" && (
-                  <span className="absolute top-4 left-4 px-3 py-1.5 bg-success text-success-foreground text-sm font-semibold rounded-full flex items-center gap-1">
-                    <img src={schmidtFishImage} alt="In seizoen" className="h-4 w-5" />
+                  <span className="absolute top-4 left-4 px-3 py-1.5 bg-accent-green text-white text-sm font-semibold rounded-full flex items-center gap-1">
+                    <img
+                      src={schmidtFishImage}
+                      alt="In seizoen"
+                      className="h-4 w-5 opacity-90"
+                      style={{ filter: "brightness(0) invert(1)" }}
+                    />
                     In Seizoen
                   </span>
                 )}
@@ -305,21 +310,21 @@ const ProductPage = () => {
               {/* Delivery Info Bubbles */}
               <div className="grid grid-cols-3 gap-2 sm:gap-3 pt-2">
                 <div className="bg-secondary rounded-2xl p-3 sm:p-4 text-center space-y-1">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-2">
+                  <div className="w-10 h-10 rounded-full bg-collection-circle/20 flex items-center justify-center mx-auto mb-2">
                     <Truck className="h-5 w-5 text-primary" />
                   </div>
                   <p className="text-xs font-medium text-foreground">Gratis verzending</p>
                   <p className="text-xs text-muted-foreground">vanaf €50</p>
                 </div>
                 <div className="bg-secondary rounded-2xl p-3 sm:p-4 text-center space-y-1">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-2">
+                  <div className="w-10 h-10 rounded-full bg-collection-circle/20 flex items-center justify-center mx-auto mb-2">
                     <Clock className="h-5 w-5 text-primary" />
                   </div>
                   <p className="text-xs font-medium text-foreground">Snelle levering</p>
                   <p className="text-xs text-muted-foreground">binnen 24 uur</p>
                 </div>
                 <div className="bg-secondary rounded-2xl p-3 sm:p-4 text-center space-y-1">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-2">
+                  <div className="w-10 h-10 rounded-full bg-collection-circle/20 flex items-center justify-center mx-auto mb-2">
                     <Shield className="h-5 w-5 text-primary" />
                   </div>
                   <p className="text-xs font-medium text-foreground">Versgarantie</p>
@@ -371,10 +376,10 @@ const ProductPage = () => {
             </div>
           </div>
 
-          {/* Fish Calendar */}
-          <div className="bg-card rounded-3xl p-6 md:p-8 border-l-[6px] border-l-primary border border-border mb-24 md:mb-28">
+          {/* Fish Calendar / Seizoenskalender */}
+          <div className="bg-card rounded-3xl p-6 md:p-8 border-l-[6px] border-l-accent-green border border-border mb-24 md:mb-28">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+              <div className="w-12 h-12 rounded-full bg-collection-circle/20 flex items-center justify-center">
                 <img src={schmidtFishImage} alt="lender" className="h-6 w-7" style={{ filter: 'brightness(0) saturate(100%) invert(15%) sepia(70%) hue-rotate(195deg) brightness(0.3) contrast(1.1) opacity(0.75)' }} />
               </div>
               <div className="min-w-0 flex-1">
@@ -389,7 +394,7 @@ const ProductPage = () => {
                   key={month.month}
                   className={`relative rounded-xl p-3 text-center transition-all duration-300 hover:scale-105 border-l-4 ${
                     month.status === "in-season" 
-                      ? "border-l-success bg-success/10" 
+                      ? "border-l-accent-green bg-accent-green/15" 
                       : month.status === "available" 
                         ? "border-l-primary bg-secondary" 
                         : "border-l-muted bg-muted/50"
@@ -399,7 +404,7 @@ const ProductPage = () => {
                   <p className="text-xs font-medium mb-1 text-foreground">{month.month}</p>
                   <div className={`flex justify-center ${
                     month.status === "in-season" 
-                      ? "text-success" 
+                      ? "text-accent-green" 
                       : month.status === "available" 
                         ? "text-primary" 
                         : "text-muted-foreground"
@@ -412,10 +417,10 @@ const ProductPage = () => {
 
             <div className="flex items-center justify-center gap-6 mt-6 text-sm">
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded-full bg-success/10 flex items-center justify-center">
-                  <img src={schmidtFishImage} alt="In seizoen" className="h-2.5 w-2.5" style={{ filter: 'brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(106deg) brightness(0.7) contrast(1.2)' }} />
+                <div className="w-4 h-4 rounded-full bg-accent-green/20 flex items-center justify-center">
+                  <span className="w-2 h-2 rounded-full bg-accent-green" />
                 </div>
-                <span className="text-muted-foreground">In Seizoen</span>
+                <span className="text-accent-green font-medium">In Seizoen</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-4 h-4 rounded-full bg-secondary flex items-center justify-center">
@@ -453,7 +458,7 @@ const ProductPage = () => {
               >
                 <CarouselContent className="!ml-0 sm:ml-0 !pr-0">
                   {relatedProducts.map((p, index) => (
-                    <CarouselItem key={p.id} className={`${index === 0 ? 'pl-4' : 'pl-3'} sm:pl-4 basis-2/3 sm:basis-1/2 lg:basis-[22.22%] flex-shrink-0`}>
+                    <CarouselItem key={p.id} className={`${index === 0 ? 'pl-4' : 'pl-3'} sm:pl-4 basis-2/3 sm:basis-1/2 lg:basis-[28.57%] flex-shrink-0`}>
                       <ProductCard product={p} />
                     </CarouselItem>
                   ))}

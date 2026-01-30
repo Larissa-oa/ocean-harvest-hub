@@ -1,5 +1,20 @@
-import { Star } from "lucide-react";
 import reviewIcon from "@/assets/review-icon.png";
+
+/** Softer, modern star icon with rounded points for ratings */
+const StarIcon = ({ className }: { className?: string }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className={className}
+    stroke="currentColor"
+    strokeWidth="1"
+    strokeLinejoin="round"
+    aria-hidden
+  >
+    <path d="M12 2l2.4 7.4h7.6l-6 4.6 2.3 7-6.3-4.5-6.3 4.5 2.3-7-6-4.6h7.6z" />
+  </svg>
+);
 import schmidtBoatImage from "@/assets/schmidtboat-edited8.png";
 import {
   Carousel,
@@ -82,12 +97,12 @@ const ReviewsSection = () => {
                     />
                     
                     {/* Quote mark accent */}
-                    <div className="absolute top-4 left-4 text-primary/20 text-6xl font-serif leading-none">"</div>
+                    <div className="absolute top-4 left-4 text-collection-circle/30 text-6xl font-serif leading-none">"</div>
                     
                     <div className="relative z-10">
-                      <div className="flex items-center gap-2 mb-4 pl-2 mt-8">
+                      <div className="flex items-center gap-1 mb-4 pl-2 mt-8">
                         {[...Array(review.rating)].map((_, i) => (
-                          <Star key={i} className="h-4 w-4 fill-accent text-accent" />
+                          <StarIcon key={i} className="h-5 w-5 text-accent-green drop-shadow-[0_1px_2px_hsl(var(--accent-green)/0.3)]" />
                         ))}
                         <span className="text-xs text-muted-foreground/70 font-medium flex items-baseline">
                           <span className="font-semibold">{review.rating}</span>
@@ -127,12 +142,12 @@ const ReviewsSection = () => {
               />
               
               {/* Quote mark accent */}
-              <div className="absolute top-4 left-4 text-primary/20 text-6xl font-serif leading-none">"</div>
+              <div className="absolute top-4 left-4 text-collection-circle/30 text-6xl font-serif leading-none">"</div>
               
               <div className="relative z-10">
-                <div className="flex items-center gap-2 mb-4 pl-2 mt-8">
+                <div className="flex items-center gap-1 mb-4 pl-2 mt-8">
                   {[...Array(review.rating)].map((_, i) => (
-                    <Star key={i} className="h-4 w-4 fill-accent text-accent" />
+                    <StarIcon key={i} className="h-5 w-5 text-accent-green drop-shadow-[0_1px_2px_hsl(var(--accent-green)/0.3)]" />
                   ))}
                   <span className="text-xs text-muted-foreground/70 font-medium flex items-baseline">
                     <span className="font-semibold">{review.rating}</span>

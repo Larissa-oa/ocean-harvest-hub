@@ -211,35 +211,47 @@ const CollectionPage = () => {
                   </div>
 
                   {/* Seasonality Filter */}
-                  <div className="bg-card rounded-xl p-4 border border-border">
-                    <h3 className="font-semibold text-foreground mb-4 flex items-center gap-2">
+                  <div className="bg-card rounded-xl p-4 border-2 border-border shadow-sm">
+                    <h3 className="font-semibold text-foreground mb-1 flex items-center gap-2">
                       <Calendar className="h-4 w-4 text-primary" />
                       Beschikbaarheid
                     </h3>
-                    <div className="space-y-3">
+                    <p className="text-xs text-muted-foreground mb-4">
+                      Filter op seizoen en beschikbaarheid
+                    </p>
+                    <div className="space-y-2">
                       {[
-                        { value: "in-season", label: "In Seizoen", icon: null, isFish: true, colorClass: "text-success", bgClass: "bg-success/10", borderClass: "border-l-success" },
-                        { value: "available", label: "Beschikbaar", icon: Check, isFish: false, colorClass: "text-primary", bgClass: "bg-secondary", borderClass: "border-l-primary" },
-                        { value: "unavailable", label: "Seizoensgebonden", icon: Ban, isFish: false, colorClass: "text-muted-foreground", bgClass: "bg-muted/50", borderClass: "border-l-muted" },
-                      ].map((option) => (
-                        <label
-                          key={option.value}
-                          className={`flex items-center gap-3 cursor-pointer group rounded-lg p-2 border-l-4 ${option.borderClass} ${option.bgClass} transition-all`}
-                        >
-                          <Checkbox
-                            checked={seasonalityFilters.includes(option.value)}
-                            onCheckedChange={() => toggleSeasonality(option.value)}
-                          />
-                          <span className={`text-sm font-medium flex items-center gap-2 ${option.colorClass}`}>
-                            {option.isFish ? (
-                              <img src={schmidtFishImage} alt="In seizoen" className="h-3.5 w-3.5" style={{ filter: 'brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(106deg) brightness(0.7) contrast(1.2)' }} />
-                            ) : (
-                              <option.icon className={`h-3.5 w-3.5 ${option.colorClass}`} />
-                            )}
-                            {option.label}
-                          </span>
-                        </label>
-                      ))}
+                        { value: "in-season", label: "In Seizoen", sublabel: null, icon: null, isFish: true, colorClass: "text-accent-green", bgClass: "bg-accent-green/15", borderClass: "border-l-4 border-accent-green", selectedRing: "ring-2 ring-accent-green/50 ring-offset-2" },
+                        { value: "available", label: "Beschikbaar", sublabel: null, icon: Check, isFish: false, colorClass: "text-primary", bgClass: "bg-secondary", borderClass: "border-l-4 border-primary/40", selectedRing: "ring-2 ring-primary/30 ring-offset-2" },
+                        { value: "unavailable", label: "Seizoensgebonden", sublabel: null, icon: Ban, isFish: false, colorClass: "text-muted-foreground", bgClass: "bg-muted/50", borderClass: "border-l-4 border-muted-foreground/30", selectedRing: "ring-2 ring-muted ring-offset-2" },
+                      ].map((option) => {
+                        const isChecked = seasonalityFilters.includes(option.value);
+                        return (
+                          <label
+                            key={option.value}
+                            className={`flex items-center gap-3 cursor-pointer rounded-lg p-3 border-l-4 ${option.borderClass} ${option.bgClass} transition-all ${isChecked ? option.selectedRing : ''} hover:opacity-90`}
+                          >
+                            <Checkbox
+                              checked={isChecked}
+                              onCheckedChange={() => toggleSeasonality(option.value)}
+                              className={`border-2 ${option.value === "in-season" ? "data-[state=checked]:bg-accent-green data-[state=checked]:border-accent-green" : "data-[state=checked]:bg-primary data-[state=checked]:border-primary"}`}
+                            />
+                            <span className="flex flex-col gap-0.5 flex-1">
+                              <span className={`text-sm font-semibold flex items-center gap-2 ${option.colorClass}`}>
+                                {option.isFish ? (
+                                  <img src={schmidtFishImage} alt="In seizoen" className="h-4 w-4" style={{ filter: 'brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(106deg) brightness(0.7) contrast(1.2)' }} />
+                                ) : (
+                                  option.icon && <option.icon className={`h-4 w-4 ${option.colorClass}`} />
+                                )}
+                                {option.label}
+                              </span>
+                              {option.sublabel && (
+                                <span className="text-xs text-muted-foreground">{option.sublabel}</span>
+                              )}
+                            </span>
+                          </label>
+                        );
+                      })}
                     </div>
                   </div>
 

@@ -50,6 +50,8 @@ export default {
           DEFAULT: "hsl(var(--highlight))",
           foreground: "hsl(var(--highlight-foreground))",
         },
+        "collection-circle": "hsl(var(--collection-circle) / <alpha-value>)",
+        "accent-green": "hsl(var(--accent-green) / <alpha-value>)",
         popover: {
           DEFAULT: "hsl(var(--popover))",
           foreground: "hsl(var(--popover-foreground))",
@@ -117,10 +119,10 @@ export default {
         "bounce-soft": "bounce-soft 2s ease-in-out infinite",
       },
       boxShadow: {
-        'soft': '0 4px 20px -4px hsl(200 30% 20% / 0.1)',
-        'card': '0 8px 30px -8px hsl(200 30% 20% / 0.12)',
-        'float': '0 20px 50px -15px hsl(200 30% 20% / 0.2)',
-        'glow': '0 0 40px hsl(195 70% 28% / 0.15)',
+        'soft': '0 4px 20px -4px hsl(207 54% 21% / 0.1)',
+        'card': '0 8px 30px -8px hsl(207 54% 21% / 0.12)',
+        'float': '0 20px 50px -15px hsl(207 54% 21% / 0.2)',
+        'glow': '0 0 40px hsl(207 54% 21% / 0.15)',
       },
     },
   },

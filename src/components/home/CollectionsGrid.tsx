@@ -69,7 +69,7 @@ const CollectionsGrid = () => {
                     <div className="relative h-44 md:h-[240px] flex items-center justify-center mb-2 md:mb-3">
                       {/* Circular accent behind product - same size for all */}
                       <div 
-                        className="absolute rounded-full bg-primary/20 transition-all duration-300 w-[100px] h-[100px] md:w-[200px] md:h-[200px] group-hover:w-[110px] group-hover:h-[110px] md:group-hover:w-[210px] md:group-hover:h-[210px]"
+                        className="absolute rounded-full bg-collection-circle/30 transition-all duration-300 w-[100px] h-[100px] md:w-[200px] md:h-[200px] group-hover:w-[110px] group-hover:h-[110px] md:group-hover:w-[210px] md:group-hover:h-[210px]"
                       />
                       
                       {/* Product image */}
@@ -103,7 +103,7 @@ const CollectionsGrid = () => {
 
                     {/* Hover - Product count */}
                     <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <span className="px-2.5 py-1 rounded-full bg-primary/20 text-primary text-xs font-medium">
+                      <span className="px-2.5 py-1 rounded-full bg-collection-circle/30 text-collection-circle text-xs font-medium">
                         {collection.productCount} producten
                       </span>
                     </div>

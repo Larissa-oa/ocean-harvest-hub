@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Plus, Fish, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Product } from "@/data/collections";
 import QuickAddModal from "./QuickAddModal";
 import salmonImage from "@/assets/salmon-collection.jpg";
@@ -41,100 +42,86 @@ const SeasonalityBadge = ({
   seasonality: Product["seasonality"];
   hasSchmidtsTag: boolean;
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
   if (seasonality !== "in-season") return null;
 
-  // Position: if Schmidt's tag exists, position after it with proper spacing; otherwise, position on left
-  // Schmidt tag width: mobile ~9rem, desktop ~10rem
-  // Add gap of 1rem between tags to prevent overlap
+  // Position: beside Schmidt's tag when present; otherwise top-left
   const leftPosition = hasSchmidtsTag ? "left-[9.5rem] sm:left-[9.6rem]" : "left-3";
 
   return (
     <div className={`absolute top-3 ${leftPosition} z-20`}>
-      <button
-        type="button"
-        className="relative w-4 h-4 rounded-full group/season"
-        onMouseEnter={() => setIsOpen(true)}
-        onMouseLeave={() => setIsOpen(false)}
-        onClick={(e) => {
-          e.stopPropagation();
-          e.preventDefault();
-          setIsOpen(!isOpen);
-        }}
-        onTouchStart={(e) => {
-          e.stopPropagation();
-          setIsOpen(!isOpen);
-        }}
-      >
-        {/* Outer ring with success color - matches filter border */}
-        <div className="absolute inset-0 rounded-full border-2 border-success/60 group-hover/season:border-success transition-colors" />
-        {/* Inner glow effect */}
-        <div className="absolute inset-0.5 rounded-full bg-success/20 group-hover/season:bg-success/30 transition-colors" />
-        {/* Core circle with gradient - matches filter background style */}
-        <div className="absolute inset-1 rounded-full bg-success shadow-[0_0_8px_rgba(34,197,94,0.4)] group-hover/season:shadow-[0_0_12px_rgba(34,197,94,0.6)] transition-all" />
-        {/* Subtle pulse animation */}
-        <div className="absolute inset-0 rounded-full bg-success/30 animate-ping opacity-0 group-hover/season:opacity-100" style={{ animationDuration: '2s' }} />
-      </button>
-      {isOpen && (
-        <div className="absolute top-full left-0 mt-2 w-48 sm:w-56 bg-popover border-2 border-border rounded-lg shadow-xl p-3.5 z-50 whitespace-normal animate-in fade-in-0 zoom-in-95 duration-200 relative overflow-hidden">
-          <p className="text-xs text-popover-foreground leading-relaxed relative z-10">
-            Dit product is momenteel in het seizoen en op zijn versst.
+      <Tooltip delayDuration={200}>
+        <TooltipTrigger asChild>
+          <button
+            type="button"
+            className="relative w-5 h-5 rounded-full group/season shadow-[0_0_0_1px_hsl(var(--accent-green)/0.2)] hover:shadow-[0_0_8px_hsl(var(--accent-green)/0.4)] transition-all duration-200"
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+            }}
+          >
+            {/* Outer ring */}
+            <div className="absolute inset-0 rounded-full border-2 border-accent-green/70 group-hover/season:border-accent-green transition-colors" />
+            {/* Glow layer */}
+            <div className="absolute inset-[2px] rounded-full bg-accent-green/25 group-hover/season:bg-accent-green/40 transition-colors" />
+            {/* Core */}
+            <div className="absolute inset-[3px] rounded-full bg-accent-green shadow-[0_0_6px_hsl(var(--accent-green)/0.5)] group-hover/season:shadow-[0_0_10px_hsl(var(--accent-green)/0.6)] transition-all" />
+          </button>
+        </TooltipTrigger>
+        <TooltipContent
+          side="bottom"
+          align="start"
+          sideOffset={8}
+          collisionPadding={16}
+          className="max-w-[min(20rem,calc(100vw-2rem))] w-56 sm:w-64 p-4 border-2 border-accent-green/30 rounded-lg shadow-xl bg-popover text-left"
+        >
+          <h4 className="text-sm font-semibold text-accent-green mb-1.5 flex items-center gap-2">
+            <span className="inline-block w-2 h-2 rounded-full bg-accent-green flex-shrink-0" />
+            In seizoen
+          </h4>
+          <p className="text-xs text-popover-foreground leading-relaxed">
+            Dit product is nu op z'n best: het is het juiste seizoen, dus vers en van topkwaliteit. Ideaal om nu te bestellen.
           </p>
-          {/* Watermark icon */}
-          <img 
-            src={reviewIcon} 
-            alt="" 
-            className="absolute bottom-1 right-1 h-16 w-16 rounded-full object-cover opacity-[0.06] group-hover/season:opacity-[0.12] pointer-events-none transition-opacity duration-200"
-          />
-        </div>
-      )}
+        </TooltipContent>
+      </Tooltip>
     </div>
   );
 };
 
 const SchmidtsChoiceBadge = ({ isSchmidtsChoice }: { isSchmidtsChoice?: boolean }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
   if (!isSchmidtsChoice) return null;
 
   return (
     <div className="absolute top-3 left-3 z-20">
-      <button
-        type="button"
-        className="px-2.5 py-1 bg-primary text-primary-foreground text-xs font-medium rounded-full flex items-center gap-1.5 group/schmidt"
-        onMouseEnter={() => setIsOpen(true)}
-        onMouseLeave={() => setIsOpen(false)}
-        onClick={(e) => {
-          e.stopPropagation();
-          e.preventDefault();
-          setIsOpen(!isOpen);
-        }}
-        onTouchStart={(e) => {
-          e.stopPropagation();
-          setIsOpen(!isOpen);
-        }}
-      >
-        <img 
-          src={schmidtFishIcon} 
-          alt="Schmidt fish icon" 
-          className="h-5 w-5 object-contain"
-        />
-        Schmidt's Keuze
-      </button>
-      {isOpen && (
-        <div className="absolute top-full left-0 mt-2 w-48 sm:w-56 bg-popover border-2 border-border rounded-lg shadow-xl p-3.5 z-50 whitespace-normal animate-in fade-in-0 zoom-in-95 duration-200 relative overflow-hidden">
-          <p className="text-xs text-popover-foreground leading-relaxed relative z-10">
+      <Tooltip delayDuration={200}>
+        <TooltipTrigger asChild>
+          <button
+            type="button"
+            className="px-2.5 py-1 bg-primary text-primary-foreground text-xs font-medium rounded-full flex items-center gap-1.5"
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+            }}
+          >
+            <img 
+              src={schmidtFishIcon} 
+              alt="Schmidt fish icon" 
+              className="h-5 w-5 object-contain"
+            />
+            Schmidt's Keuze
+          </button>
+        </TooltipTrigger>
+        <TooltipContent
+          side="bottom"
+          align="start"
+          sideOffset={8}
+          collisionPadding={16}
+          className="max-w-[min(20rem,calc(100vw-2rem))] w-48 sm:w-56 p-3.5 border-2 border-border rounded-lg shadow-xl bg-popover text-left"
+        >
+          <p className="text-xs text-popover-foreground leading-relaxed">
             Onze favoriete selectie van premium kwaliteit vis en zeevruchten.
           </p>
-          {/* Watermark icon */}
-          <img 
-            src={reviewIcon} 
-            alt="" 
-            className="absolute bottom-1 right-1 h-16 w-16 rounded-full object-cover opacity-[0.06] group-hover/schmidt:opacity-[0.06] pointer-events-none transition-opacity duration-200"
-          />
-        </div>
-      )}
+        </TooltipContent>
+      </Tooltip>
     </div>
   );
 };
@@ -172,7 +159,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
           {/* Price Row with Add Button */}
           <div className="flex items-center justify-between">
             <div className="flex items-baseline gap-1.5">
-              <span className="text-xs text-muted-foreground">vanaf</span>
+              <span className="text-xs text-accent-green">vanaf</span>
               <span className="text-lg font-bold text-foreground">
                 €{product.price.toFixed(2)}
               </span>
