@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
 import heroImage from "@/assets/lobster-hero.png";
-import blauweVisIcon from "@/assets/Blauwe-vis.png";
 
 const HeroSection = () => {
   return (
@@ -34,17 +32,11 @@ const HeroSection = () => {
             <Button variant="default" size="sm" className="w-auto text-xs sm:text-sm h-8 px-2 sm:h-10 sm:px-4 max-w-fit" asChild>
               <Link to="/collections">
                 Bekijk alle Producten
-                <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4 ml-1" />
               </Link>
             </Button>
             <Button variant="outline" size="sm" className="w-auto text-xs sm:text-sm h-8 px-2 sm:h-10 sm:px-4 max-w-fit" asChild>
-              <Link to="/collections/catch-of-the-month" className="flex items-center gap-1 sm:gap-2">
+              <Link to="/collections/catch-of-the-month">
                 Vangst van de Maand
-                <img 
-                  src={blauweVisIcon} 
-                  alt="Vangst van de Maand" 
-                  className="h-5 w-4 sm:h-5 sm:w-5 object-contain"
-                />
               </Link>
             </Button>
           </div>
