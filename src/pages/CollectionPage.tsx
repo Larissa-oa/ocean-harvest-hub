@@ -10,7 +10,8 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
 import { collections, products, getCollectionBySlug } from "@/data/collections";
-import schmidtFishImage from "@/assets/schmidt-fish.png";
+import groeneVisImage from "@/assets/Groene-vis.png";
+import blauweVisImage from "@/assets/Blauwe-vis.png";
 
 const CollectionPage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -221,9 +222,9 @@ const CollectionPage = () => {
                     </p>
                     <div className="space-y-2">
                       {[
-                        { value: "in-season", label: "In Seizoen", sublabel: null, icon: null, isFish: true, colorClass: "text-accent-green", bgClass: "bg-accent-green/15", borderClass: "border-l-4 border-accent-green", selectedRing: "ring-2 ring-accent-green/50 ring-offset-2" },
-                        { value: "available", label: "Beschikbaar", sublabel: null, icon: Check, isFish: false, colorClass: "text-primary", bgClass: "bg-secondary", borderClass: "border-l-4 border-primary/40", selectedRing: "ring-2 ring-primary/30 ring-offset-2" },
-                        { value: "unavailable", label: "Seizoensgebonden", sublabel: null, icon: Ban, isFish: false, colorClass: "text-muted-foreground", bgClass: "bg-muted/50", borderClass: "border-l-4 border-muted-foreground/30", selectedRing: "ring-2 ring-muted ring-offset-2" },
+                        { value: "in-season", label: "In Seizoen", sublabel: null, icon: null, isFish: true, isBlueFish: false, colorClass: "text-accent-green", bgClass: "bg-accent-green/15", borderClass: "border-l-4 border-accent-green", selectedRing: "ring-2 ring-accent-green/50 ring-offset-2" },
+                        { value: "available", label: "Beschikbaar", sublabel: null, icon: null, isFish: false, isBlueFish: true, colorClass: "text-primary", bgClass: "bg-secondary", borderClass: "border-l-4 border-primary/40", selectedRing: "ring-2 ring-primary/30 ring-offset-2" },
+                        { value: "unavailable", label: "Seizoensgebonden", sublabel: null, icon: Ban, isFish: false, isBlueFish: false, colorClass: "text-muted-foreground", bgClass: "bg-muted/50", borderClass: "border-l-4 border-muted-foreground/30", selectedRing: "ring-2 ring-muted ring-offset-2" },
                       ].map((option) => {
                         const isChecked = seasonalityFilters.includes(option.value);
                         return (
@@ -239,7 +240,9 @@ const CollectionPage = () => {
                             <span className="flex flex-col gap-0.5 flex-1">
                               <span className={`text-sm font-semibold flex items-center gap-2 ${option.colorClass}`}>
                                 {option.isFish ? (
-                                  <img src={schmidtFishImage} alt="In seizoen" className="h-4 w-4" style={{ filter: 'brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(106deg) brightness(0.7) contrast(1.2)' }} />
+                                  <img src={groeneVisImage} alt="In seizoen" className="h-4 w-4 object-contain scale-x-[-1]" />
+                                ) : option.isBlueFish ? (
+                                  <img src={blauweVisImage} alt="Beschikbaar" className="h-4 w-4 object-contain" />
                                 ) : (
                                   option.icon && <option.icon className={`h-4 w-4 ${option.colorClass}`} />
                                 )}

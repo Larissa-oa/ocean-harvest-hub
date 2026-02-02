@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import heroImage from "@/assets/lobster-hero.png";
-import schmidtFishIcon from "@/assets/schmidt-fish.png";
+import blauweVisIcon from "@/assets/Blauwe-vis.png";
 
 const HeroSection = () => {
   return (
@@ -41,14 +41,9 @@ const HeroSection = () => {
               <Link to="/collections/catch-of-the-month" className="flex items-center gap-1 sm:gap-2">
                 Vangst van de Maand
                 <img 
-                  src={schmidtFishIcon} 
-                  alt="Schmidt fish" 
+                  src={blauweVisIcon} 
+                  alt="Vangst van de Maand" 
                   className="h-5 w-4 sm:h-5 sm:w-5 object-contain"
-                  style={{ 
-                    filter: 'brightness(0) saturate(100%) invert(27%) sepia(100%) saturate(2000%) hue-rotate(195deg) brightness(0.45) contrast(1.3)',
-                    transform: 'scaleX(-1)',
-                    opacity: 0.8
-                  }}
                 />
               </Link>
             </Button>

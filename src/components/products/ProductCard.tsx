@@ -13,7 +13,7 @@ import octopusTentaclesImage from "@/assets/octopus-tentacles.png";
 import dutchShrimpImage from "@/assets/dutch-shrimp.avif";
 import oceanParadiseImage from "@/assets/ocean-paradise.png";
 import zeebassImage from "@/assets/zeebass.avif";
-import schmidtFishIcon from "@/assets/schmidt-fish.png";
+import groeneVisIcon from "@/assets/Groene-vis.png";
 import reviewIcon from "@/assets/review-icon.png";
 
 interface ProductCardProps {
@@ -53,18 +53,17 @@ const SeasonalityBadge = ({
         <TooltipTrigger asChild>
           <button
             type="button"
-            className="relative w-5 h-5 rounded-full group/season shadow-[0_0_0_1px_hsl(var(--accent-green)/0.2)] hover:shadow-[0_0_8px_hsl(var(--accent-green)/0.4)] transition-all duration-200"
+            className="relative w-6 h-6 rounded-full group/season overflow-hidden bg-accent-green/55 border-2 border-accent-green/70 hover:border-accent-green shadow-[0_0_0_1px_hsl(var(--accent-green)/0.2)] hover:shadow-[0_0_8px_hsl(var(--accent-green)/0.4)] transition-all duration-200 flex items-center justify-center"
             onClick={(e) => {
               e.stopPropagation();
               e.preventDefault();
             }}
           >
-            {/* Outer ring */}
-            <div className="absolute inset-0 rounded-full border-2 border-accent-green/70 group-hover/season:border-accent-green transition-colors" />
-            {/* Glow layer */}
-            <div className="absolute inset-[2px] rounded-full bg-accent-green/25 group-hover/season:bg-accent-green/40 transition-colors" />
-            {/* Core */}
-            <div className="absolute inset-[3px] rounded-full bg-accent-green shadow-[0_0_6px_hsl(var(--accent-green)/0.5)] group-hover/season:shadow-[0_0_10px_hsl(var(--accent-green)/0.6)] transition-all" />
+            <img
+              src={groeneVisIcon}
+              alt="In seizoen"
+              className="h-3.5 w-3.5 object-contain object-center scale-x-[-1]"
+            />
           </button>
         </TooltipTrigger>
         <TooltipContent
@@ -75,7 +74,7 @@ const SeasonalityBadge = ({
           className="max-w-[min(20rem,calc(100vw-2rem))] w-56 sm:w-64 p-4 border-2 border-accent-green/30 rounded-lg shadow-xl bg-popover text-left"
         >
           <h4 className="text-sm font-semibold text-accent-green mb-1.5 flex items-center gap-2">
-            <span className="inline-block w-2 h-2 rounded-full bg-accent-green flex-shrink-0" />
+            <img src={groeneVisIcon} alt="" className="h-4 w-4 object-contain flex-shrink-0 scale-x-[-1]" />
             In seizoen
           </h4>
           <p className="text-xs text-popover-foreground leading-relaxed">
@@ -96,17 +95,12 @@ const SchmidtsChoiceBadge = ({ isSchmidtsChoice }: { isSchmidtsChoice?: boolean 
         <TooltipTrigger asChild>
           <button
             type="button"
-            className="px-2.5 py-1 bg-primary text-primary-foreground text-xs font-medium rounded-full flex items-center gap-1.5"
+            className="px-2.5 py-1 bg-primary text-primary-foreground text-xs font-semibold rounded-full"
             onClick={(e) => {
               e.stopPropagation();
               e.preventDefault();
             }}
           >
-            <img 
-              src={schmidtFishIcon} 
-              alt="Schmidt fish icon" 
-              className="h-5 w-5 object-contain"
-            />
             Schmidt's Keuze
           </button>
         </TooltipTrigger>

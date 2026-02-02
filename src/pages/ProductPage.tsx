@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Plus, Minus, ShoppingCart, Truck, Clock, Shield, ChevronLeft, ChevronRight, Fish, Check, Ban, Info } from "lucide-react";
+import { Plus, Minus, ShoppingCart, Truck, Clock, Shield, ChevronLeft, ChevronRight, Fish, Ban, Info } from "lucide-react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import ProductCard from "@/components/products/ProductCard";
@@ -19,7 +19,8 @@ import dutchShrimpImage from "@/assets/dutch-shrimp.avif";
 import oceanParadiseImage from "@/assets/ocean-paradise.png";
 import zeebassImage from "@/assets/zeebass.avif";
 import octopusImage from "@/assets/octopus.avif";
-import schmidtFishImage from "@/assets/schmidt-fish.png";
+import groeneVisImage from "@/assets/Groene-vis.png";
+import blauweVisImage from "@/assets/Blauwe-vis.png";
 
 const productImages: Record<string, string[]> = {
   "octopus-tentakels": [octopusTentaclesImage, oceanParadiseImage, octopusImage],
@@ -73,9 +74,9 @@ const ProductPage = () => {
   const getSeasonIcon = (status: string) => {
     switch (status) {
       case "in-season":
-        return <img src={schmidtFishImage} alt="In seizoen" className="h-3.5 w-5" style={{ filter: 'brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(106deg) brightness(104%) contrast(97%)' }} />;
+        return <img src={groeneVisImage} alt="In seizoen" className="h-3.5 w-5 object-contain scale-x-[-1]" />;
       case "available":
-        return <Check className="h-3.5 w-3.5" />;
+        return <img src={blauweVisImage} alt="Beschikbaar" className="h-3.5 w-5 object-contain" />;
       default:
         return <Ban className="h-3.5 w-3.5" />;
     }
@@ -122,14 +123,13 @@ const ProductPage = () => {
                   className="w-full h-full object-cover"
                 />
                 {product.seasonality === "in-season" && (
-                  <span className="absolute top-4 left-4 px-3 py-1.5 bg-accent-green text-white text-sm font-semibold rounded-full flex items-center gap-1">
+                  <span className="absolute top-4 left-4 px-3 py-1.5 bg-accent-green/65 border border-accent-green/70 text-black text-sm font-semibold rounded-full flex items-center gap-1.5 shadow-sm">
                     <img
-                      src={schmidtFishImage}
+                      src={groeneVisImage}
                       alt="In seizoen"
-                      className="h-4 w-5 opacity-90"
-                      style={{ filter: "brightness(0) invert(1)" }}
+                      className="h-4 w-5 object-contain drop-shadow-sm scale-x-[-1]"
                     />
-                    In Seizoen
+                    <span>In Seizoen</span>
                   </span>
                 )}
                 {/* Navigation Arrows */}
@@ -379,8 +379,8 @@ const ProductPage = () => {
           {/* Fish Calendar / Seizoenskalender */}
           <div className="bg-card rounded-3xl p-6 md:p-8 border-l-[6px] border-l-accent-green border border-border mb-24 md:mb-28">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-full bg-collection-circle/20 flex items-center justify-center">
-                <img src={schmidtFishImage} alt="lender" className="h-6 w-7" style={{ filter: 'brightness(0) saturate(100%) invert(15%) sepia(70%) hue-rotate(195deg) brightness(0.3) contrast(1.1) opacity(0.75)' }} />
+              <div className="w-12 h-12 rounded-full bg-accent-green/20 flex items-center justify-center">
+                <img src={groeneVisImage} alt="Seizoenskalender" className="h-6 w-7 object-contain scale-x-[-1]" />
               </div>
               <div className="min-w-0 flex-1">
                 <h2 className="text-xl md:text-2xl font-bold text-foreground">Seizoenskalender</h2>
@@ -417,16 +417,16 @@ const ProductPage = () => {
 
             <div className="flex items-center justify-center gap-6 mt-6 text-sm">
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded-full bg-accent-green/20 flex items-center justify-center">
-                  <span className="w-2 h-2 rounded-full bg-accent-green" />
+                <div className="w-5 h-5 rounded-full bg-accent-green/20 flex items-center justify-center flex-shrink-0">
+                  <img src={groeneVisImage} alt="" className="h-3 w-3.5 object-contain scale-x-[-1]" />
                 </div>
                 <span className="text-accent-green font-medium">In Seizoen</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded-full bg-secondary flex items-center justify-center">
-                  <Check className="h-2.5 w-2.5 text-foreground" />
+                <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <img src={blauweVisImage} alt="" className="h-3 w-3.5 object-contain" />
                 </div>
-                <span className="text-muted-foreground">Beschikbaar</span>
+                <span className="text-primary font-medium">Beschikbaar</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-4 h-4 rounded-full bg-muted flex items-center justify-center">

@@ -5,6 +5,15 @@ import whiteLogo from "@/assets/white-logo.png";
 const Footer = () => {
   return (
     <footer className="bg-primary text-primary-foreground">
+      {/* Swimming fish strip at top – uses GIF (visjes-los.eps is vector; browsers don't display EPS) */}
+      <div className="w-full overflow-hidden">
+        <img
+          src="/swimming_fish_transparent.gif"
+          alt=""
+          className="w-full h-auto object-cover object-center"
+          aria-hidden
+        />
+      </div>
       <div className="container py-12 md:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Brand */}
