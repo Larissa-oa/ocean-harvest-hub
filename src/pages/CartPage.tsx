@@ -109,13 +109,13 @@ const CartPage = () => {
                 {items.map((item) => (
                   <div 
                     key={`${item.product.id}-${item.selectedOption}`}
-                    className="flex gap-3 md:gap-4 p-3 md:p-4 bg-card rounded-2xl border border-border"
+                    className="flex gap-2.5 md:gap-3 p-2.5 md:p-3 bg-card rounded-2xl border border-border"
                   >
                     <Link to={`/products/${item.product.slug}`} className="flex-shrink-0">
                       <img
                         src={getProductImage(item.product)}
                         alt={item.product.name}
-                        className="w-20 h-20 md:w-24 md:h-24 object-cover rounded-xl"
+                        className="w-16 h-16 md:w-20 md:h-20 object-cover rounded-xl"
                       />
                     </Link>
                     <div className="flex-1 min-w-0">
@@ -222,7 +222,7 @@ const CartPage = () => {
               <Carousel className="w-full -mx-4 sm:mx-0">
                 <CarouselContent className="-ml-4 sm:ml-0 !pr-0">
                   {upsellProducts.map((product) => (
-                    <CarouselItem key={product.id} className="pl-4 basis-2/3 md:basis-[28.57%] flex-shrink-0">
+                    <CarouselItem key={product.id} className="pl-4 basis-[58%] md:basis-[26%] flex-shrink-0">
                       <div className="bg-card rounded-xl border border-border overflow-hidden group h-full">
                         <Link to={`/products/${product.slug}`}>
                           <img
@@ -231,7 +231,7 @@ const CartPage = () => {
                             className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300"
                           />
                         </Link>
-                        <div className="p-3">
+                        <div className="p-2.5">
                           <Link to={`/products/${product.slug}`}>
                             <h3 className="font-semibold text-foreground text-sm line-clamp-1 hover:text-primary transition-colors">
                               {product.name}
@@ -252,8 +252,8 @@ const CartPage = () => {
                     </CarouselItem>
                   ))}
                 </CarouselContent>
-                <CarouselPrevious className="-left-4" />
-                <CarouselNext className="-right-4" />
+                <CarouselPrevious className="-left-4 bg-primary text-primary-foreground border-0 hover:bg-primary/90" />
+                <CarouselNext className="-right-4 bg-primary text-primary-foreground border-0 hover:bg-primary/90" />
               </Carousel>
             </div>
           )}

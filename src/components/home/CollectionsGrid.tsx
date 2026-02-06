@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
 import { collections } from "@/data/collections";
+import { FishIcon } from "@/components/ui/FishIcon";
 import { Button } from "@/components/ui/button";
 import alleImage from "@/assets/collection/alle.png";
 import versevisImage from "@/assets/collection/versevis.png";
@@ -65,21 +65,21 @@ const CollectionsGrid = () => {
                 <div className="collection-card-border relative overflow-hidden shadow-sm group-hover:shadow-md transition-shadow duration-300">
                   {/* Card content */}
                   <div className="p-4 md:p-6">
-                    {/* Product image with circular accent - fixed height for all */}
-                    <div className="relative h-44 md:h-[240px] flex items-center justify-center mb-2 md:mb-3">
+                    {/* Product image with circular accent - fixed height for all, circle unchanged */}
+                    <div className="relative h-48 md:h-[260px] flex items-center justify-center mb-2 md:mb-3">
                       {/* Circular accent behind product - same size for all */}
                       <div 
                         className="absolute rounded-full bg-collection-circle/30 transition-all duration-300 w-[100px] h-[100px] md:w-[200px] md:h-[200px] group-hover:w-[110px] group-hover:h-[110px] md:group-hover:w-[210px] md:group-hover:h-[210px]"
                       />
                       
-                      {/* Product image */}
+                      {/* Product image - slightly larger */}
                       <img
                         src={collectionImages[collection.slug] || alleImage}
                         alt={collection.name}
                         className={`relative z-10 w-auto object-contain drop-shadow-lg group-hover:scale-110 transition-transform duration-300 ${
                           collection.slug === "verse-vis" || collection.slug === "alle-producten" || collection.slug === "diepvries" || collection.slug === "conserven"
-                            ? "h-28 md:h-[140px]"
-                            : "h-48 md:h-[240px]"
+                            ? "h-32 md:h-[165px]"
+                            : "h-52 md:h-[255px]"
                         }`}
                       />
                     </div>
@@ -97,7 +97,7 @@ const CollectionsGrid = () => {
                         className="gap-2 group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary transition-all text-xs md:text-sm border-primary/50 text-primary"
                       >
                         Bekijk collectie
-                        <ArrowRight className="h-3 w-3 md:h-3.5 md:w-3.5" />
+                        <FishIcon className="h-3 w-3 md:h-3.5 md:w-3.5" />
                       </Button>
                     </div>
 

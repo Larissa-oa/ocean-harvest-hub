@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
 import ProductCard from "@/components/products/ProductCard";
 import { getProductsByCollection } from "@/data/collections";
 import {
@@ -46,9 +45,6 @@ const CatchOfTheMonthSlider = () => {
                 to="/collections/vangst-van-de-maand"
                 className="flex flex-col items-center justify-center h-full min-h-[280px] bg-card rounded-2xl border border-border border-dashed hover:border-primary hover:bg-secondary/50 transition-all duration-300 group"
               >
-                <div className="w-16 h-16 rounded-full bg-collection-circle/20 flex items-center justify-center mb-4 group-hover:bg-collection-circle/40 transition-colors">
-                  <ArrowRight className="h-8 w-8 text-primary" />
-                </div>
                 <span className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">
                   Bekijk Alles
                 </span>

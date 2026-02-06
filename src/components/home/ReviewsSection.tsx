@@ -50,36 +50,41 @@ const reviews = [
 
 const ReviewsSection = () => {
   return (
-    <section className="relative pt-20 pb-12 md:pt-8 md:pb-20 overflow-hidden">
+    <section
+      className="relative pt-20 overflow-hidden flex flex-col justify-end"
+      style={{ minHeight: "70vh", paddingBottom: "3rem" }}
+    >
       {/* Background image */}
       <div className="absolute inset-0">
         <img
           src={schmidtZeevisBg}
           alt="Schmidt Zeevis background"
           className="w-full h-full object-cover"
-          style={{ objectPosition: 'right center' }}
+          style={{ objectPosition: 'left 40%' }}
         />
         {/* Gradient overlay - lighter on left, darker on right */}
         <div className="absolute inset-0 bg-gradient-to-r from-background/10 via-background/15 to-background/25" />
         {/* Very opaque overlay to blend with Catch of the Month section */}
         <div className="absolute inset-0 bg-secondary/10" />
-        {/* Fade to collection/page background at top for smoother transition */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/20 to-transparent pointer-events-none" />
+        {/* Fade to collection/page background at top for smoother transition - strong at very top, quick fade */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: "linear-gradient(to bottom, hsl(var(--background) / 0.92) 0%, hsl(var(--background) / 0.35) 10%, transparent 25%)",
+          }}
+        />
       </div>
-      
+
       <div className="container relative z-10 px-4">
         {/* Header */}
-        <div className="text-center md:text-left mb-20 max-w-md mx-auto md:mx-0 md:ml-2">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mb-3 md:mb-4 -mt-10 md:mt-0 drop-shadow-lg">
+        <div className="text-center md:text-left mb-44 md:mb-56 max-w-2xl mx-auto md:mx-0 md:ml-2">
+          <h2 className="text-4xl md:text-4xl lg:text-5xl font-bold text-foreground -mt-10 md:mt-0 drop-shadow-lg">
             Wat onze klanten zeggen over <span className="text-primary">Schmidt Zeevis</span>
           </h2>
-          <p className="text-black max-w-sm mx-auto md:mx-0 text-center md:text-left">
-            Al meer dan 30 jaar vertrouwen duizenden klanten op onze verse vis en zeevruchten
-          </p>
         </div>
 
         {/* Review Cards - Slider on mobile, grid on desktop */}
-        <div className="md:hidden group -mx-4 mt-24">
+        <div className="md:hidden group -mx-4 mt-24 mb-8">
           <Carousel
             opts={{
               align: "start",
@@ -129,7 +134,7 @@ const ReviewsSection = () => {
         </div>
 
         {/* Desktop Grid */}
-        <div className="hidden md:grid md:grid-cols-3 gap-6">
+        <div className="hidden md:grid md:grid-cols-3 gap-6 mb-8">
           {reviews.map((review, index) => (
             <div
               key={review.id}

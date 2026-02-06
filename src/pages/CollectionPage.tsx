@@ -4,13 +4,47 @@ import { Search, ChevronDown, ChevronUp, Filter, X, Calendar, Grid3X3 } from "lu
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import ProductCard from "@/components/products/ProductCard";
-import WaveDivider from "@/components/ui/WaveDivider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { collections, getCollectionBySlug, getProductsByCollection } from "@/data/collections";
 import groeneVisImage from "@/assets/Groene-vis.png";
 import blauweVisImage from "@/assets/Blauwe-vis.png";
+import alleImage from "@/assets/collection/alle.png";
+import versevisImage from "@/assets/collection/versevis.png";
+import schalpImage from "@/assets/collection/schalp1.png";
+import kantAnKlaarImage from "@/assets/collection/kant-an-klaar.png";
+import sushiensashimiImage from "@/assets/collection/sushiensashimi.png";
+import olieenazijnImage from "@/assets/collection/olieenazijn.png";
+import specialsImage from "@/assets/collection/specials.png";
+import deliImage from "@/assets/collection/deli.png";
+import sauzenImage from "@/assets/collection/sauzen.png";
+import schotelImage from "@/assets/collection/schotel.png";
+import diepvriesImage from "@/assets/collection/diepvrie1-Photoroom.png";
+import conservenImage from "@/assets/collection/conserven.png";
+import kruidenImage from "@/assets/collection/kruiden.png";
+import merchandiseImage from "@/assets/collection/merchandise.png";
+import diversenImage from "@/assets/collection/diversen.png";
+import versevangstImage from "@/assets/collection/versevangst.png";
+
+const collectionHeaderImages: Record<string, string> = {
+  "alle-producten": alleImage,
+  "verse-vis": versevisImage,
+  "schaal-en-schelpdieren": schalpImage,
+  "klaar-en-klaar": kantAnKlaarImage,
+  "sushi-en-sashimi": sushiensashimiImage,
+  "olie-en-azijn": olieenazijnImage,
+  "specials": specialsImage,
+  "delicatessen": deliImage,
+  "sauzen": sauzenImage,
+  "schotels": schotelImage,
+  "diepvries": diepvriesImage,
+  "conserven": conservenImage,
+  "kruiden-en-specerijen": kruidenImage,
+  "merchandise": merchandiseImage,
+  "diversen": diversenImage,
+  "vangst-van-de-maand": versevangstImage,
+};
 
 const CollectionPage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -71,7 +105,7 @@ const CollectionPage = () => {
       <Header />
       <main className="flex-1 bg-background">
         {/* Breadcrumb */}
-        <div className="bg-secondary/50 border-b border-border">
+        <div className="bg-secondary/50">
           <div className="container py-3">
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Link to="/" className="hover:text-primary transition-colors">Home</Link>
@@ -87,17 +121,30 @@ const CollectionPage = () => {
           </div>
         </div>
         
-        {/* Header */}
-        <div style={{ backgroundColor: 'hsl(195, 70%, 28%, 0.3)' }}>
-          <div className="container pt-4 pb-6">
-            <h1 className="text-3xl md:text-5xl font-bold pt-4" style={{ color: 'hsl(200, 50%, 10%)' }}>
+        {/* Header: collection image with overlay for readable, defined header */}
+        <div className="relative min-h-[180px] md:min-h-[220px] overflow-hidden border-b border-border/60">
+          {/* Background image - more visible, per collection */}
+          <div
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{
+              backgroundImage: `url(${collectionHeaderImages[collection?.slug || "alle-producten"] || alleImage})`,
+              opacity: 0.65,
+            }}
+            aria-hidden
+          />
+          {/* Overlay: left to right, light and fades away toward the right */}
+          <div className="absolute inset-0 bg-gradient-to-r from-background/45 via-background/20 to-transparent" />
+          {/* Defined header content area */}
+          <div className="container relative z-10 pt-6 pb-8 md:pt-8 md:pb-10">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-foreground drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)] max-w-4xl">
               {collection?.name || "Alle Producten"}
             </h1>
             {collection && (
-              <p className="mt-2 mb-3" style={{ color: 'hsl(200, 50%, 10%, 0.7)' }}>{collection.description}</p>
+              <p className="mt-3 mb-0 text-foreground/90 max-w-2xl text-base md:text-lg drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]">
+                {collection.description}
+              </p>
             )}
           </div>
-          <WaveDivider />
         </div>
 
         <div className="container pb-8 pt-6">

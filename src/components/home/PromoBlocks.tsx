@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Flame } from "lucide-react";
+import { Flame } from "lucide-react";
 import dealBanner1 from "@/assets/banner/dealbanner6.png";
 import dealBanner2 from "@/assets/banner/dealbanner8.png";
 import dealBanner3 from "@/assets/banner/dealbanner3.png";
@@ -39,7 +39,6 @@ const PromoBlocks = () => {
                 </p>
                 <Button variant="secondary" size="sm" className="self-start group-hover:bg-white transition-colors">
                   Bekijk Collectie
-                  <ArrowRight className="h-4 w-4 ml-1" />
                 </Button>
               </div>
             </div>
@@ -67,7 +66,6 @@ const PromoBlocks = () => {
                 </p>
                 <Button variant="secondary" size="sm" className="self-start text-xs h-8 group-hover:bg-white transition-colors">
                   Ontdek Meer
-                  <ArrowRight className="h-3 w-3 ml-1" />
                 </Button>
               </div>
             </Link>
@@ -92,7 +90,6 @@ const PromoBlocks = () => {
                 </p>
                 <Button variant="secondary" size="sm" className="self-start text-xs h-8 group-hover:bg-white transition-colors">
                   Ontdek Meer
-                  <ArrowRight className="h-3 w-3 ml-1" />
                 </Button>
               </div>
             </Link>

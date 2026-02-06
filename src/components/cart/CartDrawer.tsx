@@ -102,12 +102,12 @@ const CartDrawer = () => {
               {items.map((item) => (
                 <div 
                   key={`${item.product.id}-${item.selectedOption}`}
-                  className="flex gap-3 p-3 bg-secondary/50 rounded-xl"
+                  className="flex gap-2.5 p-2.5 bg-secondary/50 rounded-xl"
                 >
                   <img
                     src={getProductImage(item.product)}
                     alt={item.product.name}
-                    className="w-20 h-20 object-cover rounded-lg"
+                    className="w-16 h-16 object-cover rounded-lg"
                   />
                   <div className="flex-1 min-w-0">
                     <h4 className="font-semibold text-foreground text-sm line-clamp-1">
@@ -171,12 +171,12 @@ const CartDrawer = () => {
                     {upsellProducts.slice(0, 3).map((product) => (
                       <div 
                         key={product.id}
-                        className="flex items-center gap-3 p-2 bg-card rounded-lg border border-border"
+                        className="flex items-center gap-2 p-1.5 bg-card rounded-lg border border-border"
                       >
                         <img
                           src={getProductImage(product)}
                           alt={product.name}
-                          className="w-12 h-12 object-cover rounded-md"
+                          className="w-10 h-10 object-cover rounded-md"
                         />
                         <div className="flex-1 min-w-0">
                           <h4 className="text-sm font-medium text-foreground line-clamp-1">{product.name}</h4>

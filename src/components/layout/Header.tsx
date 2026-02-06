@@ -97,7 +97,7 @@ const Header = () => {
           >
             <ShoppingCart className="h-5 w-5" />
             {cartCount > 0 && (
-              <span className="absolute -top-1 -right-1 w-5 h-5 bg-accent text-accent-foreground text-xs font-bold rounded-full flex items-center justify-center">
+              <span className="absolute -top-1 -right-1 w-5 h-5 bg-accent-green text-accent-green-foreground text-xs font-bold rounded-full flex items-center justify-center">
                 {cartCount}
               </span>
             )}

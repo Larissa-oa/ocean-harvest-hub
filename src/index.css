@@ -47,8 +47,8 @@
     --input: 200 20% 88%;
     --ring: 207 54% 21%;
 
-    /* #3f91d4 - circles behind collection images and equivalent elements */
-    --collection-circle: 207 61% 54%;
+    /* Schmidt Zeevis brand blue - circles behind collection images (same hue as primary, mid-tone) */
+    --collection-circle: 207 52% 42%;
 
     /* #74A428 - accent green for vanaf, in seizoen tag, filter and viskalendar */
     --accent-green: 83 61% 40%;
@@ -114,7 +114,7 @@
     --input: 208 61% 20%;
     --ring: 207 61% 54%;
 
-    --collection-circle: 207 61% 54%;
+    --collection-circle: 207 52% 42%;
     --accent-green: 83 61% 40%;
 
     --sidebar-background: 208 61% 10%;

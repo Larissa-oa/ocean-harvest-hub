@@ -17,6 +17,8 @@ import reviewIcon from "@/assets/review-icon.png";
 import lobsterHeroImage from "@/assets/lobster-hero.png";
 import seafoodSpreadImage from "@/assets/seafood-spread.png";
 import schmidtFish from "@/assets/schmidt-fish.png";
+import groeneVis from "@/assets/Groene-vis.png";
+import blauweVis from "@/assets/Blauwe-vis.png";
 
 interface RecipeSectionProps {
   product: Product;
@@ -110,7 +112,7 @@ const RecipeSection = ({ product, images }: RecipeSectionProps) => {
   return (
     <section className="pb-12 md:pb-24 pt-8 md:pt-12 px-4 md:px-6 rounded-xl bg-secondary/30">
       <div className="flex items-center gap-3 mb-6 text-left">
-        <img src={reviewIcon} alt="Recepten" className="h-20 w-20 md:h-24 md:w-24 flex-shrink-0 rounded-full object-cover aspect-square" />
+        <img src={reviewIcon} alt="Recepten" className="h-20 w-20 md:h-24 md:w-24 flex-shrink-0 rounded-full object-cover aspect-square opacity-75" />
         <h2 className="text-xl md:text-2xl font-bold text-foreground">
           Recepten
         </h2>
@@ -178,15 +180,21 @@ const RecipeSection = ({ product, images }: RecipeSectionProps) => {
                   <span className="text-left">{recipe.title}</span>
                 </div>
               </AccordionTrigger>
-              <AccordionContent>
+              <AccordionContent className="overflow-visible">
                 <div className="grid md:grid-cols-3 gap-6">
-                  {/* Recipe image */}
-                  <div className="aspect-[4/3] rounded-lg bg-card overflow-hidden flex items-center justify-center border border-border">
-                    <img 
-                      src={recipeImage} 
-                      alt={recipe.title}
-                      className="w-full h-full object-cover"
-                    />
+                  {/* Recipe image with thin gradient border and overlapping corner fish - extra pb so blue fish overflows visibly */}
+                  <div className="relative pb-14 md:pb-16 overflow-visible">
+                    <div className="relative aspect-[4/3] rounded-[12px] p-[1.5px] bg-gradient-to-br from-[hsl(var(--accent-green))] to-[hsl(var(--primary))] overflow-visible">
+                      <div className="relative w-full h-full rounded-[10.5px] overflow-hidden flex items-center justify-center bg-card">
+                        <img 
+                          src={recipeImage} 
+                          alt={recipe.title}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <img src={groeneVis} alt="" className="absolute -top-4 -right-4 w-10 h-10 object-contain drop-shadow-lg z-10 pointer-events-none" style={{ transform: "rotate(18deg)" }} aria-hidden />
+                      <img src={blauweVis} alt="" className="absolute -bottom-4 -left-5 w-10 h-10 object-contain drop-shadow-lg z-10 pointer-events-none" style={{ transform: "rotate(18deg)" }} aria-hidden />
+                    </div>
                   </div>
                   
                   {/* Ingredients */}
@@ -220,31 +228,35 @@ const RecipeSection = ({ product, images }: RecipeSectionProps) => {
                   </div>
                 </div>
 
-                {/* Products used in recipe */}
+                {/* Products used in recipe (upsell) */}
                 {allUsedProducts.length > 0 && (
-                  <div className="mt-6 pt-4 border-t border-border/30">
+                  <div className="mt-6 pt-4 border-t border-border/30 px-2 pb-2">
                     <p className="text-sm text-muted-foreground mb-3">Producten in dit recept:</p>
                     <div className="flex flex-wrap gap-3">
                         {allUsedProducts.map((prod, i) => {
                         const prodImage = (prod.image && getNewProductImage(prod.image)) || productImageMap[prod.slug] || salmonImage;
 
                         return (
-                          <Link
+                          <div
                             key={i}
-                            to={`/products/${prod.slug}`}
-                            className="flex items-center gap-3 px-4 py-3 rounded-lg bg-card border border-border/30 hover:border-primary/40 transition-colors"
+                            className="p-[1.5px] rounded-[10px] bg-gradient-to-r from-[hsl(var(--accent-green))] to-[hsl(var(--primary))]"
                           >
-                            <img 
-                              src={prodImage} 
-                              alt={prod.name} 
-                              className="w-10 h-10 object-cover rounded-lg" 
-                            />
-                            <div>
-                              <span className="text-sm text-foreground block">{prod.name}</span>
-                              <span className="text-xs text-primary">Vanaf €{prod.price.toFixed(2).replace(".", ",")}</span>
-                            </div>
-                            <ChevronRight className="h-4 w-4 text-primary ml-2" />
-                          </Link>
+                            <Link
+                              to={`/products/${prod.slug}`}
+                              className="flex items-center gap-3 px-4 py-3 rounded-[8.5px] bg-card transition-colors"
+                            >
+                              <img 
+                                src={prodImage} 
+                                alt={prod.name} 
+                                className="w-10 h-10 object-cover rounded-lg" 
+                              />
+                              <div>
+                                <span className="text-sm text-foreground block">{prod.name}</span>
+                                <span className="text-xs text-primary">Vanaf €{prod.price.toFixed(2).replace(".", ",")}</span>
+                              </div>
+                              <ChevronRight className="h-4 w-4 text-primary ml-2" />
+                            </Link>
+                          </div>
                         );
                       })}
                     </div>

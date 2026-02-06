@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Minus, Plus, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Product } from "@/data/collections";
@@ -39,8 +39,12 @@ const productImages: Record<string, string> = {
 const getProductImage = (product: Product) =>
   (product.image && getNewProductImage(product.image)) || productImages[product.slug] || salmonImage;
 
+const SKIN_OPTIONS = { with: "Met vel", without: "Zonder vel" } as const;
+
 const QuickAddModal = ({ product, isOpen, onClose }: QuickAddModalProps) => {
   const { addItem } = useCart();
+  const isVerseVis = product.collectionId === "2";
+
   const [quantity, setQuantity] = useState(1);
   const [selectedOption, setSelectedOption] = useState(() => {
     if (product.variants.length > 0 && product.variants[0].options.length > 0) {
@@ -48,13 +52,21 @@ const QuickAddModal = ({ product, isOpen, onClose }: QuickAddModalProps) => {
     }
     return "";
   });
+  const [skinOption, setSkinOption] = useState<keyof typeof SKIN_OPTIONS>("with");
+
+  // Reset skin option whenever main variant selection changes
+  useEffect(() => {
+    setSkinOption("with");
+  }, [selectedOption]);
 
   const handleQuantityChange = (delta: number) => {
     setQuantity((prev) => Math.max(1, prev + delta));
   };
 
+  const cartOption = isVerseVis ? `${selectedOption} · ${SKIN_OPTIONS[skinOption]}` : selectedOption;
+
   const handleAddToCart = () => {
-    addItem(product, quantity, selectedOption);
+    addItem(product, quantity, cartOption);
     onClose();
     setQuantity(1);
   };
@@ -97,6 +109,28 @@ const QuickAddModal = ({ product, isOpen, onClose }: QuickAddModalProps) => {
                     }`}
                   >
                     {option}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* With or without skin (Verse Vis only) */}
+          {isVerseVis && (
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-foreground">Met of zonder vel</label>
+              <div className="flex flex-wrap gap-2">
+                {(Object.keys(SKIN_OPTIONS) as (keyof typeof SKIN_OPTIONS)[]).map((key) => (
+                  <button
+                    key={key}
+                    onClick={() => setSkinOption(key)}
+                    className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                      skinOption === key
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-secondary text-foreground hover:bg-secondary/80"
+                    }`}
+                  >
+                    {SKIN_OPTIONS[key]}
                   </button>
                 ))}
               </div>
