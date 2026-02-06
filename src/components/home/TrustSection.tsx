@@ -1,5 +1,4 @@
-import { Truck, ThermometerSnowflake, ShieldCheck, Fish } from "lucide-react";
-import logoSz from "@/assets/logosz.png";
+import { Truck, ThermometerSnowflake, ShieldCheck } from "lucide-react";
 
 const trustPoints = [
   {
@@ -32,14 +31,9 @@ const TrustSection = () => {
       </div>
       
       <div className="container relative">
-        <div className="flex items-center justify-between">
-          {/* Logo accent on left - hidden on mobile */}
-          <div className="hidden lg:flex items-center gap-3 pr-6 border-r border-primary-foreground/20">
-            <img src={logoSz} alt="Schmidt Zeevis" className="h-10 w-auto brightness-0 invert opacity-90" />
-          </div>
-          
-          {/* Trust points */}
-          <div className="flex items-center justify-start sm:justify-center lg:justify-end flex-1 overflow-x-auto scrollbar-hide">
+        <div className="flex items-center justify-center">
+          {/* Trust points - centered */}
+          <div className="flex items-center justify-center overflow-x-auto scrollbar-hide">
             {trustPoints.map((point, index) => (
               <div key={point.title} className="flex items-center flex-shrink-0">
                 <div
@@ -59,11 +53,6 @@ const TrustSection = () => {
                 )}
               </div>
             ))}
-          </div>
-          
-          {/* Swimming fish accent on right - hidden on mobile */}
-          <div className="hidden lg:flex items-center pl-6 border-l border-primary-foreground/20">
-            <Fish className="h-6 w-6 text-primary-foreground/60 animate-swim" />
           </div>
         </div>
       </div>
