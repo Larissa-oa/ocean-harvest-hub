@@ -62,7 +62,7 @@ const CollectionsGrid = () => {
                 className="group relative animate-fade-in"
                 style={{ animationDelay: `${index * 50}ms` }}
               >
-                <div className="relative rounded-2xl overflow-hidden transition-all duration-300 bg-card border border-border/30 hover:border-primary/40 shadow-sm hover:shadow-md">
+                <div className="collection-card-border relative overflow-hidden shadow-sm group-hover:shadow-md transition-shadow duration-300">
                   {/* Card content */}
                   <div className="p-4 md:p-6">
                     {/* Product image with circular accent - fixed height for all */}

@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Plus, Fish, Star } from "lucide-react";
+import { Plus, Fish, Star, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Product } from "@/data/collections";
+import { getNewProductImage } from "@/data/productImageAssets";
 import QuickAddModal from "./QuickAddModal";
 import salmonImage from "@/assets/salmon-collection.jpg";
 import shrimpImage from "@/assets/shrimp-collection.jpg";
@@ -31,8 +32,10 @@ const productImages: Record<string, string> = {
   "zeeuwse-kreeft": mackerelImage,
 };
 
-const getProductImage = (slug: string) => {
-  return productImages[slug] || salmonImage;
+const getProductImage = (product: Product) => {
+  const fromData = product.image && getNewProductImage(product.image);
+  if (fromData) return fromData;
+  return productImages[product.slug] || salmonImage;
 };
 
 const SeasonalityBadge = ({ 
@@ -95,13 +98,14 @@ const SchmidtsChoiceBadge = ({ isSchmidtsChoice }: { isSchmidtsChoice?: boolean 
         <TooltipTrigger asChild>
           <button
             type="button"
-            className="px-2.5 py-1 bg-primary text-primary-foreground text-xs font-semibold rounded-full"
+            className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-primary text-primary-foreground text-xs font-semibold rounded-full"
             onClick={(e) => {
               e.stopPropagation();
               e.preventDefault();
             }}
           >
             Schmidt's Keuze
+            <Info className="h-3 w-3 opacity-90" />
           </button>
         </TooltipTrigger>
         <TooltipContent
@@ -130,7 +134,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         <div className="relative aspect-[4/3] bg-secondary rounded-t-xl">
           <Link to={`/products/${product.slug}`} className="block w-full h-full overflow-hidden rounded-t-xl">
             <img
-              src={getProductImage(product.slug)}
+              src={getProductImage(product)}
               alt={product.name}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
@@ -143,7 +147,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         </div>
 
         {/* Content */}
-        <div className="p-4">
+        <div className="p-4 bg-gray-50 dark:bg-gray-900/30 rounded-b-xl">
           <Link to={`/products/${product.slug}`}>
             <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-1 mb-1">
               {product.name}

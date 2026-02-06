@@ -2,18 +2,18 @@ import blauweVis from "@/assets/Blauwe-vis.png";
 import groeneVis from "@/assets/Groene-vis.png";
 
 const FISH = [
-  { src: blauweVis, alt: "", delay: 0, duration: 2.5, isGreen: false },
-  { src: groeneVis, alt: "", delay: 0.4, duration: 2.8, isGreen: true },
-  { src: blauweVis, alt: "", delay: 0.8, duration: 2.2, isGreen: false },
-  { src: groeneVis, alt: "", delay: 0.2, duration: 3, isGreen: true },
-  { src: blauweVis, alt: "", delay: 0.6, duration: 2.6, isGreen: false },
-  { src: groeneVis, alt: "", delay: 0.1, duration: 2.4, isGreen: true },
-  { src: blauweVis, alt: "", delay: 0.5, duration: 2.9, isGreen: false },
-  { src: groeneVis, alt: "", delay: 0.3, duration: 2.3, isGreen: true },
-  { src: blauweVis, alt: "", delay: 0.7, duration: 2.7, isGreen: false },
-  { src: groeneVis, alt: "", delay: 0.9, duration: 2.5, isGreen: true },
-  { src: blauweVis, alt: "", delay: 0.15, duration: 2.55, isGreen: false },
-  { src: groeneVis, alt: "", delay: 0.45, duration: 2.75, isGreen: true },
+  { src: blauweVis, alt: "", isGreen: false },
+  { src: groeneVis, alt: "", isGreen: true },
+  { src: blauweVis, alt: "", isGreen: false },
+  { src: groeneVis, alt: "", isGreen: true },
+  { src: blauweVis, alt: "", isGreen: false },
+  { src: groeneVis, alt: "", isGreen: true },
+  { src: blauweVis, alt: "", isGreen: false },
+  { src: groeneVis, alt: "", isGreen: true },
+  { src: blauweVis, alt: "", isGreen: false },
+  { src: groeneVis, alt: "", isGreen: true },
+  { src: blauweVis, alt: "", isGreen: false },
+  { src: groeneVis, alt: "", isGreen: true },
 ];
 
 export const SwimmingFishLine = () => {
@@ -26,11 +26,7 @@ export const SwimmingFishLine = () => {
       {FISH.map((fish, i) => (
         <div
           key={i}
-          className={`animate-swim flex-shrink-0 ${i >= 8 ? "hidden md:flex" : ""}`}
-          style={{
-            animationDelay: `${fish.delay}s`,
-            animationDuration: `${fish.duration}s`,
-          }}
+          className={`flex-shrink-0 ${i >= 8 ? "hidden md:flex" : ""}`}
         >
           <img
             src={fish.src}

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useCart } from "@/hooks/useCart";
 import { products, Product } from "@/data/collections";
+import { getNewProductImage } from "@/data/productImageAssets";
 import QuickAddModal from "@/components/products/QuickAddModal";
 import salmonImage from "@/assets/salmon-collection.jpg";
 import shrimpImage from "@/assets/shrimp-collection.jpg";
@@ -26,7 +27,8 @@ const productImages: Record<string, string> = {
   "zeeuwse-kreeft": mackerelImage,
 };
 
-const getProductImage = (slug: string) => productImages[slug] || salmonImage;
+const getProductImage = (product: Product) =>
+  (product.image && getNewProductImage(product.image)) || productImages[product.slug] || salmonImage;
 
 const CartDrawer = () => {
   const { 
@@ -103,7 +105,7 @@ const CartDrawer = () => {
                   className="flex gap-3 p-3 bg-secondary/50 rounded-xl"
                 >
                   <img
-                    src={getProductImage(item.product.slug)}
+                    src={getProductImage(item.product)}
                     alt={item.product.name}
                     className="w-20 h-20 object-cover rounded-lg"
                   />
@@ -172,7 +174,7 @@ const CartDrawer = () => {
                         className="flex items-center gap-3 p-2 bg-card rounded-lg border border-border"
                       >
                         <img
-                          src={getProductImage(product.slug)}
+                          src={getProductImage(product)}
                           alt={product.name}
                           className="w-12 h-12 object-cover rounded-md"
                         />

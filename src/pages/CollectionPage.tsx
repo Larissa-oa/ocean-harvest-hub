@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, Link, useSearchParams } from "react-router-dom";
-import { Search, ChevronDown, ChevronUp, Filter, X, Euro, Calendar, Grid3X3, Check, Ban } from "lucide-react";
+import { Search, ChevronDown, ChevronUp, Filter, X, Calendar, Grid3X3 } from "lucide-react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import ProductCard from "@/components/products/ProductCard";
@@ -8,8 +8,7 @@ import WaveDivider from "@/components/ui/WaveDivider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Slider } from "@/components/ui/slider";
-import { collections, products, getCollectionBySlug } from "@/data/collections";
+import { collections, getCollectionBySlug, getProductsByCollection } from "@/data/collections";
 import groeneVisImage from "@/assets/Groene-vis.png";
 import blauweVisImage from "@/assets/Blauwe-vis.png";
 
@@ -26,47 +25,31 @@ const CollectionPage = () => {
   useEffect(() => {
     setSearchQuery(urlSearchQuery);
   }, [urlSearchQuery]);
-  const [priceRange, setPriceRange] = useState([0, 100]);
-  const [minPriceInput, setMinPriceInput] = useState("0");
-  const [maxPriceInput, setMaxPriceInput] = useState("100");
-  const [seasonalityFilters, setSeasonalityFilters] = useState<string[]>([]);
+  const [attributeFilters, setAttributeFilters] = useState<string[]>([]);
   const [showAllCollections, setShowAllCollections] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const handleMinPriceChange = (value: string) => {
-    setMinPriceInput(value);
-    const num = parseFloat(value);
-    if (!isNaN(num) && num >= 0 && num <= priceRange[1]) {
-      setPriceRange([num, priceRange[1]]);
-    }
-  };
-
-  const handleMaxPriceChange = (value: string) => {
-    setMaxPriceInput(value);
-    const num = parseFloat(value);
-    if (!isNaN(num) && num >= priceRange[0] && num <= 100) {
-      setPriceRange([priceRange[0], num]);
-    }
-  };
-
-  const handleSliderChange = (value: number[]) => {
-    setPriceRange(value);
-    setMinPriceInput(value[0].toString());
-    setMaxPriceInput(value[1].toString());
-  };
-
-  const filteredProducts = products.filter((product) => {
+  const collectionProducts = collection ? getProductsByCollection(collection.id) : getProductsByCollection("1");
+  const filteredProducts = collectionProducts.filter((product) => {
     const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1];
-    const matchesSeasonality =
-      seasonalityFilters.length === 0 || seasonalityFilters.includes(product.seasonality);
-    return matchesSearch && matchesPrice && matchesSeasonality;
+    const matchesAttributes =
+      attributeFilters.length === 0 ||
+      attributeFilters.some((f) =>
+        f === "in-het-seizoen"
+          ? product.inHetSeizoen
+          : f === "lokaal-gevangen"
+            ? product.lokaalGevangen
+            : f === "duurzaam"
+              ? product.duurzaam
+              : false
+      );
+    return matchesSearch && matchesAttributes;
   });
 
   const visibleCollections = showAllCollections ? collections : collections.slice(0, 6);
 
-  const toggleSeasonality = (value: string) => {
-    setSeasonalityFilters((prev) =>
+  const toggleAttribute = (value: string) => {
+    setAttributeFilters((prev) =>
       prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value]
     );
   };
@@ -170,87 +153,40 @@ const CollectionPage = () => {
                 </div>
 
                 <div className="space-y-5">
-                  {/* Price Filter */}
-                  <div className="bg-card rounded-xl p-4 border border-border">
-                    <h3 className="font-semibold text-foreground mb-4 flex items-center gap-2">
-                      <Euro className="h-4 w-4 text-primary" />
-                      Prijs
-                    </h3>
-                    <Slider
-                      value={priceRange}
-                      onValueChange={handleSliderChange}
-                      min={0}
-                      max={100}
-                      step={1}
-                      className="mb-4"
-                    />
-                    <div className="flex items-center gap-2">
-                      <div className="flex-1">
-                        <label className="text-xs text-muted-foreground mb-1 block">Min</label>
-                        <Input
-                          type="number"
-                          value={minPriceInput}
-                          onChange={(e) => handleMinPriceChange(e.target.value)}
-                          className="h-9 text-sm"
-                          min={0}
-                          max={priceRange[1]}
-                        />
-                      </div>
-                      <span className="text-muted-foreground mt-5">-</span>
-                      <div className="flex-1">
-                        <label className="text-xs text-muted-foreground mb-1 block">Max</label>
-                        <Input
-                          type="number"
-                          value={maxPriceInput}
-                          onChange={(e) => handleMaxPriceChange(e.target.value)}
-                          className="h-9 text-sm"
-                          min={priceRange[0]}
-                          max={100}
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Seasonality Filter */}
+                  {/* Attribute Filter: In het seizoen / Lokaal gevangen / Duurzaam */}
                   <div className="bg-card rounded-xl p-4 border-2 border-border shadow-sm">
                     <h3 className="font-semibold text-foreground mb-1 flex items-center gap-2">
-                      <Calendar className="h-4 w-4 text-primary" />
-                      Beschikbaarheid
+                      Kenmerken
                     </h3>
                     <p className="text-xs text-muted-foreground mb-4">
-                      Filter op seizoen en beschikbaarheid
+                      Filter op seizoen, herkomst en duurzaamheid
                     </p>
                     <div className="space-y-2">
                       {[
-                        { value: "in-season", label: "In Seizoen", sublabel: null, icon: null, isFish: true, isBlueFish: false, colorClass: "text-accent-green", bgClass: "bg-accent-green/15", borderClass: "border-l-4 border-accent-green", selectedRing: "ring-2 ring-accent-green/50 ring-offset-2" },
-                        { value: "available", label: "Beschikbaar", sublabel: null, icon: null, isFish: false, isBlueFish: true, colorClass: "text-primary", bgClass: "bg-secondary", borderClass: "border-l-4 border-primary/40", selectedRing: "ring-2 ring-primary/30 ring-offset-2" },
-                        { value: "unavailable", label: "Seizoensgebonden", sublabel: null, icon: Ban, isFish: false, isBlueFish: false, colorClass: "text-muted-foreground", bgClass: "bg-muted/50", borderClass: "border-l-4 border-muted-foreground/30", selectedRing: "ring-2 ring-muted ring-offset-2" },
+                        { value: "in-het-seizoen", label: "In het seizoen", isFish: true, colorClass: "text-accent-green", bgClass: "bg-accent-green/15", borderClass: "border-l-4 border-accent-green", selectedRing: "ring-2 ring-accent-green/50 ring-offset-2", checkboxClass: "data-[state=checked]:bg-accent-green data-[state=checked]:border-accent-green" },
+                        { value: "lokaal-gevangen", label: "Lokaal gevangen", isFish: false, isBlueFish: true, colorClass: "text-primary", bgClass: "bg-secondary", borderClass: "border-l-4 border-primary/40", selectedRing: "ring-2 ring-primary/30 ring-offset-2", checkboxClass: "data-[state=checked]:bg-primary data-[state=checked]:border-primary" },
+                        { value: "duurzaam", label: "Duurzaam", isFish: false, isBlueFish: true, colorClass: "text-primary", bgClass: "bg-secondary", borderClass: "border-l-4 border-primary/40", selectedRing: "ring-2 ring-primary/30 ring-offset-2", checkboxClass: "data-[state=checked]:bg-primary data-[state=checked]:border-primary" },
                       ].map((option) => {
-                        const isChecked = seasonalityFilters.includes(option.value);
+                        const isChecked = attributeFilters.includes(option.value);
                         return (
                           <label
                             key={option.value}
-                            className={`flex items-center gap-3 cursor-pointer rounded-lg p-3 border-l-4 ${option.borderClass} ${option.bgClass} transition-all ${isChecked ? option.selectedRing : ''} hover:opacity-90`}
+                            className={`flex items-center gap-3 cursor-pointer rounded-lg p-3 border-l-4 ${option.borderClass} ${option.bgClass} transition-all ${isChecked ? option.selectedRing : ""} hover:opacity-90`}
                           >
                             <Checkbox
                               checked={isChecked}
-                              onCheckedChange={() => toggleSeasonality(option.value)}
-                              className={`border-2 ${option.value === "in-season" ? "data-[state=checked]:bg-accent-green data-[state=checked]:border-accent-green" : "data-[state=checked]:bg-primary data-[state=checked]:border-primary"}`}
+                              onCheckedChange={() => toggleAttribute(option.value)}
+                              className={`border-2 ${option.checkboxClass}`}
                             />
                             <span className="flex flex-col gap-0.5 flex-1">
                               <span className={`text-sm font-semibold flex items-center gap-2 ${option.colorClass}`}>
                                 {option.isFish ? (
-                                  <img src={groeneVisImage} alt="In seizoen" className="h-4 w-4 object-contain scale-x-[-1]" />
+                                  <img src={groeneVisImage} alt="In het seizoen" className="h-4 w-4 object-contain scale-x-[-1]" />
                                 ) : option.isBlueFish ? (
-                                  <img src={blauweVisImage} alt="Beschikbaar" className="h-4 w-4 object-contain" />
-                                ) : (
-                                  option.icon && <option.icon className={`h-4 w-4 ${option.colorClass}`} />
-                                )}
+                                  <img src={blauweVisImage} alt="Lokaal" className="h-4 w-4 object-contain" />
+                                ) : null}
                                 {option.label}
                               </span>
-                              {option.sublabel && (
-                                <span className="text-xs text-muted-foreground">{option.sublabel}</span>
-                              )}
                             </span>
                           </label>
                         );

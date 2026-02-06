@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import ProductCard from "@/components/products/ProductCard";
-import { products } from "@/data/collections";
+import { getProductsByCollection } from "@/data/collections";
 import {
   Carousel,
   CarouselContent,
@@ -11,8 +11,7 @@ import {
 } from "@/components/ui/carousel";
 
 const CatchOfTheMonthSlider = () => {
-  // Use first 5 products as "catch of the month"
-  const catchProducts = products.slice(0, 5);
+  const catchProducts = getProductsByCollection("16"); // Vangst van de Maand
 
   return (
     <section className="pt-8 md:pt-16 pb-12 md:pb-40 bg-secondary/30">
@@ -44,7 +43,7 @@ const CatchOfTheMonthSlider = () => {
               {/* See All Card */}
               <CarouselItem className="pl-3 sm:pl-4 basis-2/3 sm:basis-1/2 lg:basis-[28.57%] flex-shrink-0">
               <Link
-                to="/collections/catch-of-the-month"
+                to="/collections/vangst-van-de-maand"
                 className="flex flex-col items-center justify-center h-full min-h-[280px] bg-card rounded-2xl border border-border border-dashed hover:border-primary hover:bg-secondary/50 transition-all duration-300 group"
               >
                 <div className="w-16 h-16 rounded-full bg-collection-circle/20 flex items-center justify-center mb-4 group-hover:bg-collection-circle/40 transition-colors">

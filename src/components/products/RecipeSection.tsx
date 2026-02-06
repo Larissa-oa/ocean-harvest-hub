@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Product, Recipe, getProductBySlug, products } from "@/data/collections";
+import { getNewProductImage } from "@/data/productImageAssets";
 import salmonImage from "@/assets/salmon-collection.jpg";
 import shrimpImage from "@/assets/shrimp-collection.jpg";
 import oysterImage from "@/assets/oyster-collection.jpg";
@@ -12,7 +13,10 @@ import dutchShrimpImage from "@/assets/dutch-shrimp.avif";
 import oceanParadiseImage from "@/assets/ocean-paradise.png";
 import zeebassImage from "@/assets/zeebass.avif";
 import octopusImage from "@/assets/octopus.avif";
-import recipesIcon from "@/assets/recipes1.svg";
+import reviewIcon from "@/assets/review-icon.png";
+import lobsterHeroImage from "@/assets/lobster-hero.png";
+import seafoodSpreadImage from "@/assets/seafood-spread.png";
+import schmidtFish from "@/assets/schmidt-fish.png";
 
 interface RecipeSectionProps {
   product: Product;
@@ -35,6 +39,21 @@ const productImageMap: Record<string, string> = {
   "zeeuwse-platte-oesters": oysterImage,
   "zeeuwse-kreeft": mackerelImage,
 };
+
+// Recipe hero images from assets (outside new-images) – used for accordion and content
+const recipeImagesFromAssets: string[] = [
+  salmonImage,
+  shrimpImage,
+  oysterImage,
+  mackerelImage,
+  octopusTentaclesImage,
+  oceanParadiseImage,
+  zeebassImage,
+  lobsterHeroImage,
+  seafoodSpreadImage,
+  dutchShrimpImage,
+  octopusImage,
+];
 
 const RecipeSection = ({ product, images }: RecipeSectionProps) => {
   const location = useLocation();
@@ -90,13 +109,11 @@ const RecipeSection = ({ product, images }: RecipeSectionProps) => {
 
   return (
     <section className="pb-12 md:pb-24 pt-8 md:pt-12 px-4 md:px-6 rounded-xl bg-secondary/30">
-      <div className="flex items-center gap-3 mb-6">
-        <img src={recipesIcon} alt="Recipes" className="h-14 w-14 md:h-12 md:w-12" />
-        <div>
-          <h2 className="text-xl md:text-2xl font-bold text-foreground">
-            Recepten
-          </h2>
-        </div>
+      <div className="flex items-center gap-3 mb-6 text-left">
+        <img src={reviewIcon} alt="Recepten" className="h-20 w-20 md:h-24 md:w-24 flex-shrink-0 rounded-full object-cover aspect-square" />
+        <h2 className="text-xl md:text-2xl font-bold text-foreground">
+          Recepten
+        </h2>
       </div>
       <Accordion 
         key={product.id}
@@ -147,17 +164,26 @@ const RecipeSection = ({ product, images }: RecipeSectionProps) => {
           // Create a stable key based on recipe title and product slug
           const recipeKey = `recipe-${recipeProduct.slug}-${recipe.title.toLowerCase().replace(/\s+/g, '-')}`;
 
+          const recipeImage = recipeImagesFromAssets[idx % recipeImagesFromAssets.length];
+
           return (
             <AccordionItem key={recipeKey} value={recipeKey} className="border-border/50">
-              <AccordionTrigger className="text-foreground hover:no-underline text-lg md:text-xl">
-                {recipe.title}
+              <AccordionTrigger className="text-foreground hover:no-underline text-lg md:text-xl py-4 [&[data-state=open]>img]:rounded-b-none text-left">
+                <div className="flex items-center gap-3 flex-1 min-w-0 text-left">
+                  <img
+                    src={recipeImage}
+                    alt=""
+                    className="w-12 h-12 sm:w-14 sm:h-14 rounded-lg object-cover flex-shrink-0"
+                  />
+                  <span className="text-left">{recipe.title}</span>
+                </div>
               </AccordionTrigger>
               <AccordionContent>
                 <div className="grid md:grid-cols-3 gap-6">
                   {/* Recipe image */}
                   <div className="aspect-[4/3] rounded-lg bg-card overflow-hidden flex items-center justify-center border border-border">
                     <img 
-                      src={productImages[0] || ""} 
+                      src={recipeImage} 
                       alt={recipe.title}
                       className="w-full h-full object-cover"
                     />
@@ -166,9 +192,16 @@ const RecipeSection = ({ product, images }: RecipeSectionProps) => {
                   {/* Ingredients */}
                   <div>
                     <h4 className="font-medium mb-3 text-sm text-foreground">Ingrediënten</h4>
-                    <ul className="space-y-1.5 text-sm text-muted-foreground">
+                    <ul className="space-y-1.5 text-sm text-muted-foreground list-none">
                       {recipe.ingredients.map((ing, i) => (
-                        <li key={i}>• {ing}</li>
+                        <li key={i} className="flex items-center gap-2">
+                          <img
+                            src={schmidtFish}
+                            alt=""
+                            className="h-3 w-4 flex-shrink-0 scale-x-[-1] invert mix-blend-multiply opacity-70"
+                          />
+                          <span>{ing}</span>
+                        </li>
                       ))}
                     </ul>
                   </div>
@@ -193,7 +226,7 @@ const RecipeSection = ({ product, images }: RecipeSectionProps) => {
                     <p className="text-sm text-muted-foreground mb-3">Producten in dit recept:</p>
                     <div className="flex flex-wrap gap-3">
                         {allUsedProducts.map((prod, i) => {
-                        const prodImage = productImageMap[prod.slug] || salmonImage;
+                        const prodImage = (prod.image && getNewProductImage(prod.image)) || productImageMap[prod.slug] || salmonImage;
 
                         return (
                           <Link
@@ -204,7 +237,7 @@ const RecipeSection = ({ product, images }: RecipeSectionProps) => {
                             <img 
                               src={prodImage} 
                               alt={prod.name} 
-                              className="w-10 h-10 object-contain rounded" 
+                              className="w-10 h-10 object-cover rounded-lg" 
                             />
                             <div>
                               <span className="text-sm text-foreground block">{prod.name}</span>

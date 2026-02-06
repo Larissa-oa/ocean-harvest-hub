@@ -4,7 +4,7 @@ const trustPoints = [
   {
     icon: Truck,
     title: "Gratis Verzending",
-    description: "Vanaf €50",
+    description: "Vanaf €200",
   },
   {
     icon: ThermometerSnowflake,

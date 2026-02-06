@@ -270,6 +270,22 @@
   .season-unavailable {
     @apply bg-muted text-muted-foreground;
   }
+
+  /* Collection card - single-element gradient border (no corner mismatch) */
+  .collection-card-border {
+    border: 1px solid transparent;
+    background:
+      linear-gradient(hsl(var(--card)), hsl(var(--card))) padding-box,
+      linear-gradient(to right, hsl(var(--border) / 0.3), hsl(var(--border) / 0.3)) border-box;
+    border-radius: 1rem;
+    transition: all 0.3s;
+  }
+  .group:hover .collection-card-border {
+    border-color: transparent;
+    background:
+      linear-gradient(hsl(var(--card)), hsl(var(--card))) padding-box,
+      linear-gradient(to right, hsl(var(--primary)), hsl(var(--accent-green))) border-box;
+  }
 }
 
 @layer utilities {

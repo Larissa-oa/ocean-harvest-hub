@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Minus, Plus, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Product } from "@/data/collections";
+import { getNewProductImage } from "@/data/productImageAssets";
 import { useCart } from "@/hooks/useCart";
 import {
   Dialog,
@@ -35,9 +36,8 @@ const productImages: Record<string, string> = {
   "zeeuwse-kreeft": mackerelImage,
 };
 
-const getProductImage = (slug: string) => {
-  return productImages[slug] || salmonImage;
-};
+const getProductImage = (product: Product) =>
+  (product.image && getNewProductImage(product.image)) || productImages[product.slug] || salmonImage;
 
 const QuickAddModal = ({ product, isOpen, onClose }: QuickAddModalProps) => {
   const { addItem } = useCart();
@@ -70,7 +70,7 @@ const QuickAddModal = ({ product, isOpen, onClose }: QuickAddModalProps) => {
           {/* Product Image */}
           <div className="aspect-video rounded-xl overflow-hidden bg-secondary">
             <img
-              src={getProductImage(product.slug)}
+              src={getProductImage(product)}
               alt={product.name}
               className="w-full h-full object-cover"
             />

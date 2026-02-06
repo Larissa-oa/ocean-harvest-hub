@@ -8,6 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { useCart } from "@/hooks/useCart";
 import { products, Product } from "@/data/collections";
+import { getNewProductImage } from "@/data/productImageAssets";
 import QuickAddModal from "@/components/products/QuickAddModal";
 import salmonImage from "@/assets/salmon-collection.jpg";
 import shrimpImage from "@/assets/shrimp-collection.jpg";
@@ -30,7 +31,8 @@ const productImages: Record<string, string> = {
   "zeeuwse-kreeft": mackerelImage,
 };
 
-const getProductImage = (slug: string) => productImages[slug] || salmonImage;
+const getProductImage = (product: Product) =>
+  (product.image && getNewProductImage(product.image)) || productImages[product.slug] || salmonImage;
 
 const CartPage = () => {
   const { 
@@ -111,7 +113,7 @@ const CartPage = () => {
                   >
                     <Link to={`/products/${item.product.slug}`} className="flex-shrink-0">
                       <img
-                        src={getProductImage(item.product.slug)}
+                        src={getProductImage(item.product)}
                         alt={item.product.name}
                         className="w-20 h-20 md:w-24 md:h-24 object-cover rounded-xl"
                       />
@@ -224,7 +226,7 @@ const CartPage = () => {
                       <div className="bg-card rounded-xl border border-border overflow-hidden group h-full">
                         <Link to={`/products/${product.slug}`}>
                           <img
-                            src={getProductImage(product.slug)}
+                            src={getProductImage(product)}
                             alt={product.name}
                             className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300"
                           />

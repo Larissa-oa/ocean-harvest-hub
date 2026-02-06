@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { products, getProductBySlug } from "@/data/collections";
+import { getNewProductImage } from "@/data/productImageAssets";
 import { useCart } from "@/hooks/useCart";
 import salmonImage from "@/assets/salmon-collection.jpg";
 import shrimpImage from "@/assets/shrimp-collection.jpg";
@@ -66,10 +67,15 @@ const ProductPage = () => {
     setSelectedOption(product.variants[0].options[0]);
   }
 
-  const images = productImages[product.slug] || [salmonImage];
+  const fromDataImage = product.image && getNewProductImage(product.image);
+  const images = fromDataImage
+    ? [fromDataImage]
+    : (productImages[product.slug] || [salmonImage]);
   const relatedProducts = products.filter((p) => p.id !== product.id).slice(0, 5);
-  const addOnProduct = products.find(p => p.slug === "hollandse-garnalen");
-  const addOnProductImage = addOnProduct ? (productImages[addOnProduct.slug]?.[0] || salmonImage) : shrimpImage;
+  const addOnProduct = products.find(p => p.slug === "garnalen-kant-en-klaar");
+  const addOnProductImage = addOnProduct
+    ? (addOnProduct.image && getNewProductImage(addOnProduct.image)) || productImages[addOnProduct.slug]?.[0] || salmonImage
+    : shrimpImage;
 
   const getSeasonIcon = (status: string) => {
     switch (status) {
@@ -114,13 +120,13 @@ const ProductPage = () => {
           {/* Product Section */}
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 mb-20 md:mb-24 items-start">
             {/* Images - Sticky on desktop */}
-            <div className="space-y-4 lg:sticky lg:top-8">
+            <div className="space-y-4 lg:sticky lg:top-8 w-full">
               {/* Main Image */}
-              <div className="relative aspect-square rounded-2xl overflow-hidden bg-secondary">
+              <div className="relative rounded-2xl overflow-hidden bg-transparent w-full max-w-[380px] lg:max-w-[420px] mx-auto border border-border/50">
                 <img
                   src={images[selectedImage]}
                   alt={product.name}
-                  className="w-full h-full object-cover"
+                  className="w-full h-auto block object-contain"
                 />
                 {product.seasonality === "in-season" && (
                   <span className="absolute top-4 left-4 px-3 py-1.5 bg-accent-green/65 border border-accent-green/70 text-black text-sm font-semibold rounded-full flex items-center gap-1.5 shadow-sm">
@@ -151,7 +157,7 @@ const ProductPage = () => {
                 )}
               </div>
 
-              {/* Thumbnails - Fun diagonal layout */}
+              {/* Thumbnails */}
               <div className="flex gap-3 justify-center">
                 {images.map((img, index) => (
                   <button
@@ -162,7 +168,6 @@ const ProductPage = () => {
                         ? "ring-2 ring-primary ring-offset-2 scale-105"
                         : "opacity-60 hover:opacity-100"
                     }`}
-                    style={{ transform: `rotate(${index % 2 === 0 ? -3 : 3}deg)` }}
                   >
                     <img
                       src={img}
@@ -314,7 +319,7 @@ const ProductPage = () => {
                     <Truck className="h-5 w-5 text-primary" />
                   </div>
                   <p className="text-xs font-medium text-foreground">Gratis verzending</p>
-                  <p className="text-xs text-muted-foreground">vanaf €50</p>
+                  <p className="text-xs text-muted-foreground">vanaf €200</p>
                 </div>
                 <div className="bg-secondary rounded-2xl p-3 sm:p-4 text-center space-y-1">
                   <div className="w-10 h-10 rounded-full bg-collection-circle/20 flex items-center justify-center mx-auto mb-2">
