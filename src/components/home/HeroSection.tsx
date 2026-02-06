@@ -19,6 +19,14 @@ const HeroSection = () => {
       {/* Content */}
       <div className="container relative z-10 -my-4 sm:my-0">
         <div className="max-w-[70%] sm:max-w-lg space-y-3 sm:space-y-5 animate-fade-in text-left">
+          {/* Green accent eyebrow */}
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-0.5 bg-accent-green rounded-full" />
+            <span className="text-[10px] sm:text-xs font-medium tracking-widest uppercase text-accent-green">
+              Royal Schmidt Zeevis Rotterdam
+            </span>
+          </div>
+          
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight">
             Verse vis &{" "}
             <span className="text-primary">zeevruchten</span>
