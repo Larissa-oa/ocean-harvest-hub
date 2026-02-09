@@ -42,6 +42,7 @@ const ProductPage = () => {
   const [quantity, setQuantity] = useState(1);
   const [addOnQuantity, setAddOnQuantity] = useState(1);
   const [selectedOption, setSelectedOption] = useState("");
+  const [selectedSkin, setSelectedSkin] = useState<"Met vel" | "Zonder vel">("Met vel");
   const [selectedImage, setSelectedImage] = useState(0);
 
   if (!product) {
@@ -99,8 +100,11 @@ const ProductPage = () => {
     }
   };
 
+  const isFishCategory = product.collectionId === "2";
+  const cartOptionLabel = isFishCategory ? `${selectedOption} • ${selectedSkin}` : selectedOption;
+
   const handleAddToCart = () => {
-    addItem(product, quantity, selectedOption);
+    addItem(product, quantity, cartOptionLabel);
   };
 
   return (
@@ -194,7 +198,7 @@ const ProductPage = () => {
                 <span className="font-medium text-foreground">{product.weight}</span>
               </div>
 
-              {/* Single Variant Selector */}
+              {/* Variant Selectors: first variant (e.g. Opties) */}
               {product.variants.length > 0 && (
                 <div className="space-y-3">
                   <label className="text-sm font-medium text-foreground">{product.variants[0].name}</label>
@@ -205,6 +209,28 @@ const ProductPage = () => {
                         onClick={() => setSelectedOption(option)}
                         className={`px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all ${
                           selectedOption === option
+                            ? "bg-primary text-primary-foreground"
+                            : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                        }`}
+                      >
+                        {option}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Skin option for fish category (Verse Vis) */}
+              {isFishCategory && product.variants[1]?.name === "Vel" && (
+                <div className="space-y-3">
+                  <label className="text-sm font-medium text-foreground">{product.variants[1].name}</label>
+                  <div className="flex flex-wrap gap-2">
+                    {product.variants[1].options.map((option) => (
+                      <button
+                        key={option}
+                        onClick={() => setSelectedSkin(option as "Met vel" | "Zonder vel")}
+                        className={`px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all ${
+                          selectedSkin === option
                             ? "bg-primary text-primary-foreground"
                             : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
                         }`}

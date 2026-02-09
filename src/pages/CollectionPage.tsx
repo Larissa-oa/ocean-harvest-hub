@@ -11,16 +11,16 @@ import { collections, getCollectionBySlug, getProductsByCollection } from "@/dat
 import groeneVisImage from "@/assets/Groene-vis.png";
 import blauweVisImage from "@/assets/Blauwe-vis.png";
 import alleImage from "@/assets/collection/alle.png";
-import versevisImage from "@/assets/collection/versevis.png";
-import schalpImage from "@/assets/collection/schalp1.png";
-import kantAnKlaarImage from "@/assets/collection/kant-an-klaar.png";
-import sushiensashimiImage from "@/assets/collection/sushiensashimi.png";
+import versevisImage from "@/assets/new-category-image/verse-vis-Photoroom.png";
+import schalpImage from "@/assets/new-category-image/schaal-Photoroom.png";
+import kantAnKlaarImage from "@/assets/new-category-image/kant-en-klaar-Photoroom.png";
+import sushiensashimiImage from "@/assets/new-category-image/sushi-Photoroom.png";
 import olieenazijnImage from "@/assets/collection/olieenazijn.png";
-import specialsImage from "@/assets/collection/specials.png";
-import deliImage from "@/assets/collection/deli.png";
+import specialsImage from "@/assets/new-category-image/Special-Photoroom.png";
+import deliImage from "@/assets/new-category-image/delicatessen-Photoroom.png";
 import sauzenImage from "@/assets/collection/sauzen.png";
-import schotelImage from "@/assets/collection/schotel.png";
-import diepvriesImage from "@/assets/collection/diepvrie1-Photoroom.png";
+import schotelImage from "@/assets/new-category-image/schotels-Photoroom.png";
+import diepvriesImage from "@/assets/new-category-image/diepvries-Photoroom.png";
 import conservenImage from "@/assets/collection/conserven.png";
 import kruidenImage from "@/assets/collection/kruiden.png";
 import merchandiseImage from "@/assets/collection/merchandise.png";
@@ -28,8 +28,8 @@ import diversenImage from "@/assets/collection/diversen.png";
 import versevangstImage from "@/assets/collection/versevangst.png";
 
 const collectionHeaderImages: Record<string, string> = {
-  "alle-producten": alleImage,
-  "verse-vis": versevisImage,
+  "alle-producten": versevisImage,
+  "verse-vis": alleImage,
   "schaal-en-schelpdieren": schalpImage,
   "klaar-en-klaar": kantAnKlaarImage,
   "sushi-en-sashimi": sushiensashimiImage,
@@ -125,10 +125,11 @@ const CollectionPage = () => {
         <div className="relative min-h-[180px] md:min-h-[220px] overflow-hidden border-b border-border/60">
           {/* Background image - more visible, per collection */}
           <div
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            className="absolute inset-0 bg-cover bg-no-repeat"
             style={{
               backgroundImage: `url(${collectionHeaderImages[collection?.slug || "alle-producten"] || alleImage})`,
               opacity: 0.65,
+              backgroundPosition: (collection?.slug || "alle-producten") === "alle-producten" ? "72% center" : "center",
             }}
             aria-hidden
           />

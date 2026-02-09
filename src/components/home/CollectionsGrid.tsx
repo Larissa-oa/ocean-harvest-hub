@@ -3,16 +3,16 @@ import { collections } from "@/data/collections";
 import { FishIcon } from "@/components/ui/FishIcon";
 import { Button } from "@/components/ui/button";
 import alleImage from "@/assets/collection/alle.png";
-import versevisImage from "@/assets/collection/versevis.png";
-import schalpImage from "@/assets/collection/schalp1.png";
-import kantAnKlaarImage from "@/assets/collection/kant-an-klaar.png";
-import sushiensashimiImage from "@/assets/collection/sushiensashimi.png";
+import versevisImage from "@/assets/new-category-image/verse-vis-Photoroom.png";
+import schalpImage from "@/assets/new-category-image/schaal-Photoroom.png";
+import kantAnKlaarImage from "@/assets/new-category-image/kant-en-klaar-Photoroom.png";
+import sushiensashimiImage from "@/assets/new-category-image/sushi-Photoroom.png";
 import olieenazijnImage from "@/assets/collection/olieenazijn.png";
-import specialsImage from "@/assets/collection/specials.png";
-import deliImage from "@/assets/collection/deli.png";
+import specialsImage from "@/assets/new-category-image/Special-Photoroom.png";
+import deliImage from "@/assets/new-category-image/delicatessen-Photoroom.png";
 import sauzenImage from "@/assets/collection/sauzen.png";
-import schotelImage from "@/assets/collection/schotel.png";
-import diepvriesImage from "@/assets/collection/diepvrie1-Photoroom.png";
+import schotelImage from "@/assets/new-category-image/schotels-Photoroom.png";
+import diepvriesImage from "@/assets/new-category-image/diepvries-Photoroom.png";
 import conservenImage from "@/assets/collection/conserven.png";
 import kruidenImage from "@/assets/collection/kruiden.png";
 import merchandiseImage from "@/assets/collection/merchandise.png";
@@ -20,8 +20,8 @@ import diversenImage from "@/assets/collection/diversen.png";
 import versevangstImage from "@/assets/collection/versevangst.png";
 
 const collectionImages: Record<string, string> = {
-  "alle-producten": alleImage,
-  "verse-vis": versevisImage,
+  "alle-producten": versevisImage,
+  "verse-vis": alleImage,
   "schaal-en-schelpdieren": schalpImage,
   "klaar-en-klaar": kantAnKlaarImage,
   "sushi-en-sashimi": sushiensashimiImage,
@@ -72,15 +72,15 @@ const CollectionsGrid = () => {
                         className="absolute rounded-full bg-collection-circle/30 transition-all duration-300 w-[100px] h-[100px] md:w-[200px] md:h-[200px] group-hover:w-[110px] group-hover:h-[110px] md:group-hover:w-[210px] md:group-hover:h-[210px]"
                       />
                       
-                      {/* Product image - slightly larger */}
+                      {/* Product image - slightly larger; Alle producten shifted right */}
                       <img
                         src={collectionImages[collection.slug] || alleImage}
                         alt={collection.name}
                         className={`relative z-10 w-auto object-contain drop-shadow-lg group-hover:scale-110 transition-transform duration-300 ${
-                          collection.slug === "verse-vis" || collection.slug === "alle-producten" || collection.slug === "diepvries" || collection.slug === "conserven"
+                          collection.slug === "verse-vis" || collection.slug === "alle-producten" || collection.slug === "conserven"
                             ? "h-32 md:h-[165px]"
                             : "h-52 md:h-[255px]"
-                        }`}
+                        } ${collection.slug === "alle-producten" ? "translate-x-4 md:translate-x-6" : ""}`}
                       />
                     </div>
 

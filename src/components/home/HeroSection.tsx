@@ -22,7 +22,7 @@ const HeroSection = () => {
           {/* Green accent eyebrow */}
           <div className="flex items-center gap-2">
             <div className="w-6 h-0.5 bg-accent-green rounded-full" />
-            <span className="text-[10px] sm:text-xs font-medium tracking-widest uppercase text-accent-green">
+            <span className="text-[9px] sm:text-xs font-medium tracking-widest uppercase text-accent-green">
               Royal Schmidt Zeevis Rotterdam
             </span>
           </div>
@@ -32,7 +32,7 @@ const HeroSection = () => {
             <span className="text-primary">zeevruchten</span>
           </h1>
           
-          <p className="text-sm sm:text-base text-muted-foreground sm:max-w-sm">
+          <p className="hidden sm:block text-sm sm:text-base text-muted-foreground sm:max-w-sm">
             Verse vis en zeevruchten direct van Nederlandse vissers.
           </p>
           
