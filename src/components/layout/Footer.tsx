@@ -1,12 +1,10 @@
 import { Link } from "react-router-dom";
 import { Instagram, Facebook, Mail, Phone, MapPin } from "lucide-react";
 import whiteLogo from "@/assets/white-logo.png";
-import { SwimmingFishLine } from "@/components/ui/SwimmingFishLine";
 
 const Footer = () => {
   return (
     <footer className="bg-primary text-primary-foreground w-full">
-      <SwimmingFishLine />
       <div className="container py-12 md:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Brand */}

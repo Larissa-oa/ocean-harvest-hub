@@ -65,23 +65,32 @@ const CollectionsGrid = () => {
                 <div className="collection-card-border relative overflow-hidden shadow-sm group-hover:shadow-md transition-shadow duration-300">
                   {/* Card content */}
                   <div className="p-4 md:p-6">
-                    {/* Product image with circular accent - fixed height for all, circle unchanged */}
-                    <div className="relative h-48 md:h-[260px] flex items-center justify-center mb-2 md:mb-3">
-                      {/* Circular accent behind product - same size for all */}
+                    {/* Product image with circular accent - fixed height so all cards same size */}
+                    <div className="relative h-44 md:h-[235px] flex items-center justify-center mb-2 md:mb-3">
+                      {/* Circular accent behind product - solid primary blue */}
                       <div 
-                        className="absolute rounded-full bg-collection-circle/30 transition-all duration-300 w-[100px] h-[100px] md:w-[200px] md:h-[200px] group-hover:w-[110px] group-hover:h-[110px] md:group-hover:w-[210px] md:group-hover:h-[210px]"
+                        className="absolute rounded-full bg-primary/70 transition-all duration-300 w-[112px] h-[112px] md:w-[220px] md:h-[220px] group-hover:w-[124px] group-hover:h-[124px] md:group-hover:w-[232px] md:group-hover:h-[232px]"
                       />
                       
-                      {/* Product image - slightly larger; Alle producten shifted right */}
-                      <img
-                        src={collectionImages[collection.slug] || alleImage}
-                        alt={collection.name}
-                        className={`relative z-10 w-auto object-contain drop-shadow-lg group-hover:scale-110 transition-transform duration-300 ${
-                          collection.slug === "verse-vis" || collection.slug === "alle-producten" || collection.slug === "conserven"
-                            ? "h-32 md:h-[165px]"
-                            : "h-52 md:h-[255px]"
-                        } ${collection.slug === "alle-producten" ? "translate-x-4 md:translate-x-6" : ""}`}
-                      />
+                      {/* Product image - fills container; larger scale for some; alle-producten slightly smaller, shifted right */}
+                      {(() => {
+                        const biggerImageSlugs = ["schotels", "specials", "diepvries", "diversen", "sushi-en-sashimi", "sauzen", "olie-en-azijn"];
+                        const isBiggerImage = biggerImageSlugs.includes(collection.slug);
+                        const isAlleProducten = collection.slug === "alle-producten";
+                        const scaleClass = isAlleProducten
+                          ? "scale-100 group-hover:scale-105"
+                          : isBiggerImage
+                            ? "scale-[1.4] group-hover:scale-[1.5]"
+                            : "scale-110 group-hover:scale-[1.2]";
+                        const translateClass = isAlleProducten ? "translate-x-6 md:translate-x-8" : "";
+                        return (
+                          <img
+                            src={collectionImages[collection.slug] || alleImage}
+                            alt={collection.name}
+                            className={`relative z-10 h-full max-h-full w-auto object-contain drop-shadow-lg transition-transform duration-300 ${scaleClass} ${translateClass}`}
+                          />
+                        );
+                      })()}
                     </div>
 
                     {/* Collection info */}
@@ -103,7 +112,7 @@ const CollectionsGrid = () => {
 
                     {/* Hover - Product count */}
                     <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <span className="px-2.5 py-1 rounded-full bg-collection-circle/30 text-collection-circle text-xs font-medium">
+                      <span className="px-2.5 py-1 rounded-full bg-primary/70 text-primary-foreground text-xs font-medium">
                         {collection.productCount} producten
                       </span>
                     </div>
