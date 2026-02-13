@@ -31,23 +31,32 @@ const CollectionsGrid = () => {
                 <div className="collection-card-border relative overflow-hidden shadow-sm group-hover:shadow-md transition-shadow duration-300">
                   {/* Card content */}
                   <div className="p-4 md:p-6">
-                    {/* Product image with circular accent - fixed height so all cards same size */}
-                    <div className="relative h-44 md:h-[235px] flex items-center justify-center mb-2 md:mb-3">
+                    {/* Product image with circular accent - mobile: shorter cards, bigger circle & images; desktop unchanged */}
+                    <div className="relative h-32 md:h-[260px] flex items-center justify-center mb-2 md:mb-3">
                       {/* Circular accent behind product - solid primary blue */}
                       <div 
-                        className="absolute rounded-full bg-primary/70 transition-all duration-300 w-[112px] h-[112px] md:w-[220px] md:h-[220px] group-hover:w-[124px] group-hover:h-[124px] md:group-hover:w-[232px] md:group-hover:h-[232px]"
+                        className="absolute rounded-full bg-primary/70 transition-all duration-300 w-[132px] h-[132px] md:w-[230px] md:h-[230px] group-hover:w-[140px] group-hover:h-[140px] md:group-hover:w-[240px] md:group-hover:h-[240px]"
                       />
                       
-                      {/* Product image - fills container; larger scale for some; alle-producten slightly smaller, shifted right */}
+                      {/* Product image - mobile: smaller for alle-producten/verse-vis/delicatessen/conserven, bigger for rest; circles bigger on mobile */}
                       {(() => {
                         const biggerImageSlugs = ["schotels", "specials", "diepvries", "diversen", "sushi-en-sashimi", "sauzen", "olie-en-azijn"];
+                        const biggestImageSlugs = ["schotels", "diepvries", "sushi-en-sashimi"];
+                        const smallerImageSlugs = ["alle-producten", "verse-vis", "delicatessen", "conserven"];
+                        const biggerOnMobileSlugs = ["diversen", "diepvries", "sauzen", "olie-en-azijn"];
+                        const isBiggestImage = biggestImageSlugs.includes(collection.slug);
                         const isBiggerImage = biggerImageSlugs.includes(collection.slug);
                         const isAlleProducten = collection.slug === "alle-producten";
+                        const isSmallerOnMobile = smallerImageSlugs.includes(collection.slug);
+                        const isBiggerOnMobile = biggerOnMobileSlugs.includes(collection.slug);
+                        const mobileScale = isSmallerOnMobile ? "scale-100" : isBiggerOnMobile ? "scale-[1.4]" : "scale-[1.15]";
                         const scaleClass = isAlleProducten
-                          ? "scale-100 group-hover:scale-105"
-                          : isBiggerImage
-                            ? "scale-[1.4] group-hover:scale-[1.5]"
-                            : "scale-110 group-hover:scale-[1.2]";
+                          ? `${mobileScale} md:scale-110 group-hover:scale-95 md:group-hover:scale-115`
+                          : isBiggestImage
+                            ? `${mobileScale} md:scale-[1.5] group-hover:scale-[1.05] md:group-hover:scale-[1.6]`
+                            : isBiggerImage
+                              ? `${mobileScale} md:scale-[1.35] group-hover:scale-[1.05] md:group-hover:scale-[1.45]`
+                              : `${mobileScale} md:scale-[1.2] group-hover:scale-105 md:group-hover:scale-[1.3]`;
                         const translateClass = isAlleProducten ? "translate-x-6 md:translate-x-8" : "";
                         return (
                           <img

@@ -17,7 +17,7 @@ const trustPoints = [
 
 const TrustSection = () => {
   return (
-    <section className="py-4 bg-primary text-primary-foreground relative overflow-x-clip">
+    <section className="py-4 bg-primary text-primary-foreground relative overflow-visible">
       {/* Subtle wave pattern overlay */}
       <div className="absolute inset-0 opacity-10 pointer-events-none">
         <div className="absolute top-0 left-0 w-full h-full" style={{
@@ -27,30 +27,28 @@ const TrustSection = () => {
         }} />
       </div>
       
-      <div className="container relative px-4 sm:px-6">
-        <div className="flex items-center justify-center min-w-0">
-          {/* Trust points - scroll on mobile, no clipping */}
-          <div className="flex items-center justify-center gap-0 overflow-x-auto scrollbar-hide w-full min-w-0 py-2">
-            {trustPoints.map((point, index) => (
-              <div key={point.title} className="flex items-center flex-shrink-0">
-                <div
-                  className="flex items-center gap-2 sm:gap-3 px-4 sm:px-5 md:px-6 lg:px-8 animate-fade-in"
-                  style={{ animationDelay: `${index * 100}ms` }}
-                >
-                  <div className="w-10 h-10 flex items-center justify-center flex-shrink-0">
-                    <img src={groeneVisImage} alt="" className="h-8 w-auto object-contain scale-x-[-1]" aria-hidden />
-                  </div>
-                  <div className="min-w-0">
-                    <h3 className="font-semibold text-sm text-primary-foreground whitespace-nowrap">{point.title}</h3>
-                    <p className="text-xs text-primary-foreground/70 whitespace-nowrap">{point.description}</p>
-                  </div>
+      <div className="container relative px-4 sm:px-6 overflow-visible">
+        <div className="flex flex-row items-center justify-start sm:justify-center overflow-x-auto overflow-y-visible scrollbar-hide py-2 gap-0 min-w-0 min-h-0 sm:overflow-visible pl-4 pr-4 sm:pl-0 sm:pr-0">
+          {/* Trust points - smaller on mobile, inline row with scroll-x; pl-4 ensures first item not clipped */}
+          {trustPoints.map((point, index) => (
+            <div key={point.title} className="flex items-center flex-shrink-0 first:pl-0">
+              <div
+                className="flex items-center gap-1.5 sm:gap-3 px-2 sm:px-5 md:px-6 lg:px-8 animate-fade-in"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <div className="w-7 h-7 sm:w-10 sm:h-10 flex items-center justify-center flex-shrink-0">
+                  <img src={groeneVisImage} alt="" className="h-5 sm:h-8 w-auto object-contain scale-x-[-1]" aria-hidden />
                 </div>
-                {index < trustPoints.length - 1 && (
-                  <div className="h-8 w-px bg-primary-foreground/20 flex-shrink-0 hidden sm:block" />
-                )}
+                <div className="min-w-0">
+                  <h3 className="font-semibold text-xs sm:text-sm text-primary-foreground whitespace-nowrap">{point.title}</h3>
+                  <p className="text-[10px] sm:text-xs text-primary-foreground/70 whitespace-nowrap">{point.description}</p>
+                </div>
               </div>
-            ))}
-          </div>
+              {index < trustPoints.length - 1 && (
+                <div className="h-6 sm:h-8 w-px bg-primary-foreground/20 flex-shrink-0" />
+              )}
+            </div>
+          ))}
         </div>
       </div>
     </section>
