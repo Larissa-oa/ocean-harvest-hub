@@ -1,42 +1,16 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Plus, Fish, Star, Info } from "lucide-react";
+import { Plus, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Product } from "@/data/collections";
-import { getNewProductImage } from "@/data/productImageAssets";
+import { getProductImage } from "@/data/productImageMap";
 import QuickAddModal from "./QuickAddModal";
-import salmonImage from "@/assets/salmon-collection.jpg";
-import shrimpImage from "@/assets/shrimp-collection.jpg";
-import oysterImage from "@/assets/oyster-collection.jpg";
-import mackerelImage from "@/assets/mackerel-collection.jpg";
-import octopusTentaclesImage from "@/assets/octopus-tentacles.png";
-import dutchShrimpImage from "@/assets/dutch-shrimp.avif";
-import oceanParadiseImage from "@/assets/ocean-paradise.png";
-import zeebassImage from "@/assets/zeebass.avif";
 import groeneVisIcon from "@/assets/Groene-vis.png";
-import reviewIcon from "@/assets/review-icon.png";
 
 interface ProductCardProps {
   product: Product;
 }
-
-const productImages: Record<string, string> = {
-  "octopus-tentakels": octopusTentaclesImage,
-  "hollandse-garnalen-fresh": dutchShrimpImage,
-  "ocean-paradise": oceanParadiseImage,
-  "zeebaars-fresh": zeebassImage,
-  "verse-zalm-filet": salmonImage,
-  "hollandse-garnalen": shrimpImage,
-  "zeeuwse-platte-oesters": oysterImage,
-  "zeeuwse-kreeft": mackerelImage,
-};
-
-const getProductImage = (product: Product) => {
-  const fromData = product.image && getNewProductImage(product.image);
-  if (fromData) return fromData;
-  return productImages[product.slug] || salmonImage;
-};
 
 const SeasonalityBadge = ({ 
   seasonality, 

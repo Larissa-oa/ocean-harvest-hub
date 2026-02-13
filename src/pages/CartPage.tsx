@@ -1,113 +1,89 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Plus, Minus, Trash2, ShoppingBag, Package, ArrowRight, Truck, ShoppingCart } from "lucide-react";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
+import PageLayout from "@/components/layout/PageLayout";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { useCart } from "@/hooks/useCart";
 import { products, Product } from "@/data/collections";
-import { getNewProductImage } from "@/data/productImageAssets";
+import { getProductImage } from "@/data/productImageMap";
 import QuickAddModal from "@/components/products/QuickAddModal";
-import salmonImage from "@/assets/salmon-collection.jpg";
-import shrimpImage from "@/assets/shrimp-collection.jpg";
-import oysterImage from "@/assets/oyster-collection.jpg";
-import mackerelImage from "@/assets/mackerel-collection.jpg";
-import octopusTentaclesImage from "@/assets/octopus-tentacles.png";
-import dutchShrimpImage from "@/assets/dutch-shrimp.avif";
-import oceanParadiseImage from "@/assets/ocean-paradise.png";
-import zeebassImage from "@/assets/zeebass.avif";
 import reviewIcon from "@/assets/review-icon.png";
 
-const productImages: Record<string, string> = {
-  "octopus-tentakels": octopusTentaclesImage,
-  "hollandse-garnalen-fresh": dutchShrimpImage,
-  "ocean-paradise": oceanParadiseImage,
-  "zeebaars-fresh": zeebassImage,
-  "verse-zalm-filet": salmonImage,
-  "hollandse-garnalen": shrimpImage,
-  "zeeuwse-platte-oesters": oysterImage,
-  "zeeuwse-kreeft": mackerelImage,
-};
-
-const getProductImage = (product: Product) =>
-  (product.image && getNewProductImage(product.image)) || productImages[product.slug] || salmonImage;
-
+/** Full-page cart with order summary and upsell slider. */
 const CartPage = () => {
-  const { 
-    items, 
-    updateQuantity, 
-    removeItem, 
+  const {
+    items,
+    updateQuantity,
+    removeItem,
     toggleVacuumSealing,
     cartTotal,
-    addItem
   } = useCart();
 
   const [selectedUpsellProduct, setSelectedUpsellProduct] = useState<Product | null>(null);
 
   const cartProductIds = items.map(item => item.product.id);
-  // Shuffle and get varied upsell products
-  const availableProducts = products.filter(p => !cartProductIds.includes(p.id));
-  const shuffled = [...availableProducts].sort(() => Math.random() - 0.5);
-  const upsellProducts = shuffled.slice(0, 4);
+  const upsellProducts = products
+    .filter(p => !cartProductIds.includes(p.id))
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 4);
 
   const shippingCost = cartTotal >= 200 ? 0 : 6.95;
   const freeShippingRemaining = Math.max(0, 200 - cartTotal);
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
-      <main className="flex-1 bg-background py-8">
-        <div className="container">
-          {/* Breadcrumb */}
-          <div className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
-            <Link to="/" className="hover:text-primary transition-colors">Home</Link>
-            <span>/</span>
-            <span className="text-foreground">Winkelwagen</span>
+    <PageLayout mainClassName="bg-background py-8">
+      <div className="container">
+        {/* Breadcrumb */}
+        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
+          <Link to="/" className="hover:text-primary transition-colors">Home</Link>
+          <span>/</span>
+          <span className="text-foreground">Winkelwagen</span>
+        </div>
+
+        <h1 className="text-3xl font-bold text-foreground mb-8 flex items-center gap-3">
+          Winkelwagen
+          <img src={reviewIcon} alt="Review icon" className="h-16 w-16 object-contain -ml-4" />
+        </h1>
+
+        {items.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-16 text-center">
+            <ShoppingBag className="h-24 w-24 text-muted-foreground/30 mb-6" />
+            <h2 className="text-2xl font-bold text-foreground mb-2">Je winkelwagen is leeg</h2>
+            <p className="text-muted-foreground mb-6">Ontdek onze verse producten en voeg ze toe aan je winkelwagen</p>
+            <Button size="lg" asChild>
+              <Link to="/collections/alle-producten">
+                Bekijk Producten
+                <ArrowRight className="h-5 w-5 ml-2" />
+              </Link>
+            </Button>
           </div>
-
-          <h1 className="text-3xl font-bold text-foreground mb-8 flex items-center gap-3">
-            Winkelwagen
-            <img src={reviewIcon} alt="Review icon" className="h-16 w-16 object-contain -ml-4" />
-          </h1>
-
-          {items.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-16 text-center">
-              <ShoppingBag className="h-24 w-24 text-muted-foreground/30 mb-6" />
-              <h2 className="text-2xl font-bold text-foreground mb-2">Je winkelwagen is leeg</h2>
-              <p className="text-muted-foreground mb-6">Ontdek onze verse producten en voeg ze toe aan je winkelwagen</p>
-              <Button size="lg" asChild>
-                <Link to="/collections/alle-producten">
-                  Bekijk Producten
-                  <ArrowRight className="h-5 w-5 ml-2" />
-                </Link>
-              </Button>
-            </div>
-          ) : (
-            <div className="grid lg:grid-cols-3 gap-8">
-              {/* Cart Items */}
-              <div className="lg:col-span-2 space-y-4">
-                {/* Free shipping progress */}
-                {freeShippingRemaining > 0 && (
-                  <div className="bg-secondary/50 rounded-xl p-4 flex items-center gap-3">
-                    <Truck className="h-5 w-5 text-primary flex-shrink-0" />
-                    <div className="flex-1">
-                      <p className="text-sm text-foreground">
-                        Nog <span className="font-bold">€{freeShippingRemaining.toFixed(2)}</span> voor gratis verzending!
-                      </p>
-                      <div className="w-full bg-border rounded-full h-2 mt-2">
-                        <div 
-                          className="bg-primary h-2 rounded-full transition-all"
-                          style={{ width: `${Math.min(100, (cartTotal / 200) * 100)}%` }}
-                        />
-                      </div>
+        ) : (
+          <div className="grid lg:grid-cols-3 gap-8">
+            {/* Cart Items */}
+            <div className="lg:col-span-2 space-y-4">
+              {freeShippingRemaining > 0 && (
+                <div className="bg-secondary/50 rounded-xl p-4 flex items-center gap-3">
+                  <Truck className="h-5 w-5 text-primary flex-shrink-0" />
+                  <div className="flex-1">
+                    <p className="text-sm text-foreground">
+                      Nog <span className="font-bold">€{freeShippingRemaining.toFixed(2)}</span> voor gratis verzending!
+                    </p>
+                    <div className="w-full bg-border rounded-full h-2 mt-2">
+                      <div
+                        className="bg-primary h-2 rounded-full transition-all"
+                        style={{ width: `${Math.min(100, (cartTotal / 200) * 100)}%` }}
+                      />
                     </div>
                   </div>
-                )}
+                </div>
+              )}
 
-                {items.map((item) => (
-                  <div 
+              {items.map((item) => {
+                const itemTotal = (item.product.price * item.quantity) + (item.vacuumSealing ? 1.5 * item.quantity : 0);
+                return (
+                  <div
                     key={`${item.product.id}-${item.selectedOption}`}
                     className="flex gap-2.5 md:gap-3 p-2.5 md:p-3 bg-card rounded-2xl border border-border"
                   >
@@ -125,8 +101,7 @@ const CartPage = () => {
                         </h3>
                       </Link>
                       <p className="text-sm text-muted-foreground mt-0.5">{item.selectedOption}</p>
-                      
-                      {/* Vacuum sealing option */}
+
                       <label className="flex items-center gap-2 mt-3 cursor-pointer">
                         <Checkbox
                           checked={item.vacuumSealing}
@@ -156,7 +131,7 @@ const CartPage = () => {
                         </div>
                         <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
                           <span className="text-base md:text-lg font-bold text-foreground whitespace-nowrap">
-                            €{((item.product.price * item.quantity) + (item.vacuumSealing ? 1.5 * item.quantity : 0)).toFixed(2)}
+                            €{itemTotal.toFixed(2)}
                           </span>
                           <button
                             onClick={() => removeItem(item.product.id, item.selectedOption)}
@@ -168,100 +143,94 @@ const CartPage = () => {
                       </div>
                     </div>
                   </div>
-                ))}
-              </div>
+                );
+              })}
+            </div>
 
-              {/* Order Summary */}
-              <div className="lg:col-span-1">
-                <div className="bg-card rounded-2xl border border-border p-6 sticky top-24">
-                  <h2 className="text-lg font-bold text-foreground mb-4">Overzicht</h2>
-                  
-                  <div className="space-y-3 pb-4 border-b border-border">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-muted-foreground">Subtotaal</span>
-                      <span className="font-medium">€{cartTotal.toFixed(2)}</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-muted-foreground">Verzendkosten</span>
-                      <span className={`font-medium ${shippingCost === 0 ? "text-success" : ""}`}>
-                        {shippingCost === 0 ? "Gratis" : `€${shippingCost.toFixed(2)}`}
-                      </span>
-                    </div>
+            {/* Order Summary */}
+            <div className="lg:col-span-1">
+              <div className="bg-card rounded-2xl border border-border p-6 sticky top-24">
+                <h2 className="text-lg font-bold text-foreground mb-4">Overzicht</h2>
+
+                <div className="space-y-3 pb-4 border-b border-border">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Subtotaal</span>
+                    <span className="font-medium">€{cartTotal.toFixed(2)}</span>
                   </div>
-
-                  <div className="flex justify-between py-4">
-                    <span className="text-lg font-bold">Totaal</span>
-                    <span className="text-xl font-bold text-primary">€{(cartTotal + shippingCost).toFixed(2)}</span>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Verzendkosten</span>
+                    <span className={`font-medium ${shippingCost === 0 ? "text-success" : ""}`}>
+                      {shippingCost === 0 ? "Gratis" : `€${shippingCost.toFixed(2)}`}
+                    </span>
                   </div>
-
-                  <Button className="w-full" size="lg">
-                    Afrekenen
-                    <ArrowRight className="h-5 w-5 ml-2" />
-                  </Button>
-
-                  <p className="text-xs text-center text-muted-foreground mt-4">
-                    Veilig betalen met iDEAL, creditcard of PayPal
-                  </p>
                 </div>
+
+                <div className="flex justify-between py-4">
+                  <span className="text-lg font-bold">Totaal</span>
+                  <span className="text-xl font-bold text-primary">€{(cartTotal + shippingCost).toFixed(2)}</span>
+                </div>
+
+                <Button className="w-full" size="lg">
+                  Afrekenen
+                  <ArrowRight className="h-5 w-5 ml-2" />
+                </Button>
+
+                <p className="text-xs text-center text-muted-foreground mt-4">
+                  Veilig betalen met iDEAL, creditcard of PayPal
+                </p>
               </div>
             </div>
-          )}
+          </div>
+        )}
 
-          {/* Upsell Section - Slider */}
-          {items.length > 0 && upsellProducts.length > 0 && (
-            <div className="mt-12">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center">
-                  <ShoppingCart className="h-6 w-6 text-accent" />
-                </div>
-                <div>
-                  <h2 className="text-xl md:text-2xl font-bold text-foreground">Klanten kochten ook</h2>
-                  <p className="text-sm text-muted-foreground">Perfect om te combineren</p>
-                </div>
+        {/* Upsell slider */}
+        {items.length > 0 && upsellProducts.length > 0 && (
+          <div className="mt-12">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center">
+                <ShoppingCart className="h-6 w-6 text-accent" />
               </div>
-              <Carousel className="w-full -mx-4 sm:mx-0">
-                <CarouselContent className="-ml-4 sm:ml-0 !pr-0">
-                  {upsellProducts.map((product) => (
-                    <CarouselItem key={product.id} className="pl-4 basis-[58%] md:basis-[26%] flex-shrink-0">
-                      <div className="bg-card rounded-xl border border-border overflow-hidden group h-full">
+              <div>
+                <h2 className="text-xl md:text-2xl font-bold text-foreground">Klanten kochten ook</h2>
+                <p className="text-sm text-muted-foreground">Perfect om te combineren</p>
+              </div>
+            </div>
+            <Carousel className="w-full -mx-4 sm:mx-0">
+              <CarouselContent className="-ml-4 sm:ml-0 !pr-0">
+                {upsellProducts.map((product) => (
+                  <CarouselItem key={product.id} className="pl-4 basis-[58%] md:basis-[26%] flex-shrink-0">
+                    <div className="bg-card rounded-xl border border-border overflow-hidden group h-full">
+                      <Link to={`/products/${product.slug}`}>
+                        <img
+                          src={getProductImage(product)}
+                          alt={product.name}
+                          className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      </Link>
+                      <div className="p-2.5">
                         <Link to={`/products/${product.slug}`}>
-                          <img
-                            src={getProductImage(product)}
-                            alt={product.name}
-                            className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300"
-                          />
+                          <h3 className="font-semibold text-foreground text-sm line-clamp-1 hover:text-primary transition-colors">
+                            {product.name}
+                          </h3>
                         </Link>
-                        <div className="p-2.5">
-                          <Link to={`/products/${product.slug}`}>
-                            <h3 className="font-semibold text-foreground text-sm line-clamp-1 hover:text-primary transition-colors">
-                              {product.name}
-                            </h3>
-                          </Link>
-                          <div className="flex items-center justify-between mt-2">
-                            <span className="font-bold text-primary">€{product.price.toFixed(2)}</span>
-                            <Button
-                              size="sm"
-                              variant="secondary"
-                              onClick={() => setSelectedUpsellProduct(product)}
-                            >
-                              <Plus className="h-4 w-4" />
-                            </Button>
-                          </div>
+                        <div className="flex items-center justify-between mt-2">
+                          <span className="font-bold text-primary">€{product.price.toFixed(2)}</span>
+                          <Button size="sm" variant="secondary" onClick={() => setSelectedUpsellProduct(product)}>
+                            <Plus className="h-4 w-4" />
+                          </Button>
                         </div>
                       </div>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <CarouselPrevious className="-left-4 bg-primary text-primary-foreground border-0 hover:bg-primary/90" />
-                <CarouselNext className="-right-4 bg-primary text-primary-foreground border-0 hover:bg-primary/90" />
-              </Carousel>
-            </div>
-          )}
-        </div>
-      </main>
-      <Footer />
-      
-      {/* Quick Add Modal for Upsell Products */}
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious className="-left-4 bg-primary text-primary-foreground border-0 hover:bg-primary/90" />
+              <CarouselNext className="-right-4 bg-primary text-primary-foreground border-0 hover:bg-primary/90" />
+            </Carousel>
+          </div>
+        )}
+      </div>
+
       {selectedUpsellProduct && (
         <QuickAddModal
           product={selectedUpsellProduct}
@@ -269,7 +238,7 @@ const CartPage = () => {
           onClose={() => setSelectedUpsellProduct(null)}
         />
       )}
-    </div>
+    </PageLayout>
   );
 };
 

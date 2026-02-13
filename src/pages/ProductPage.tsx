@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Plus, Minus, ShoppingCart, Truck, Clock, Shield, ChevronLeft, ChevronRight, Fish, Ban, Info } from "lucide-react";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
+import PageLayout from "@/components/layout/PageLayout";
 import ProductCard from "@/components/products/ProductCard";
 import RecipeSection from "@/components/products/RecipeSection";
 import { Button } from "@/components/ui/button";
@@ -10,28 +9,22 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { products, getProductBySlug } from "@/data/collections";
 import { getNewProductImage } from "@/data/productImageAssets";
+import { getProductImage, PRODUCT_FALLBACK_IMAGES, DEFAULT_PRODUCT_IMAGE } from "@/data/productImageMap";
 import { useCart } from "@/hooks/useCart";
-import salmonImage from "@/assets/salmon-collection.jpg";
-import shrimpImage from "@/assets/shrimp-collection.jpg";
-import oysterImage from "@/assets/oyster-collection.jpg";
-import mackerelImage from "@/assets/mackerel-collection.jpg";
-import octopusTentaclesImage from "@/assets/octopus-tentacles.png";
-import dutchShrimpImage from "@/assets/dutch-shrimp.avif";
-import oceanParadiseImage from "@/assets/ocean-paradise.png";
-import zeebassImage from "@/assets/zeebass.avif";
 import octopusImage from "@/assets/octopus.avif";
 import groeneVisImage from "@/assets/Groene-vis.png";
 import blauweVisImage from "@/assets/Blauwe-vis.png";
 
-const productImages: Record<string, string[]> = {
-  "octopus-tentakels": [octopusTentaclesImage, oceanParadiseImage, octopusImage],
-  "hollandse-garnalen-fresh": [dutchShrimpImage, shrimpImage, salmonImage],
-  "ocean-paradise": [oceanParadiseImage, salmonImage, shrimpImage],
-  "zeebaars-fresh": [zeebassImage, salmonImage, mackerelImage],
-  "verse-zalm-filet": [salmonImage, shrimpImage, oysterImage],
-  "hollandse-garnalen": [shrimpImage, salmonImage, oysterImage],
-  "zeeuwse-platte-oesters": [oysterImage, salmonImage, shrimpImage],
-  "zeeuwse-kreeft": [mackerelImage, salmonImage, oysterImage],
+/** Gallery images for products with multiple views (fallback only) */
+const productGalleryImages: Record<string, string[]> = {
+  "octopus-tentakels": [PRODUCT_FALLBACK_IMAGES["octopus-tentakels"], PRODUCT_FALLBACK_IMAGES["ocean-paradise"], octopusImage],
+  "hollandse-garnalen-fresh": [PRODUCT_FALLBACK_IMAGES["hollandse-garnalen-fresh"], PRODUCT_FALLBACK_IMAGES["hollandse-garnalen"], DEFAULT_PRODUCT_IMAGE],
+  "ocean-paradise": [PRODUCT_FALLBACK_IMAGES["ocean-paradise"], DEFAULT_PRODUCT_IMAGE, PRODUCT_FALLBACK_IMAGES["hollandse-garnalen"]],
+  "zeebaars-fresh": [PRODUCT_FALLBACK_IMAGES["zeebaars-fresh"], DEFAULT_PRODUCT_IMAGE, PRODUCT_FALLBACK_IMAGES["zeeuwse-kreeft"]],
+  "verse-zalm-filet": [DEFAULT_PRODUCT_IMAGE, PRODUCT_FALLBACK_IMAGES["hollandse-garnalen"], PRODUCT_FALLBACK_IMAGES["zeeuwse-platte-oesters"]],
+  "hollandse-garnalen": [PRODUCT_FALLBACK_IMAGES["hollandse-garnalen"], DEFAULT_PRODUCT_IMAGE, PRODUCT_FALLBACK_IMAGES["zeeuwse-platte-oesters"]],
+  "zeeuwse-platte-oesters": [PRODUCT_FALLBACK_IMAGES["zeeuwse-platte-oesters"], DEFAULT_PRODUCT_IMAGE, PRODUCT_FALLBACK_IMAGES["hollandse-garnalen"]],
+  "zeeuwse-kreeft": [PRODUCT_FALLBACK_IMAGES["zeeuwse-kreeft"], DEFAULT_PRODUCT_IMAGE, PRODUCT_FALLBACK_IMAGES["zeeuwse-platte-oesters"]],
 };
 
 const ProductPage = () => {
@@ -47,19 +40,15 @@ const ProductPage = () => {
 
   if (!product) {
     return (
-      <div className="min-h-screen flex flex-col">
-        <Header />
-        <main className="flex-1 flex items-center justify-center">
-          <div className="text-center">
-            <Fish className="h-16 w-16 text-muted-foreground/30 mx-auto mb-4" />
-            <h1 className="text-2xl font-bold text-foreground mb-2">Product niet gevonden</h1>
-            <Button asChild>
-              <Link to="/collections/alle-producten">Terug naar producten</Link>
-            </Button>
-          </div>
-        </main>
-        <Footer />
-      </div>
+      <PageLayout mainClassName="flex items-center justify-center">
+        <div className="text-center">
+          <Fish className="h-16 w-16 text-muted-foreground/30 mx-auto mb-4" />
+          <h1 className="text-2xl font-bold text-foreground mb-2">Product niet gevonden</h1>
+          <Button asChild>
+            <Link to="/collections/alle-producten">Terug naar producten</Link>
+          </Button>
+        </div>
+      </PageLayout>
     );
   }
 
@@ -71,12 +60,10 @@ const ProductPage = () => {
   const fromDataImage = product.image && getNewProductImage(product.image);
   const images = fromDataImage
     ? [fromDataImage]
-    : (productImages[product.slug] || [salmonImage]);
+    : (productGalleryImages[product.slug] || [DEFAULT_PRODUCT_IMAGE]);
   const relatedProducts = products.filter((p) => p.id !== product.id).slice(0, 5);
   const addOnProduct = products.find(p => p.slug === "garnalen-kant-en-klaar");
-  const addOnProductImage = addOnProduct
-    ? (addOnProduct.image && getNewProductImage(addOnProduct.image)) || productImages[addOnProduct.slug]?.[0] || salmonImage
-    : shrimpImage;
+  const addOnProductImage = addOnProduct ? getProductImage(addOnProduct) : DEFAULT_PRODUCT_IMAGE;
 
   const getSeasonIcon = (status: string) => {
     switch (status) {
@@ -108,9 +95,7 @@ const ProductPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
-      <main className="flex-1 bg-background">
+    <PageLayout mainClassName="bg-background">
         <div className="container py-8 px-4 sm:px-4 md:px-20 lg:px-20">
           {/* Breadcrumb */}
           <div className="flex items-center gap-2 text-sm text-muted-foreground mb-10">
@@ -503,9 +488,7 @@ const ProductPage = () => {
           {/* Recipes Section */}
           <RecipeSection product={product} images={images} />
         </div>
-      </main>
-      <Footer />
-    </div>
+    </PageLayout>
   );
 };
 
