@@ -2,41 +2,7 @@ import { Link } from "react-router-dom";
 import { collections } from "@/data/collections";
 import { FishIcon } from "@/components/ui/FishIcon";
 import { Button } from "@/components/ui/button";
-import alleImage from "@/assets/collection/alle.png";
-import versevisImage from "@/assets/new-category-image/verse-vis-Photoroom.png";
-import schalpImage from "@/assets/new-category-image/schaal-Photoroom.png";
-import kantAnKlaarImage from "@/assets/new-category-image/kant-en-klaar-Photoroom.png";
-import sushiensashimiImage from "@/assets/new-category-image/sushi-Photoroom.png";
-import olieenazijnImage from "@/assets/collection/olieenazijn.png";
-import specialsImage from "@/assets/new-category-image/Special-Photoroom.png";
-import deliImage from "@/assets/new-category-image/delicatessen-Photoroom.png";
-import sauzenImage from "@/assets/collection/sauzen.png";
-import schotelImage from "@/assets/new-category-image/schotels-Photoroom.png";
-import diepvriesImage from "@/assets/new-category-image/diepvries-Photoroom.png";
-import conservenImage from "@/assets/collection/conserven.png";
-import kruidenImage from "@/assets/collection/kruiden.png";
-import merchandiseImage from "@/assets/collection/merchandise.png";
-import diversenImage from "@/assets/collection/diversen.png";
-import versevangstImage from "@/assets/collection/versevangst.png";
-
-const collectionImages: Record<string, string> = {
-  "alle-producten": versevisImage,
-  "verse-vis": alleImage,
-  "schaal-en-schelpdieren": schalpImage,
-  "klaar-en-klaar": kantAnKlaarImage,
-  "sushi-en-sashimi": sushiensashimiImage,
-  "olie-en-azijn": olieenazijnImage,
-  "specials": specialsImage,
-  "delicatessen": deliImage,
-  "sauzen": sauzenImage,
-  "schotels": schotelImage,
-  "diepvries": diepvriesImage,
-  "conserven": conservenImage,
-  "kruiden-en-specerijen": kruidenImage,
-  "merchandise": merchandiseImage,
-  "diversen": diversenImage,
-  "vangst-van-de-maand": versevangstImage,
-};
+import { getCollectionImage } from "@/data/collectionImageMap";
 
 const CollectionsGrid = () => {
   return (
@@ -85,7 +51,7 @@ const CollectionsGrid = () => {
                         const translateClass = isAlleProducten ? "translate-x-6 md:translate-x-8" : "";
                         return (
                           <img
-                            src={collectionImages[collection.slug] || alleImage}
+                            src={getCollectionImage(collection.slug)}
                             alt={collection.name}
                             className={`relative z-10 h-full max-h-full w-auto object-contain drop-shadow-lg transition-transform duration-300 ${scaleClass} ${translateClass}`}
                           />

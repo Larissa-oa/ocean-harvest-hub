@@ -1,50 +1,16 @@
 import { useState, useEffect } from "react";
 import { useParams, Link, useSearchParams } from "react-router-dom";
-import { Search, ChevronDown, ChevronUp, Filter, X, Calendar, Grid3X3 } from "lucide-react";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
+import { Search, ChevronDown, ChevronUp, Filter, X, Grid3X3 } from "lucide-react";
+import PageLayout from "@/components/layout/PageLayout";
 import ProductCard from "@/components/products/ProductCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { collections, getCollectionBySlug, getProductsByCollection } from "@/data/collections";
+import { getCollectionImage } from "@/data/collectionImageMap";
+import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 import groeneVisImage from "@/assets/Groene-vis.png";
 import blauweVisImage from "@/assets/Blauwe-vis.png";
-import alleImage from "@/assets/collection/alle.png";
-import versevisImage from "@/assets/new-category-image/verse-vis-Photoroom.png";
-import schalpImage from "@/assets/new-category-image/schaal-Photoroom.png";
-import kantAnKlaarImage from "@/assets/new-category-image/kant-en-klaar-Photoroom.png";
-import sushiensashimiImage from "@/assets/new-category-image/sushi-Photoroom.png";
-import olieenazijnImage from "@/assets/collection/olieenazijn.png";
-import specialsImage from "@/assets/new-category-image/Special-Photoroom.png";
-import deliImage from "@/assets/new-category-image/delicatessen-Photoroom.png";
-import sauzenImage from "@/assets/collection/sauzen.png";
-import schotelImage from "@/assets/new-category-image/schotels-Photoroom.png";
-import diepvriesImage from "@/assets/new-category-image/diepvries-Photoroom.png";
-import conservenImage from "@/assets/collection/conserven.png";
-import kruidenImage from "@/assets/collection/kruiden.png";
-import merchandiseImage from "@/assets/collection/merchandise.png";
-import diversenImage from "@/assets/collection/diversen.png";
-import versevangstImage from "@/assets/collection/versevangst.png";
-
-const collectionHeaderImages: Record<string, string> = {
-  "alle-producten": versevisImage,
-  "verse-vis": alleImage,
-  "schaal-en-schelpdieren": schalpImage,
-  "klaar-en-klaar": kantAnKlaarImage,
-  "sushi-en-sashimi": sushiensashimiImage,
-  "olie-en-azijn": olieenazijnImage,
-  "specials": specialsImage,
-  "delicatessen": deliImage,
-  "sauzen": sauzenImage,
-  "schotels": schotelImage,
-  "diepvries": diepvriesImage,
-  "conserven": conservenImage,
-  "kruiden-en-specerijen": kruidenImage,
-  "merchandise": merchandiseImage,
-  "diversen": diversenImage,
-  "vangst-van-de-maand": versevangstImage,
-};
 
 const CollectionPage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -88,23 +54,10 @@ const CollectionPage = () => {
     );
   };
 
-  // Prevent body scroll when sidebar is open on mobile
-  useEffect(() => {
-    if (sidebarOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [sidebarOpen]);
+  useBodyScrollLock(sidebarOpen);
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
-      <main className="flex-1 bg-background">
-        {/* Breadcrumb */}
+    <PageLayout mainClassName="bg-background">
         <div className="bg-secondary/50">
           <div className="container py-3">
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -127,7 +80,7 @@ const CollectionPage = () => {
           <div
             className="absolute inset-0 bg-cover bg-no-repeat"
             style={{
-              backgroundImage: `url(${collectionHeaderImages[collection?.slug || "alle-producten"] || alleImage})`,
+              backgroundImage: `url(${getCollectionImage(collection?.slug || "alle-producten")})`,
               opacity: 0.65,
               backgroundPosition: (collection?.slug || "alle-producten") === "alle-producten" ? "72% center" : "center",
             }}
@@ -318,9 +271,7 @@ const CollectionPage = () => {
             </div>
           </div>
         </div>
-      </main>
-      <Footer />
-    </div>
+    </PageLayout>
   );
 };
 
